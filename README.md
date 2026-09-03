@@ -102,29 +102,5 @@ O projeto será desenvolvido em etapas.
 - integração CAN;
 - aquisição de dados;
 - validação progressiva em veículo.
-
----
-
-# Arquitetura do projeto
-
-O ecossistema UTFuel deverá ser composto por diferentes módulos.
-
-```text
-                    UTFuel
-
-                  Sensores
-                     │
-                     ▼
-              ┌─────────────┐
-              │ UTFuel ECU  │
-              │  Firmware   │
-              └──────┬──────┘
-                     │
-                   CAN
-                     │
-        ┌────────────┼────────────┐
-        ▼            ▼            ▼
-   TestBench      Display      Telemetria
-        │
         ▼
  Engine Simulator
