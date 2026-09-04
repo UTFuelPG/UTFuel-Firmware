@@ -4,7 +4,8 @@
 
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
 ![Versão](https://img.shields.io/badge/version-0.1.0-blue)
-![UTFPR](https://img.shields.io/badge/UTFPR-Ponta%20Grossa-red)
+![UTFPR](https://img.shields.io/badge/UTFPR-Ponta%20Grossa-purple)
+![UTFUEL](https://img.shields.io/badge/UT-FUEL-red)
 
 ---
 
