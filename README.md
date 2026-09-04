@@ -70,7 +70,7 @@ O projeto será desenvolvido em etapas.
 - definição dos padrões de desenvolvimento;
 - escolha inicial das tecnologias.
 
-### Fase 1 — Proof of Concept
+### Fase 1 — Prova de conceito
 
 - leitura de sensores;
 - comunicação CAN;
@@ -102,5 +102,3 @@ O projeto será desenvolvido em etapas.
 - integração CAN;
 - aquisição de dados;
 - validação progressiva em veículo.
-        ▼
- Engine Simulator
