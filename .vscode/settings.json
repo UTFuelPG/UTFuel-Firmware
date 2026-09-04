@@ -6,5 +6,7 @@
     "--background-index",
     "--query-driver=**",
     "--compile-commands-dir=c:\\Users\\lugaw\\Documents\\GitHub\\UTFuel-Firmware\\build"
-  ]
+  ],
+  "cmake.sourceDirectory": "C:/Users/lugaw/Documents/GitHub/UTFuel-Firmware/firmware",
+  "C_Cpp.default.compilerPath": "c:\\Users\\lugaw\\Documents\\GitHub\\UTFuel-Firmware\\firmware\\main\\main.c"
 }
