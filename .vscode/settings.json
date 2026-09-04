@@ -7,6 +7,7 @@
     "--query-driver=**",
     "--compile-commands-dir=c:\\Users\\lugaw\\Documents\\GitHub\\UTFuel-Firmware\\build"
   ],
+  
   "cmake.sourceDirectory": "C:/Users/lugaw/Documents/GitHub/UTFuel-Firmware/firmware",
   "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
 
