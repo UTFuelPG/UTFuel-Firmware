@@ -8,5 +8,6 @@
     "--compile-commands-dir=c:\\Users\\lugaw\\Documents\\GitHub\\UTFuel-Firmware\\build"
   ],
   "cmake.sourceDirectory": "C:/Users/lugaw/Documents/GitHub/UTFuel-Firmware/firmware",
-  "C_Cpp.default.compilerPath": "c:\\Users\\lugaw\\Documents\\GitHub\\UTFuel-Firmware\\firmware\\main\\main.c"
+  "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+
 }
