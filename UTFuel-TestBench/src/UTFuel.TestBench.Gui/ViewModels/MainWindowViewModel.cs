@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using UTFuel.TestBench.Gui.Models;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -22,6 +23,9 @@ public partial class MainWindowViewModel :
      * PRIVATE FIELDS
      * =========================================
      */
+
+    public event Action<LiveTelemetrySample>?
+    TelemetrySampleReceived;
 
     private HostFirmwareConnection?
         _connection;
@@ -1322,6 +1326,33 @@ public partial class MainWindowViewModel :
 
 
             UpdatePacketStatistics();
+            TelemetrySampleReceived?.Invoke(
+    new LiveTelemetrySample(
+        Rpm:
+            EcuRpm,
+
+        TpsPercent:
+            EcuTpsPercent,
+
+        MapKpa:
+            EcuMapKpa,
+
+        SpeedKmh:
+            EcuSpeedKmh,
+
+        BatteryVoltage:
+            EcuBatteryVoltage,
+
+        Gear:
+            EcuGear,
+
+        ShiftWarning:
+            EcuShiftWarning,
+
+        RttMs:
+            CurrentRttMs
+    )
+);
         }
         catch (
             TimeoutException

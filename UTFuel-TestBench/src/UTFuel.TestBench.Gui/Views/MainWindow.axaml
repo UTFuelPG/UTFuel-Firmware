@@ -2,22 +2,27 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+    xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
 
     x:Class="UTFuel.TestBench.Gui.Views.MainWindow"
     x:DataType="vm:MainWindowViewModel"
 
     Title="UTFuel TestBench"
+
     Width="1350"
     Height="850"
+
     MinWidth="1050"
     MinHeight="700">
 
-    <Grid RowDefinitions="Auto,*">
+
+    <Grid
+        RowDefinitions="Auto,*">
 
 
-        <!-- ====================================== -->
+        <!-- ===================================================== -->
         <!-- CONNECTION BAR -->
-        <!-- ====================================== -->
+        <!-- ===================================================== -->
 
         <Border
             Grid.Row="0"
@@ -28,6 +33,7 @@
                 ColumnDefinitions="Auto,*,Auto,Auto,Auto"
                 ColumnSpacing="10">
 
+
                 <TextBlock
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -35,20 +41,24 @@
                     FontWeight="Bold"
                     Text="UTFuel ECU" />
 
+
                 <TextBox
                     Grid.Column="1"
                     Text="{Binding FirmwarePath}"
                     PlaceholderText="Path to utfuel_host.exe" />
+
 
                 <Button
                     Grid.Column="2"
                     Content="CONNECT"
                     Command="{Binding ConnectCommand}" />
 
+
                 <Button
                     Grid.Column="3"
                     Content="DISCONNECT"
                     Command="{Binding DisconnectCommand}" />
+
 
                 <TextBlock
                     Grid.Column="4"
@@ -61,18 +71,22 @@
         </Border>
 
 
-        <!-- ====================================== -->
-        <!-- MAIN TABS -->
-        <!-- ====================================== -->
 
-        <TabControl Grid.Row="1">
+        <!-- ===================================================== -->
+        <!-- MAIN -->
+        <!-- ===================================================== -->
+
+        <TabControl
+            Grid.Row="1">
 
 
-            <!-- ================================== -->
+            <!-- ================================================= -->
             <!-- DASHBOARD -->
-            <!-- ================================== -->
+            <!-- ================================================= -->
 
-            <TabItem Header="Dashboard">
+            <TabItem
+                Header="Dashboard">
+
 
                 <ScrollViewer>
 
@@ -87,7 +101,10 @@
                             Text="UTFuel Dashboard" />
 
 
+
+                        <!-- ===================================== -->
                         <!-- TARGET + ECU -->
+                        <!-- ===================================== -->
 
                         <Grid
                             ColumnDefinitions="*,*"
@@ -105,14 +122,17 @@
                                 <StackPanel
                                     Spacing="12">
 
+
                                     <TextBlock
                                         FontSize="20"
                                         FontWeight="Bold"
                                         Text="TARGET / SIMULATOR" />
 
+
                                     <TextBlock
                                         Text="{Binding BenchmarkPhase,
                                             StringFormat='Phase: {0}'}" />
+
 
                                     <TextBlock
                                         FontSize="28"
@@ -120,17 +140,21 @@
                                         Text="{Binding TargetRpm,
                                             StringFormat='RPM: {0}'}" />
 
+
                                     <TextBlock
                                         Text="{Binding TargetTpsPercent,
                                             StringFormat='TPS: {0:F2} %'}" />
+
 
                                     <TextBlock
                                         Text="{Binding TargetMapKpa,
                                             StringFormat='MAP: {0:F2} kPa'}" />
 
+
                                     <TextBlock
                                         Text="{Binding TargetSpeedKmh,
                                             StringFormat='Speed: {0:F2} km/h'}" />
+
 
                                     <TextBlock
                                         FontSize="24"
@@ -141,6 +165,7 @@
                                 </StackPanel>
 
                             </Border>
+
 
 
                             <!-- ECU -->
@@ -154,10 +179,12 @@
                                 <StackPanel
                                     Spacing="12">
 
+
                                     <TextBlock
                                         FontSize="20"
                                         FontWeight="Bold"
                                         Text="UTFuel ECU" />
+
 
                                     <TextBlock
                                         FontSize="32"
@@ -165,27 +192,33 @@
                                         Text="{Binding EcuRpm,
                                             StringFormat='RPM: {0}'}" />
 
+
                                     <TextBlock
                                         Text="{Binding EcuTpsPercent,
                                             StringFormat='TPS: {0:F2} %'}" />
+
 
                                     <TextBlock
                                         Text="{Binding EcuMapKpa,
                                             StringFormat='MAP: {0:F2} kPa'}" />
 
+
                                     <TextBlock
                                         Text="{Binding EcuBatteryVoltage,
                                             StringFormat='Battery: {0:F2} V'}" />
 
+
                                     <TextBlock
                                         Text="{Binding EcuSpeedKmh,
                                             StringFormat='Speed: {0:F2} km/h'}" />
+
 
                                     <TextBlock
                                         FontSize="28"
                                         FontWeight="Bold"
                                         Text="{Binding EcuGear,
                                             StringFormat='GEAR: {0}'}" />
+
 
                                     <TextBlock
                                         FontSize="22"
@@ -200,15 +233,20 @@
                         </Grid>
 
 
-                        <!-- TARGET VS ECU -->
+
+                        <!-- ===================================== -->
+                        <!-- TARGET vs ECU -->
+                        <!-- ===================================== -->
 
                         <Border
                             Padding="20"
                             BorderThickness="1"
                             CornerRadius="8">
 
+
                             <StackPanel
                                 Spacing="12">
+
 
                                 <TextBlock
                                     FontSize="20"
@@ -223,11 +261,14 @@
                                     ColumnSpacing="12">
 
 
+                                    <!-- HEADER -->
+
                                     <TextBlock
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         FontWeight="Bold"
                                         Text="TARGET" />
+
 
                                     <TextBlock
                                         Grid.Row="0"
@@ -235,11 +276,13 @@
                                         FontWeight="Bold"
                                         Text="ECU" />
 
+
                                     <TextBlock
                                         Grid.Row="0"
                                         Grid.Column="3"
                                         FontWeight="Bold"
                                         Text="ERROR" />
+
 
 
                                     <!-- RPM -->
@@ -249,20 +292,24 @@
                                         Grid.Column="0"
                                         Text="RPM" />
 
+
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Text="{Binding TargetRpm}" />
+
 
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="2"
                                         Text="{Binding EcuRpm}" />
 
+
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="3"
                                         Text="{Binding RpmError}" />
+
 
 
                                     <!-- TPS -->
@@ -272,11 +319,13 @@
                                         Grid.Column="0"
                                         Text="TPS %" />
 
+
                                     <TextBlock
                                         Grid.Row="2"
                                         Grid.Column="1"
                                         Text="{Binding TargetTpsPercent,
                                             StringFormat='Target: {0:F2}'}" />
+
 
                                     <TextBlock
                                         Grid.Row="2"
@@ -284,11 +333,13 @@
                                         Text="{Binding EcuTpsPercent,
                                             StringFormat='ECU: {0:F2}'}" />
 
+
                                     <TextBlock
                                         Grid.Row="2"
                                         Grid.Column="3"
                                         Text="{Binding TpsErrorPercent,
                                             StringFormat='Error: {0:F4}'}" />
+
 
 
                                     <!-- MAP -->
@@ -298,11 +349,13 @@
                                         Grid.Column="0"
                                         Text="MAP kPa" />
 
+
                                     <TextBlock
                                         Grid.Row="3"
                                         Grid.Column="1"
                                         Text="{Binding TargetMapKpa,
                                             StringFormat='Target: {0:F2}'}" />
+
 
                                     <TextBlock
                                         Grid.Row="3"
@@ -310,11 +363,13 @@
                                         Text="{Binding EcuMapKpa,
                                             StringFormat='ECU: {0:F2}'}" />
 
+
                                     <TextBlock
                                         Grid.Row="3"
                                         Grid.Column="3"
                                         Text="{Binding MapErrorKpa,
                                             StringFormat='Error: {0:F4}'}" />
+
 
 
                                     <!-- SPEED -->
@@ -324,17 +379,20 @@
                                         Grid.Column="0"
                                         Text="Speed km/h" />
 
+
                                     <TextBlock
                                         Grid.Row="4"
                                         Grid.Column="1"
                                         Text="{Binding TargetSpeedKmh,
                                             StringFormat='Target: {0:F2}'}" />
 
+
                                     <TextBlock
                                         Grid.Row="4"
                                         Grid.Column="2"
                                         Text="{Binding EcuSpeedKmh,
                                             StringFormat='ECU: {0:F2}'}" />
+
 
                                     <TextBlock
                                         Grid.Row="4"
@@ -349,15 +407,20 @@
                         </Border>
 
 
+
+                        <!-- ===================================== -->
                         <!-- COMMUNICATION -->
+                        <!-- ===================================== -->
 
                         <Border
                             Padding="20"
                             BorderThickness="1"
                             CornerRadius="8">
 
+
                             <StackPanel
-                                Spacing="8">
+                                Spacing="10">
+
 
                                 <TextBlock
                                     FontSize="20"
@@ -368,8 +431,10 @@
                                 <Grid
                                     ColumnDefinitions="*,*,*"
                                     RowDefinitions="Auto,Auto,Auto,Auto"
-                                    RowSpacing="8">
+                                    RowSpacing="10">
 
+
+                                    <!-- PACKETS -->
 
                                     <TextBlock
                                         Grid.Row="0"
@@ -377,11 +442,13 @@
                                         Text="{Binding PacketsSent,
                                             StringFormat='Sent: {0}'}" />
 
+
                                     <TextBlock
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         Text="{Binding PacketsReceived,
                                             StringFormat='Received: {0}'}" />
+
 
                                     <TextBlock
                                         Grid.Row="0"
@@ -390,17 +457,22 @@
                                             StringFormat='Lost: {0}'}" />
 
 
+
+                                    <!-- LIVE -->
+
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Text="{Binding PacketLossPercent,
                                             StringFormat='Loss: {0:F3} %'}" />
 
+
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Text="{Binding MeasuredUpdateRateHz,
                                             StringFormat='Rate: {0:F0} Hz'}" />
+
 
                                     <TextBlock
                                         Grid.Row="1"
@@ -409,17 +481,22 @@
                                             StringFormat='Current RTT: {0:F3} ms'}" />
 
 
+
+                                    <!-- RTT -->
+
                                     <TextBlock
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Text="{Binding AverageRttMs,
                                             StringFormat='Average: {0:F3} ms'}" />
 
+
                                     <TextBlock
                                         Grid.Row="2"
                                         Grid.Column="1"
                                         Text="{Binding MinimumRttMs,
                                             StringFormat='Minimum: {0:F3} ms'}" />
+
 
                                     <TextBlock
                                         Grid.Row="2"
@@ -428,17 +505,22 @@
                                             StringFormat='Maximum: {0:F3} ms'}" />
 
 
+
+                                    <!-- PERCENTILES -->
+
                                     <TextBlock
                                         Grid.Row="3"
                                         Grid.Column="0"
                                         Text="{Binding P95RttMs,
                                             StringFormat='P95: {0:F3} ms'}" />
 
+
                                     <TextBlock
                                         Grid.Row="3"
                                         Grid.Column="1"
                                         Text="{Binding P99RttMs,
                                             StringFormat='P99: {0:F3} ms'}" />
+
 
                                     <TextBlock
                                         Grid.Row="3"
@@ -451,7 +533,7 @@
 
                                 <Button
                                     Margin="0,10,0,0"
-                                    Width="170"
+                                    Width="180"
                                     HorizontalAlignment="Left"
                                     Content="RESET STATISTICS"
                                     Command="{Binding ResetStatisticsCommand}" />
@@ -464,6 +546,7 @@
                         <TextBlock
                             Text="{Binding LastMessage}" />
 
+
                     </StackPanel>
 
                 </ScrollViewer>
@@ -472,11 +555,13 @@
 
 
 
-            <!-- ================================== -->
+            <!-- ================================================= -->
             <!-- MANUAL -->
-            <!-- ================================== -->
+            <!-- ================================================= -->
 
-            <TabItem Header="Manual">
+            <TabItem
+                Header="Manual">
+
 
                 <ScrollViewer>
 
@@ -496,12 +581,15 @@
                             Text="Define exact sensor values or use the sliders. LIVE SEND continuously sends the current values to the ECU." />
 
 
+
+                        <!-- ===================================== -->
+                        <!-- NUMERIC INPUTS -->
+                        <!-- ===================================== -->
+
                         <StackPanel
                             Spacing="16"
                             IsEnabled="{Binding CanEditManualInputs}">
 
-
-                            <!-- NUMERIC VALUES -->
 
                             <Grid
                                 ColumnDefinitions="240,220"
@@ -510,10 +598,13 @@
                                 ColumnSpacing="16">
 
 
+                                <!-- TPS -->
+
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Text="TPS Voltage" />
+
 
                                 <NumericUpDown
                                     Grid.Row="0"
@@ -524,10 +615,14 @@
                                     Value="{Binding ManualTpsVoltage}" />
 
 
+
+                                <!-- MAP -->
+
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Text="MAP Voltage" />
+
 
                                 <NumericUpDown
                                     Grid.Row="1"
@@ -538,10 +633,14 @@
                                     Value="{Binding ManualMapVoltage}" />
 
 
+
+                                <!-- CLT -->
+
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="0"
                                     Text="Coolant Resistance (ohm)" />
+
 
                                 <NumericUpDown
                                     Grid.Row="2"
@@ -551,10 +650,14 @@
                                     Value="{Binding ManualCoolantResistance}" />
 
 
+
+                                <!-- IAT -->
+
                                 <TextBlock
                                     Grid.Row="3"
                                     Grid.Column="0"
                                     Text="IAT Resistance (ohm)" />
+
 
                                 <NumericUpDown
                                     Grid.Row="3"
@@ -564,10 +667,14 @@
                                     Value="{Binding ManualIntakeResistance}" />
 
 
+
+                                <!-- BATTERY -->
+
                                 <TextBlock
                                     Grid.Row="4"
                                     Grid.Column="0"
                                     Text="Battery Voltage" />
+
 
                                 <NumericUpDown
                                     Grid.Row="4"
@@ -578,10 +685,14 @@
                                     Value="{Binding ManualBatteryVoltage}" />
 
 
+
+                                <!-- RPM -->
+
                                 <TextBlock
                                     Grid.Row="5"
                                     Grid.Column="0"
                                     Text="Engine RPM" />
+
 
                                 <NumericUpDown
                                     Grid.Row="5"
@@ -592,10 +703,14 @@
                                     Value="{Binding ManualRpm}" />
 
 
+
+                                <!-- SPEED -->
+
                                 <TextBlock
                                     Grid.Row="6"
                                     Grid.Column="0"
                                     Text="Vehicle Speed (km/h)" />
+
 
                                 <NumericUpDown
                                     Grid.Row="6"
@@ -608,7 +723,10 @@
                             </Grid>
 
 
+
+                            <!-- ================================= -->
                             <!-- QUICK CONTROL -->
+                            <!-- ================================= -->
 
                             <TextBlock
                                 Margin="0,20,0,0"
@@ -618,19 +736,20 @@
 
 
                             <Grid
-                                ColumnDefinitions="100,*,150"
+                                ColumnDefinitions="100,*,160"
                                 RowDefinitions="Auto,Auto,Auto,Auto"
                                 RowSpacing="14"
                                 ColumnSpacing="12">
 
 
-                                <!-- TPS -->
+                                <!-- TPS SLIDER -->
 
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Text="TPS" />
+
 
                                 <Slider
                                     Grid.Row="0"
@@ -640,6 +759,7 @@
                                     Value="{Binding ManualTpsVoltageSlider,
                                         Mode=TwoWay}" />
 
+
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="2"
@@ -648,13 +768,15 @@
                                         StringFormat='TPS: {0:F2} V'}" />
 
 
-                                <!-- MAP -->
+
+                                <!-- MAP SLIDER -->
 
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Text="MAP" />
+
 
                                 <Slider
                                     Grid.Row="1"
@@ -664,6 +786,7 @@
                                     Value="{Binding ManualMapVoltageSlider,
                                         Mode=TwoWay}" />
 
+
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="2"
@@ -672,13 +795,15 @@
                                         StringFormat='MAP: {0:F2} V'}" />
 
 
-                                <!-- RPM -->
+
+                                <!-- RPM SLIDER -->
 
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Text="RPM" />
+
 
                                 <Slider
                                     Grid.Row="2"
@@ -688,6 +813,7 @@
                                     Value="{Binding ManualRpmSlider,
                                         Mode=TwoWay}" />
 
+
                                 <TextBlock
                                     Grid.Row="2"
                                     Grid.Column="2"
@@ -696,13 +822,15 @@
                                         StringFormat='RPM: {0:F0}'}" />
 
 
-                                <!-- SPEED -->
+
+                                <!-- SPEED SLIDER -->
 
                                 <TextBlock
                                     Grid.Row="3"
                                     Grid.Column="0"
                                     VerticalAlignment="Center"
                                     Text="Speed" />
+
 
                                 <Slider
                                     Grid.Row="3"
@@ -712,6 +840,7 @@
                                     Value="{Binding ManualSpeedSlider,
                                         Mode=TwoWay}" />
 
+
                                 <TextBlock
                                     Grid.Row="3"
                                     Grid.Column="2"
@@ -720,6 +849,7 @@
                                         StringFormat='Speed: {0:F1}'}" />
 
                             </Grid>
+
 
 
                             <!-- SINGLE SEND -->
@@ -732,7 +862,10 @@
                                 Command="{Binding SendManualCommand}" />
 
 
+
+                            <!-- ================================= -->
                             <!-- LIVE SEND -->
+                            <!-- ================================= -->
 
                             <Border
                                 Margin="0,20,0,0"
@@ -740,8 +873,10 @@
                                 BorderThickness="1"
                                 CornerRadius="8">
 
+
                                 <StackPanel
                                     Spacing="12">
+
 
                                     <TextBlock
                                         FontSize="20"
@@ -753,15 +888,18 @@
                                         Orientation="Horizontal"
                                         Spacing="10">
 
+
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             Text="Update rate:" />
+
 
                                         <NumericUpDown
                                             Width="90"
                                             Minimum="1"
                                             Maximum="100"
                                             Value="{Binding ManualUpdateRateHz}" />
+
 
                                         <TextBlock
                                             VerticalAlignment="Center"
@@ -774,11 +912,13 @@
                                         Orientation="Horizontal"
                                         Spacing="10">
 
+
                                         <Button
                                             Width="150"
                                             Content="START LIVE"
                                             IsEnabled="{Binding CanStartManualLive}"
                                             Command="{Binding StartManualLiveCommand}" />
+
 
                                         <Button
                                             Width="150"
@@ -794,6 +934,7 @@
                                         Text="{Binding IsManualLiveRunning,
                                             StringFormat='Running: {0}'}" />
 
+
                                 </StackPanel>
 
                             </Border>
@@ -804,6 +945,7 @@
                         <TextBlock
                             Text="{Binding LastMessage}" />
 
+
                     </StackPanel>
 
                 </ScrollViewer>
@@ -812,11 +954,13 @@
 
 
 
-            <!-- ================================== -->
+            <!-- ================================================= -->
             <!-- DYNAMIC BENCHMARK -->
-            <!-- ================================== -->
+            <!-- ================================================= -->
 
-            <TabItem Header="Dynamic Benchmark">
+            <TabItem
+                Header="Dynamic Benchmark">
+
 
                 <ScrollViewer>
 
@@ -842,11 +986,13 @@
                             Orientation="Horizontal"
                             Spacing="12">
 
+
                             <Button
                                 Width="190"
                                 Content="START BENCHMARK"
                                 IsEnabled="{Binding CanStartBenchmark}"
                                 Command="{Binding StartBenchmarkCommand}" />
+
 
                             <Button
                                 Width="190"
@@ -857,13 +1003,16 @@
                         </StackPanel>
 
 
+
                         <Border
                             Padding="24"
                             BorderThickness="1"
                             CornerRadius="8">
 
+
                             <StackPanel
                                 Spacing="14">
+
 
                                 <TextBlock
                                     FontSize="22"
@@ -919,6 +1068,7 @@
 
                         </Border>
 
+
                     </StackPanel>
 
                 </ScrollViewer>
@@ -927,11 +1077,181 @@
 
 
 
-            <!-- ================================== -->
-            <!-- SHOWCASE -->
-            <!-- ================================== -->
+            <!-- ================================================= -->
+            <!-- LIVE GRAPHS -->
+            <!-- ================================================= -->
 
-            <TabItem Header="Showcase">
+            <TabItem
+                Header="Live Graphs">
+
+
+                <ScrollViewer>
+
+                    <StackPanel
+                        Margin="24"
+                        Spacing="20">
+
+
+                        <TextBlock
+                            FontSize="28"
+                            FontWeight="Bold"
+                            Text="Live Telemetry" />
+
+
+                        <TextBlock
+                            TextWrapping="Wrap"
+                            Text="Real-time values received from the UTFuel ECU." />
+
+
+
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="360,360"
+                            ColumnSpacing="16"
+                            RowSpacing="16">
+
+
+                            <!-- RPM GRAPH -->
+
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Padding="12"
+                                BorderThickness="1"
+                                CornerRadius="8">
+
+
+                                <Grid
+                                    RowDefinitions="Auto,*">
+
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Text="Engine RPM" />
+
+
+                                    <ScottPlot:AvaPlot
+                                        x:Name="RpmPlot"
+                                        Grid.Row="1" />
+
+                                </Grid>
+
+                            </Border>
+
+
+
+                            <!-- TPS GRAPH -->
+
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Padding="12"
+                                BorderThickness="1"
+                                CornerRadius="8">
+
+
+                                <Grid
+                                    RowDefinitions="Auto,*">
+
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Text="TPS %" />
+
+
+                                    <ScottPlot:AvaPlot
+                                        x:Name="TpsPlot"
+                                        Grid.Row="1" />
+
+                                </Grid>
+
+                            </Border>
+
+
+
+                            <!-- MAP GRAPH -->
+
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Padding="12"
+                                BorderThickness="1"
+                                CornerRadius="8">
+
+
+                                <Grid
+                                    RowDefinitions="Auto,*">
+
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Text="MAP kPa" />
+
+
+                                    <ScottPlot:AvaPlot
+                                        x:Name="MapPlot"
+                                        Grid.Row="1" />
+
+                                </Grid>
+
+                            </Border>
+
+
+
+                            <!-- SPEED GRAPH -->
+
+                            <Border
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Padding="12"
+                                BorderThickness="1"
+                                CornerRadius="8">
+
+
+                                <Grid
+                                    RowDefinitions="Auto,*">
+
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Text="Vehicle Speed" />
+
+
+                                    <ScottPlot:AvaPlot
+                                        x:Name="SpeedPlot"
+                                        Grid.Row="1" />
+
+                                </Grid>
+
+                            </Border>
+
+
+                        </Grid>
+
+
+                    </StackPanel>
+
+                </ScrollViewer>
+
+            </TabItem>
+
+
+
+            <!-- ================================================= -->
+            <!-- SHOWCASE -->
+            <!-- ================================================= -->
+
+            <TabItem
+                Header="Showcase">
+
 
                 <Grid
                     Margin="30"
@@ -944,6 +1264,7 @@
                         FontSize="32"
                         FontWeight="Bold"
                         Text="UTFuel Electronic Management Platform" />
+
 
 
                     <StackPanel
@@ -967,6 +1288,7 @@
                             FontWeight="Bold"
                             Text="{Binding EcuGear,
                                 StringFormat='GEAR: {0}'}" />
+
 
 
                         <Grid
@@ -1026,6 +1348,7 @@
                         </Grid>
 
 
+
                         <TextBlock
                             HorizontalAlignment="Center"
                             FontSize="36"
@@ -1033,7 +1356,9 @@
                             Text="{Binding EcuShiftWarning,
                                 StringFormat='SHIFT: {0}'}" />
 
+
                     </StackPanel>
+
 
 
                     <StackPanel
@@ -1042,11 +1367,13 @@
                         Orientation="Horizontal"
                         Spacing="12">
 
+
                         <Button
                             Width="200"
                             Content="START SHOWCASE"
                             IsEnabled="{Binding CanStartBenchmark}"
                             Command="{Binding StartBenchmarkCommand}" />
+
 
                         <Button
                             Width="200"
@@ -1054,7 +1381,9 @@
                             IsEnabled="{Binding CanStopBenchmark}"
                             Command="{Binding StopBenchmarkCommand}" />
 
+
                     </StackPanel>
+
 
                 </Grid>
 
@@ -1062,40 +1391,50 @@
 
 
 
-            <!-- ================================== -->
+            <!-- ================================================= -->
             <!-- TESTS -->
-            <!-- ================================== -->
+            <!-- ================================================= -->
 
-            <TabItem Header="Tests">
+            <TabItem
+                Header="Tests">
+
 
                 <StackPanel
                     Margin="24"
                     Spacing="14">
+
 
                     <TextBlock
                         FontSize="28"
                         FontWeight="Bold"
                         Text="Automated Validation" />
 
+
                     <TextBlock
                         Text="Communication Benchmark" />
+
 
                     <TextBlock
                         Text="TPS Sweep" />
 
+
                     <TextBlock
                         Text="MAP Sweep" />
+
 
                     <TextBlock
                         Text="Gear Detection" />
 
+
                     <TextBlock
                         Text="Shift Indicator" />
+
 
                     <TextBlock
                         Margin="0,20,0,0"
                         TextWrapping="Wrap"
                         Text="The existing validation engine will be connected to this page in the next step." />
+
 
                 </StackPanel>
 

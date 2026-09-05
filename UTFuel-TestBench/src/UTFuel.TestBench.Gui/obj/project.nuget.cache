@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "nvIzV6qUY78=",
+  "dgSpecHash": "Roc8tjARE/Q=",
   "success": true,
   "projectFilePath": "C:\\Users\\lugaw\\Documents\\GitHub\\UTFuel-Firmware\\UTFuel-TestBench\\src\\UTFuel.TestBench.Gui\\UTFuel.TestBench.Gui.csproj",
   "expectedPackageFiles": [
@@ -29,8 +29,12 @@
     "C:\\Users\\lugaw\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\lugaw\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\lugaw\\.nuget\\packages\\microsoft.io.recyclablememorystream\\3.0.1\\microsoft.io.recyclablememorystream.3.0.1.nupkg.sha512",
+    "C:\\Users\\lugaw\\.nuget\\packages\\scottplot\\5.1.59\\scottplot.5.1.59.nupkg.sha512",
+    "C:\\Users\\lugaw\\.nuget\\packages\\scottplot.avalonia\\5.1.59\\scottplot.avalonia.5.1.59.nupkg.sha512",
     "C:\\Users\\lugaw\\.nuget\\packages\\skiasharp\\3.119.4\\skiasharp.3.119.4.nupkg.sha512",
+    "C:\\Users\\lugaw\\.nuget\\packages\\skiasharp.harfbuzz\\3.119.0\\skiasharp.harfbuzz.3.119.0.nupkg.sha512",
     "C:\\Users\\lugaw\\.nuget\\packages\\skiasharp.nativeassets.linux\\3.119.4\\skiasharp.nativeassets.linux.3.119.4.nupkg.sha512",
+    "C:\\Users\\lugaw\\.nuget\\packages\\skiasharp.nativeassets.linux.nodependencies\\3.119.0\\skiasharp.nativeassets.linux.nodependencies.3.119.0.nupkg.sha512",
     "C:\\Users\\lugaw\\.nuget\\packages\\skiasharp.nativeassets.macos\\3.119.4\\skiasharp.nativeassets.macos.3.119.4.nupkg.sha512",
     "C:\\Users\\lugaw\\.nuget\\packages\\skiasharp.nativeassets.webassembly\\3.119.4\\skiasharp.nativeassets.webassembly.3.119.4.nupkg.sha512",
     "C:\\Users\\lugaw\\.nuget\\packages\\skiasharp.nativeassets.win32\\3.119.4\\skiasharp.nativeassets.win32.3.119.4.nupkg.sha512",
