@@ -6,44 +6,33 @@
 
 int main(void)
 {
-    printf("\n");
-
-    printf(
-        "====================================\n"
-    );
-
-    printf(
-        "            %s\n",
-        UTFUEL_NAME
-    );
-
-    printf(
-        "Firmware: %s\n",
+    fprintf(
+        stderr,
+        "[UTFuel] Firmware %s\n",
         UTFUEL_VERSION
     );
 
-    printf(
-        "Platform: %s\n",
+    fprintf(
+        stderr,
+        "[UTFuel] Platform %s\n",
         UTFUEL_PLATFORM
-    );
-
-    printf(
-        "====================================\n"
     );
 
 
     if (!utfuel_core_init())
     {
-        printf(
-            "ERROR: UTFuel initialization failed.\n"
+        fprintf(
+            stderr,
+            "[UTFuel] Initialization failed\n"
         );
 
         return 1;
     }
 
 
-    printf(
-        "UTFuel READY\n"
+    fprintf(
+        stderr,
+        "[UTFuel] READY\n"
     );
 
 

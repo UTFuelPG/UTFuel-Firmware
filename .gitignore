@@ -1,1 +1,26 @@
+# Build
+build/
+cmake-build-*/
 
+# Executables
+*.exe
+
+# Object files
+*.o
+*.obj
+
+# CMake generated
+CMakeCache.txt
+CMakeFiles/
+
+# VS Code generated cache
+.vscode/.browse.VC.db*
+.vscode/ipch/
+
+# Temporary
+*.tmp
+*.log
+
+# OS
+Thumbs.db
+.DS_Store
