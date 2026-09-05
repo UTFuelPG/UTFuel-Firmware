@@ -1,0 +1,12 @@
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\bin\Debug\net10.0\UTFuel.TestBench.Core.deps.json
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\bin\Debug\net10.0\UTFuel.TestBench.Core.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\bin\Debug\net10.0\UTFuel.TestBench.Core.pdb
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\UTFuel.TestBench.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\UTFuel.TestBench.Core.AssemblyInfoInputs.cache
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\UTFuel.TestBench.Core.AssemblyInfo.cs
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\UTFuel.TestBench.Core.csproj.CoreCompileInputs.cache
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\UTFuel.TestBench.Core.sourcelink.json
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\UTFuel.TestBench.Core.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\refint\UTFuel.TestBench.Core.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\UTFuel.TestBench.Core.pdb
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Core\obj\Debug\net10.0\ref\UTFuel.TestBench.Core.dll

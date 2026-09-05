@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/UTFuel.TestBench.Cli/UTFuel.TestBench.Cli.csproj" />
+    <Project Path="src/UTFuel.TestBench.Core/UTFuel.TestBench.Core.csproj" />
+    <Project Path="src/UTFuel.TestBench.Gui/UTFuel.TestBench.Gui.csproj" />
+  </Folder>
+</Solution>
