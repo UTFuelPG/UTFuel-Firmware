@@ -1249,196 +1249,481 @@
             <!-- SHOWCASE -->
             <!-- ================================================= -->
 
-            <TabItem
-                Header="Showcase">
+           <TabItem
+    Header="Showcase">
+
+    <StackPanel
+        Margin="30"
+        Spacing="20">
 
 
-                <Grid
-                    Margin="30"
-                    RowDefinitions="Auto,*,Auto">
+        <TextBlock
+            FontSize="28"
+            FontWeight="Bold"
+            Text="Showcase Mode" />
 
 
-                    <TextBlock
-                        Grid.Row="0"
-                        HorizontalAlignment="Center"
-                        FontSize="32"
-                        FontWeight="Bold"
-                        Text="UTFuel Electronic Management Platform" />
+        <TextBlock
+            MaxWidth="800"
+            HorizontalAlignment="Left"
+            TextWrapping="Wrap"
+            Text="Opens a dedicated fullscreen UTFuel driver display. It uses the same ECU connection and telemetry as the TestBench." />
 
 
-
-                    <StackPanel
-                        Grid.Row="1"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Spacing="18">
+        <Border
+            Padding="20"
+            BorderThickness="1"
+            CornerRadius="8">
 
 
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            FontSize="72"
-                            FontWeight="Bold"
-                            Text="{Binding EcuRpm,
-                                StringFormat='RPM: {0}'}" />
+            <StackPanel
+                Spacing="10">
 
 
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            FontSize="80"
-                            FontWeight="Bold"
-                            Text="{Binding EcuGear,
-                                StringFormat='GEAR: {0}'}" />
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="Showcase telemetry" />
 
 
-
-                        <Grid
-                            Width="700"
-                            ColumnDefinitions="*,*"
-                            RowDefinitions="Auto,Auto,Auto"
-                            RowSpacing="14">
+                <TextBlock
+                    Text="{Binding EcuRpm,
+                        StringFormat='RPM: {0}'}" />
 
 
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                FontSize="24"
-                                Text="{Binding EcuTpsPercent,
-                                    StringFormat='TPS: {0:F1} %'}" />
+                <TextBlock
+                    Text="{Binding EcuGear,
+                        StringFormat='Gear: {0}'}" />
 
 
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                FontSize="24"
-                                Text="{Binding EcuMapKpa,
-                                    StringFormat='MAP: {0:F1} kPa'}" />
+                <TextBlock
+                    Text="{Binding EcuTpsPercent,
+                        StringFormat='TPS: {0:F1} %'}" />
 
 
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                FontSize="24"
-                                Text="{Binding EcuSpeedKmh,
-                                    StringFormat='Speed: {0:F1} km/h'}" />
+                <TextBlock
+                    Text="{Binding EcuMapKpa,
+                        StringFormat='MAP: {0:F1} kPa'}" />
 
 
-                            <TextBlock
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                FontSize="24"
-                                Text="{Binding EcuBatteryVoltage,
-                                    StringFormat='Battery: {0:F2} V'}" />
+                <TextBlock
+                    Text="{Binding ConnectionStatus,
+                        StringFormat='ECU: {0}'}" />
 
 
-                            <TextBlock
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                FontSize="20"
-                                Text="{Binding CurrentRttMs,
-                                    StringFormat='ECU Response: {0:F3} ms'}" />
+            </StackPanel>
+
+        </Border>
 
 
-                            <TextBlock
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                FontSize="20"
-                                Text="{Binding PacketLossPercent,
-                                    StringFormat='Packet Loss: {0:F3} %'}" />
-
-                        </Grid>
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="12">
 
 
-
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            FontSize="36"
-                            FontWeight="Bold"
-                            Text="{Binding EcuShiftWarning,
-                                StringFormat='SHIFT: {0}'}" />
+            <Button
+                Width="220"
+                Height="50"
+                Content="OPEN SHOWCASE"
+                Click="OpenShowcaseWindow_Click" />
 
 
-                    </StackPanel>
+            <Button
+                Width="190"
+                Height="50"
+                Content="START BENCHMARK"
+                IsEnabled="{Binding CanStartBenchmark}"
+                Command="{Binding StartBenchmarkCommand}" />
 
 
-
-                    <StackPanel
-                        Grid.Row="2"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="12">
-
-
-                        <Button
-                            Width="200"
-                            Content="START SHOWCASE"
-                            IsEnabled="{Binding CanStartBenchmark}"
-                            Command="{Binding StartBenchmarkCommand}" />
+            <Button
+                Width="190"
+                Height="50"
+                Content="STOP BENCHMARK"
+                IsEnabled="{Binding CanStopBenchmark}"
+                Command="{Binding StopBenchmarkCommand}" />
 
 
-                        <Button
-                            Width="200"
-                            Content="STOP SHOWCASE"
-                            IsEnabled="{Binding CanStopBenchmark}"
-                            Command="{Binding StopBenchmarkCommand}" />
+        </StackPanel>
 
 
-                    </StackPanel>
+        <TextBlock
+            Foreground="#777777"
+            Text="Press ESC inside the fullscreen window to close it." />
 
 
-                </Grid>
+    </StackPanel>
 
-            </TabItem>
+</TabItem>
+
+<TabItem
+    Header="Tests">
+
+
+    <ScrollViewer>
+
+
+        <StackPanel
+            Margin="24"
+            Spacing="20">
+
+
+            <TextBlock
+                FontSize="28"
+                FontWeight="Bold"
+                Text="Automated Validation" />
+
+
+            <TextBlock
+                MaxWidth="900"
+                HorizontalAlignment="Left"
+                TextWrapping="Wrap"
+                Text="Runs the complete UTFuel HOST validation suite: communication, TPS, MAP, gear detection and shift indicator." />
 
 
 
-            <!-- ================================================= -->
-            <!-- TESTS -->
-            <!-- ================================================= -->
+            <!-- ===================================== -->
+            <!-- CONTROLS -->
+            <!-- ===================================== -->
 
-            <TabItem
-                Header="Tests">
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="12">
+
+
+                <Button
+                    Width="180"
+                    Content="RUN ALL TESTS"
+                    IsEnabled="{Binding CanStartValidation}"
+                    Command="{Binding RunAllTestsCommand}" />
+
+
+                <Button
+                    Width="140"
+                    Content="STOP"
+                    IsEnabled="{Binding CanStopValidation}"
+                    Command="{Binding StopValidationCommand}" />
+
+
+                <Button
+                    Width="160"
+                    Content="RESET"
+                    IsEnabled="{Binding CanStartValidation}"
+                    Command="{Binding ResetValidationResultsCommand}" />
+
+            </StackPanel>
+
+
+
+            <!-- ===================================== -->
+            <!-- PROGRESS -->
+            <!-- ===================================== -->
+
+            <Border
+                Padding="18"
+                BorderThickness="1"
+                CornerRadius="8">
 
 
                 <StackPanel
-                    Margin="24"
-                    Spacing="14">
+                    Spacing="10">
 
 
-                    <TextBlock
-                        FontSize="28"
-                        FontWeight="Bold"
-                        Text="Automated Validation" />
+                    <Grid
+                        ColumnDefinitions="*,Auto">
 
 
-                    <TextBlock
-                        Text="Communication Benchmark" />
+                        <TextBlock
+                            Grid.Column="0"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding ValidationCurrentStep}" />
 
 
-                    <TextBlock
-                        Text="TPS Sweep" />
+                        <TextBlock
+                            Grid.Column="1"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Text="{Binding ValidationProgress,
+                                StringFormat='Progress: {0:F0} %'}" />
 
 
-                    <TextBlock
-                        Text="MAP Sweep" />
+                    </Grid>
 
 
-                    <TextBlock
-                        Text="Gear Detection" />
-
-
-                    <TextBlock
-                        Text="Shift Indicator" />
-
-
-                    <TextBlock
-                        Margin="0,20,0,0"
-                        TextWrapping="Wrap"
-                        Text="The existing validation engine will be connected to this page in the next step." />
+                    <ProgressBar
+                        Minimum="0"
+                        Maximum="100"
+                        Height="18"
+                        Value="{Binding ValidationProgress}" />
 
 
                 </StackPanel>
 
-            </TabItem>
+            </Border>
+
+
+
+            <!-- ===================================== -->
+            <!-- COMMUNICATION -->
+            <!-- ===================================== -->
+
+            <Border
+                Padding="18"
+                BorderThickness="1"
+                CornerRadius="8">
+
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto,Auto">
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="Communication Benchmark" />
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="{Binding CommunicationTestStatus}" />
+
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,8,0,0"
+                        Text="{Binding CommunicationTestDetails}" />
+
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ===================================== -->
+            <!-- TPS -->
+            <!-- ===================================== -->
+
+            <Border
+                Padding="18"
+                BorderThickness="1"
+                CornerRadius="8">
+
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto,Auto">
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="TPS Sweep" />
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="{Binding TpsTestStatus}" />
+
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,8,0,0"
+                        Text="{Binding TpsTestDetails}" />
+
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ===================================== -->
+            <!-- MAP -->
+            <!-- ===================================== -->
+
+            <Border
+                Padding="18"
+                BorderThickness="1"
+                CornerRadius="8">
+
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto,Auto">
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="MAP Sweep" />
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="{Binding MapTestStatus}" />
+
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,8,0,0"
+                        Text="{Binding MapTestDetails}" />
+
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ===================================== -->
+            <!-- GEAR -->
+            <!-- ===================================== -->
+
+            <Border
+                Padding="18"
+                BorderThickness="1"
+                CornerRadius="8">
+
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto,Auto">
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="Gear Detection" />
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="{Binding GearTestStatus}" />
+
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,8,0,0"
+                        Text="{Binding GearTestDetails}" />
+
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ===================================== -->
+            <!-- SHIFT -->
+            <!-- ===================================== -->
+
+            <Border
+                Padding="18"
+                BorderThickness="1"
+                CornerRadius="8">
+
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    RowDefinitions="Auto,Auto">
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="Shift Indicator" />
+
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="{Binding ShiftTestStatus}" />
+
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,8,0,0"
+                        Text="{Binding ShiftTestDetails}" />
+
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ===================================== -->
+            <!-- OVERALL RESULT -->
+            <!-- ===================================== -->
+
+            <Border
+                Padding="24"
+                BorderThickness="2"
+                CornerRadius="8">
+
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Spacing="8">
+
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="18"
+                        Text="OVERALL RESULT" />
+
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="44"
+                        FontWeight="Bold"
+                        Text="{Binding OverallValidationStatus}" />
+
+
+                </StackPanel>
+
+            </Border>
+
+
+        </StackPanel>
+
+
+    </ScrollViewer>
+
+
+</TabItem>
 
 
         </TabControl>

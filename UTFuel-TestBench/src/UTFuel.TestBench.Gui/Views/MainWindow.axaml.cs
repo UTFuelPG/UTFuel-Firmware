@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Avalonia.Controls;
 using Avalonia.Threading;
+using Avalonia.Interactivity;
 
 using ScottPlot.Avalonia;
 using ScottPlot.Plottables;
@@ -61,7 +62,54 @@ public partial class MainWindow :
 
     private MainWindowViewModel?
         _subscribedViewModel;
+    
+    private ShowcaseWindow?
+    _showcaseWindow;
 
+    private void OpenShowcaseWindow_Click(
+    object? sender,
+    RoutedEventArgs e
+)
+{
+    /*
+     * Don't create multiple showcase windows.
+     */
+
+    if (
+        _showcaseWindow !=
+        null
+    )
+    {
+        _showcaseWindow
+            .Activate();
+
+        return;
+    }
+
+
+    _showcaseWindow =
+        new ShowcaseWindow
+        {
+            DataContext =
+                DataContext
+        };
+
+
+    _showcaseWindow
+        .Closed +=
+        (
+            _,
+            _
+        ) =>
+        {
+            _showcaseWindow =
+                null;
+        };
+
+
+    _showcaseWindow
+        .Show();
+}
 
 
     /*
@@ -478,6 +526,19 @@ public partial class MainWindow :
         EventArgs e
     )
     {
+        if (
+    _showcaseWindow !=
+    null
+)
+{
+    _showcaseWindow
+        .Close();
+
+
+    _showcaseWindow =
+        null;
+}
+
         if (
             _subscribedViewModel !=
             null

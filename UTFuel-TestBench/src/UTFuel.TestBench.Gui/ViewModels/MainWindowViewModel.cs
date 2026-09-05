@@ -34,6 +34,11 @@ public partial class MainWindowViewModel :
     private CancellationTokenSource?
         _benchmarkCancellation;
 
+    private CancellationTokenSource?
+    _validationCancellation;
+
+private Task?
+    _validationTask;
 
     private Task?
         _benchmarkTask;
@@ -93,6 +98,79 @@ public partial class MainWindowViewModel :
     [ObservableProperty]
     private string lastMessage =
         "Ready.";
+
+        /*
+ * =========================================
+ * AUTOMATED VALIDATION
+ * =========================================
+ */
+
+[ObservableProperty]
+private bool isValidationRunning;
+
+
+[ObservableProperty]
+private double validationProgress;
+
+
+[ObservableProperty]
+private string validationCurrentStep =
+    "Ready";
+
+
+[ObservableProperty]
+private string overallValidationStatus =
+    "NOT RUN";
+
+
+[ObservableProperty]
+private string communicationTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string communicationTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string tpsTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string tpsTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string mapTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string mapTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string gearTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string gearTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string shiftTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string shiftTestDetails =
+    "Not executed.";
 
 
 
@@ -318,34 +396,46 @@ public partial class MainWindowViewModel :
      */
 
     public bool CanEditManualInputs =>
-        IsConnected &&
-        !IsBenchmarkRunning;
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsValidationRunning;
+
+   public bool CanSendManual =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
 
 
-    public bool CanSendManual =>
-        IsConnected &&
-        !IsBenchmarkRunning &&
-        !IsManualLiveRunning;
-
-
-    public bool CanStartManualLive =>
-        IsConnected &&
-        !IsBenchmarkRunning &&
-        !IsManualLiveRunning;
-
+public bool CanStartManualLive =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
 
     public bool CanStopManualLive =>
         IsManualLiveRunning;
 
 
-    public bool CanStartBenchmark =>
-        IsConnected &&
-        !IsBenchmarkRunning &&
-        !IsManualLiveRunning;
+public bool CanStartBenchmark =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
 
 
     public bool CanStopBenchmark =>
         IsBenchmarkRunning;
+
+    public bool CanStartValidation =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
+
+
+public bool CanStopValidation =>
+    IsValidationRunning;
 
 
 
@@ -477,6 +567,13 @@ public partial class MainWindowViewModel :
         );
     }
 
+    partial void OnIsValidationRunningChanged(
+    bool value
+)
+{
+    NotifyUiState();
+}
+
 
     private void NotifyUiState()
     {
@@ -520,9 +617,643 @@ public partial class MainWindowViewModel :
                 CanStopBenchmark
             )
         );
+
+        OnPropertyChanged(
+    nameof(
+        CanStartValidation
+    )
+);
+
+
+OnPropertyChanged(
+    nameof(
+        CanStopValidation
+    )
+);
+    }
+
+    /*
+ * =========================================
+ * RUN AUTOMATED VALIDATION
+ * =========================================
+ */
+
+[RelayCommand]
+private async Task RunAllTestsAsync()
+{
+    if (
+        _connection == null ||
+        !CanStartValidation
+    )
+    {
+        return;
     }
 
 
+    ResetValidationResults();
+
+
+    IsValidationRunning =
+        true;
+
+
+    OverallValidationStatus =
+        "RUNNING";
+
+
+    ValidationProgress =
+        0;
+
+
+    ValidationCurrentStep =
+        "Starting validation suite...";
+
+
+    LastMessage =
+        "Automated validation started.";
+
+
+    _validationCancellation =
+        new CancellationTokenSource();
+
+
+    _validationTask =
+        RunValidationSuiteAsync(
+            _validationCancellation.Token
+        );
+
+
+    try
+    {
+        await _validationTask;
+    }
+    catch (
+        OperationCanceledException
+    )
+    {
+        OverallValidationStatus =
+            "CANCELLED";
+
+
+        ValidationCurrentStep =
+            "Validation cancelled.";
+
+
+        LastMessage =
+            "Automated validation cancelled.";
+    }
+    catch (
+        Exception ex
+    )
+    {
+        OverallValidationStatus =
+            "ERROR";
+
+
+        ValidationCurrentStep =
+            "Validation error.";
+
+
+        LastMessage =
+            $"Validation error: {ex.Message}";
+    }
+    finally
+    {
+        IsValidationRunning =
+            false;
+
+
+        _validationCancellation?
+            .Dispose();
+
+
+        _validationCancellation =
+            null;
+
+
+        _validationTask =
+            null;
+    }
+}
+    
+    /*
+ * =========================================
+ * STOP AUTOMATED VALIDATION
+ * =========================================
+ */
+
+[RelayCommand]
+private async Task StopValidationAsync()
+{
+    if (
+        _validationCancellation ==
+        null
+    )
+    {
+        return;
+    }
+
+
+    _validationCancellation
+        .Cancel();
+
+
+    try
+    {
+        if (
+            _validationTask !=
+            null
+        )
+        {
+            await _validationTask;
+        }
+    }
+    catch (
+        OperationCanceledException
+    )
+    {
+    }
+}
+ /*
+ * =========================================
+ * VALIDATION SUITE
+ * =========================================
+ */
+
+private async Task RunValidationSuiteAsync(
+    CancellationToken cancellationToken
+)
+{
+    if (
+        _connection ==
+        null
+    )
+    {
+        return;
+    }
+
+
+    bool communicationPassed =
+        false;
+
+
+    bool tpsPassed =
+        false;
+
+
+    bool mapPassed =
+        false;
+
+
+    bool gearPassed =
+        false;
+
+
+    bool shiftPassed =
+        false;
+
+
+
+    /*
+     * =====================================
+     * 1. COMMUNICATION BENCHMARK
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "Communication Benchmark";
+
+
+    CommunicationTestStatus =
+        "RUNNING";
+
+
+    ValidationProgress =
+        5;
+
+
+    const int pingCount =
+        1000;
+
+
+    List<double> latencySamples =
+        new();
+
+
+    TimeSpan timeout =
+        TimeSpan.FromMilliseconds(
+            500
+        );
+
+
+    uint communicationSequence =
+        1_000_000;
+
+
+    for (
+        int i = 0;
+        i < pingCount;
+        i++
+    )
+    {
+        cancellationToken
+            .ThrowIfCancellationRequested();
+
+
+        try
+        {
+            double rtt =
+                await _connection
+                    .PingAsync(
+                        communicationSequence++,
+                        timeout
+                    );
+
+
+            latencySamples.Add(
+                rtt
+            );
+        }
+        catch (
+            TimeoutException
+        )
+        {
+            /*
+             * Counted as packet loss.
+             */
+        }
+
+
+        if (
+            i % 20 ==
+            0
+        )
+        {
+            /*
+             * Communication test occupies
+             * approximately 0-20% of total.
+             */
+
+            ValidationProgress =
+                5 +
+                (
+                    (double)i /
+                    pingCount
+                ) *
+                15;
+        }
+    }
+
+
+    LatencyReport communicationReport =
+        LatencyReport.Calculate(
+            pingCount,
+            latencySamples
+        );
+
+
+    communicationPassed =
+        communicationReport.Lost ==
+        0;
+
+
+    CommunicationTestStatus =
+        communicationPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    CommunicationTestDetails =
+        $"{communicationReport.Received}/{communicationReport.Sent} packets | " +
+        $"Loss {communicationReport.LossPercent:F3}% | " +
+        $"Avg {communicationReport.AverageMs:F3} ms | " +
+        $"P99 {communicationReport.P99Ms:F3} ms";
+
+
+    ValidationProgress =
+        20;
+
+
+
+    /*
+     * =====================================
+     * 2. TPS SWEEP
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "TPS Sweep";
+
+
+    TpsTestStatus =
+        "RUNNING";
+
+
+    SensorSweepReport tpsReport =
+        await SensorSweep
+            .RunTpsAsync(
+                _connection,
+                1_100_000,
+                timeout
+            );
+
+
+    tpsPassed =
+        tpsReport.Passed;
+
+
+    TpsTestStatus =
+        tpsPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int tpsPassedPoints =
+        tpsReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    TpsTestDetails =
+        $"{tpsPassedPoints}/{tpsReport.Points.Count} points | " +
+        $"Avg error {tpsReport.AverageError:F5} % | " +
+        $"Max error {tpsReport.MaximumError:F5} %";
+
+
+    ValidationProgress =
+        40;
+
+
+
+    /*
+     * =====================================
+     * 3. MAP SWEEP
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "MAP Sweep";
+
+
+    MapTestStatus =
+        "RUNNING";
+
+
+    SensorSweepReport mapReport =
+        await SensorSweep
+            .RunMapAsync(
+                _connection,
+                1_200_000,
+                timeout
+            );
+
+
+    mapPassed =
+        mapReport.Passed;
+
+
+    MapTestStatus =
+        mapPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int mapPassedPoints =
+        mapReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    MapTestDetails =
+        $"{mapPassedPoints}/{mapReport.Points.Count} points | " +
+        $"Avg error {mapReport.AverageError:F5} kPa | " +
+        $"Max error {mapReport.MaximumError:F5} kPa";
+
+
+    ValidationProgress =
+        60;
+
+
+
+    /*
+     * =====================================
+     * 4. GEAR DETECTION
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "Gear Detection";
+
+
+    GearTestStatus =
+        "RUNNING";
+
+
+    GearValidationReport gearReport =
+        await GearValidation
+            .RunAsync(
+                _connection,
+                1_300_000,
+                timeout
+            );
+
+
+    gearPassed =
+        gearReport.Passed;
+
+
+    GearTestStatus =
+        gearPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int gearsPassed =
+        gearReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    GearTestDetails =
+        $"{gearsPassed}/{gearReport.Points.Count} gears";
+
+
+    ValidationProgress =
+        80;
+
+
+
+    /*
+     * =====================================
+     * 5. SHIFT INDICATOR
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "Shift Indicator";
+
+
+    ShiftTestStatus =
+        "RUNNING";
+
+
+    ShiftValidationReport shiftReport =
+        await ShiftValidation
+            .RunAsync(
+                _connection,
+                1_400_000,
+                timeout
+            );
+
+
+    shiftPassed =
+        shiftReport.Passed;
+
+
+    ShiftTestStatus =
+        shiftPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int shiftPointsPassed =
+        shiftReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    ShiftTestDetails =
+        $"{shiftPointsPassed}/{shiftReport.Points.Count} points";
+
+
+    ValidationProgress =
+        100;
+
+
+
+    /*
+     * =====================================
+     * OVERALL
+     * =====================================
+     */
+
+    bool overallPassed =
+        communicationPassed &&
+        tpsPassed &&
+        mapPassed &&
+        gearPassed &&
+        shiftPassed;
+
+
+    OverallValidationStatus =
+        overallPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    ValidationCurrentStep =
+        overallPassed
+            ? "Validation completed successfully."
+            : "Validation completed with failures.";
+
+
+    LastMessage =
+        overallPassed
+            ? "UTFuel validation suite: PASS."
+            : "UTFuel validation suite: FAIL.";
+}
+    /*
+ * =========================================
+ * RESET VALIDATION
+ * =========================================
+ */
+
+[RelayCommand]
+private void ResetValidationResults()
+{
+    if (
+        IsValidationRunning
+    )
+    {
+        return;
+    }
+
+
+    ValidationProgress =
+        0;
+
+
+    ValidationCurrentStep =
+        "Ready";
+
+
+    OverallValidationStatus =
+        "NOT RUN";
+
+
+    CommunicationTestStatus =
+        "WAITING";
+
+
+    CommunicationTestDetails =
+        "Not executed.";
+
+
+    TpsTestStatus =
+        "WAITING";
+
+
+    TpsTestDetails =
+        "Not executed.";
+
+
+    MapTestStatus =
+        "WAITING";
+
+
+    MapTestDetails =
+        "Not executed.";
+
+
+    GearTestStatus =
+        "WAITING";
+
+
+    GearTestDetails =
+        "Not executed.";
+
+
+    ShiftTestStatus =
+        "WAITING";
+
+
+    ShiftTestDetails =
+        "Not executed.";
+}
 
     /*
      * =========================================
@@ -615,6 +1346,32 @@ public partial class MainWindowViewModel :
 
 
         await StopManualLiveInternalAsync();
+
+        if (
+    _validationCancellation !=
+    null
+)
+{
+    _validationCancellation
+        .Cancel();
+
+
+    try
+    {
+        if (
+            _validationTask !=
+            null
+        )
+        {
+            await _validationTask;
+        }
+    }
+    catch (
+        OperationCanceledException
+    )
+    {
+    }
+}
 
 
         if (
