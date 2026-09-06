@@ -1,24 +1,72 @@
-﻿using Avalonia;
-using System;
+﻿using System;
+using System.IO;
+
+using Avalonia;
+
 
 namespace UTFuel.TestBench.Gui;
 
-sealed class Program
-{
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
-    [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args);
 
-    // Avalonia configuration, don't remove; also used by visual designer.
+internal sealed class Program
+{
+    [STAThread]
+    public static void Main(
+        string[] args
+    )
+    {
+        string logPath =
+            Path.Combine(
+                AppContext.BaseDirectory,
+                "utfuel_boot.log"
+            );
+
+
+        try
+        {
+            File.WriteAllText(
+                logPath,
+                "UTFuel boot started."
+                + Environment.NewLine
+            );
+
+
+            BuildAvaloniaApp()
+                .StartWithClassicDesktopLifetime(
+                    args
+                );
+
+
+            File.AppendAllText(
+                logPath,
+                "Avalonia lifetime finished."
+                + Environment.NewLine
+            );
+        }
+        catch (
+            Exception ex
+        )
+        {
+            File.AppendAllText(
+                logPath,
+                Environment.NewLine +
+                "FATAL STARTUP ERROR" +
+                Environment.NewLine +
+                ex +
+                Environment.NewLine
+            );
+
+
+            throw;
+        }
+    }
+
+
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+    {
+        return AppBuilder
+            .Configure<App>()
             .UsePlatformDetect()
-#if DEBUG
-            .WithDeveloperTools()
-#endif
             .WithInterFont()
             .LogToTrace();
+    }
 }

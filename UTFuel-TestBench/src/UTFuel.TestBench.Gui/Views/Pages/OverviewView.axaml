@@ -1,0 +1,1175 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+
+    x:Class="UTFuel.TestBench.Gui.Views.Pages.OverviewView"
+    x:DataType="vm:MainWindowViewModel">
+
+
+    <ScrollViewer>
+
+        <StackPanel
+            Margin="28"
+            Spacing="20">
+
+
+            <!-- ================================================= -->
+            <!-- PAGE HEADER -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,Auto">
+
+
+                <StackPanel
+                    Grid.Column="0"
+                    Spacing="5">
+
+                    <TextBlock
+                        Classes="title"
+                        Text="{DynamicResource NavOverview}" />
+
+                    <TextBlock
+                        Classes="muted"
+                        TextWrapping="Wrap"
+                        Text="{DynamicResource OverviewSubtitle}" />
+
+                </StackPanel>
+
+
+                <Border
+                    Grid.Column="1"
+                    Classes="status"
+                    VerticalAlignment="Center">
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+                        <Border
+                            Width="8"
+                            Height="8"
+                            CornerRadius="4"
+                            Background="{DynamicResource UtfuelAccentBrush}" />
+
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="{Binding ConnectionStatus}" />
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- PRIMARY METRICS -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,*,*,*"
+                ColumnSpacing="14">
+
+
+                <!-- RPM -->
+
+                <Border
+                    Grid.Column="0"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="6">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="{DynamicResource OverviewEngineSpeed}" />
+
+                        <TextBlock
+                            FontSize="32"
+                            FontWeight="SemiBold"
+                            Text="{Binding EcuRpm}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="RPM" />
+
+                    </StackPanel>
+
+                </Border>
+
+
+
+                <!-- GEAR -->
+
+                <Border
+                    Grid.Column="1"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="6">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="{DynamicResource OverviewCurrentGear}" />
+
+                        <TextBlock
+                            FontSize="32"
+                            FontWeight="SemiBold"
+                            Text="{Binding EcuGear}" />
+
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="5">
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{DynamicResource OverviewShiftWarning}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{Binding EcuShiftWarning}" />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+
+
+
+                <!-- TPS -->
+
+                <Border
+                    Grid.Column="2"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="6">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="{DynamicResource OverviewThrottlePosition}" />
+
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="7">
+
+                            <TextBlock
+                                FontSize="32"
+                                FontWeight="SemiBold"
+                                Text="{Binding EcuTpsPercent,
+                                    StringFormat='{}{0:F1}'}" />
+
+                            <TextBlock
+                                FontSize="32"
+                                FontWeight="SemiBold"
+                                Text="%" />
+
+                        </StackPanel>
+
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="{DynamicResource OverviewProcessedEcuValue}" />
+
+                    </StackPanel>
+
+                </Border>
+
+
+
+                <!-- MAP -->
+
+                <Border
+                    Grid.Column="3"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="6">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="{DynamicResource OverviewManifoldPressure}" />
+
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="7">
+
+                            <TextBlock
+                                FontSize="32"
+                                FontWeight="SemiBold"
+                                Text="{Binding EcuMapKpa,
+                                    StringFormat='{}{0:F1}'}" />
+
+                            <TextBlock
+                                FontSize="32"
+                                FontWeight="SemiBold"
+                                Text="kPa" />
+
+                        </StackPanel>
+
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="{DynamicResource OverviewProcessedEcuValue}" />
+
+                    </StackPanel>
+
+                </Border>
+
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- TARGET / ECU -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="16">
+
+
+                <!-- ================================================= -->
+                <!-- SIMULATOR TARGET -->
+                <!-- ================================================= -->
+
+                <Border
+                    Grid.Column="0"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="14">
+
+
+                        <Grid
+                            ColumnDefinitions="*,Auto">
+
+
+                            <StackPanel
+                                Grid.Column="0"
+                                Spacing="3">
+
+                                <TextBlock
+                                    Classes="section-title"
+                                    Text="{DynamicResource OverviewSimulatorTarget}" />
+
+                                <TextBlock
+                                    Classes="muted"
+                                    Text="{DynamicResource OverviewSimulatorTargetDescription}" />
+
+                            </StackPanel>
+
+
+
+                            <StackPanel
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Spacing="5">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{DynamicResource OverviewPhase}" />
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{Binding BenchmarkPhase}" />
+
+                            </StackPanel>
+
+
+                        </Grid>
+
+
+
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                            RowSpacing="12">
+
+
+                            <!-- RPM -->
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource OverviewEngineRpm}" />
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="{Binding TargetRpm}" />
+
+
+
+                            <!-- TPS -->
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="TPS" />
+
+
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{Binding TargetTpsPercent,
+                                        StringFormat='{}{0:F2}'}" />
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="%" />
+
+                            </StackPanel>
+
+
+
+                            <!-- MAP -->
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="MAP" />
+
+
+                            <StackPanel
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{Binding TargetMapKpa,
+                                        StringFormat='{}{0:F2}'}" />
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="kPa" />
+
+                            </StackPanel>
+
+
+
+                            <!-- SPEED -->
+
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource OverviewVehicleSpeed}" />
+
+
+                            <StackPanel
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{Binding TargetSpeedKmh,
+                                        StringFormat='{}{0:F2}'}" />
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="km/h" />
+
+                            </StackPanel>
+
+
+
+                            <!-- GEAR -->
+
+                            <TextBlock
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource OverviewCalculatedGear}" />
+
+                            <TextBlock
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="{Binding TargetGear}" />
+
+
+                        </Grid>
+
+
+                    </StackPanel>
+
+                </Border>
+
+
+
+                <!-- ================================================= -->
+                <!-- UTFUEL ECU -->
+                <!-- ================================================= -->
+
+                <Border
+                    Grid.Column="1"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="14">
+
+
+                        <StackPanel
+                            Spacing="3">
+
+                            <TextBlock
+                                Classes="section-title"
+                                Text="{DynamicResource OverviewUtfuelEcu}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{DynamicResource OverviewEcuDescription}" />
+
+                        </StackPanel>
+
+
+
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                            RowSpacing="12">
+
+
+                            <!-- RPM -->
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource OverviewEngineRpm}" />
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="{Binding EcuRpm}" />
+
+
+
+                            <!-- TPS -->
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="TPS" />
+
+
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuTpsPercent,
+                                        StringFormat='{}{0:F2}'}" />
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="%" />
+
+                            </StackPanel>
+
+
+
+                            <!-- MAP -->
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="MAP" />
+
+
+                            <StackPanel
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuMapKpa,
+                                        StringFormat='{}{0:F2}'}" />
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="kPa" />
+
+                            </StackPanel>
+
+
+
+                            <!-- BATTERY -->
+
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource OverviewBattery}" />
+
+
+                            <StackPanel
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuBatteryVoltage,
+                                        StringFormat='{}{0:F2}'}" />
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="V" />
+
+                            </StackPanel>
+
+
+
+                            <!-- SPEED -->
+
+                            <TextBlock
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource OverviewVehicleSpeed}" />
+
+
+                            <StackPanel
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuSpeedKmh,
+                                        StringFormat='{}{0:F2}'}" />
+
+                                <TextBlock
+                                    FontWeight="SemiBold"
+                                    Text="km/h" />
+
+                            </StackPanel>
+
+
+
+                            <!-- GEAR -->
+
+                            <TextBlock
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource OverviewGear}" />
+
+                            <TextBlock
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="{Binding EcuGear}" />
+
+
+                        </Grid>
+
+
+                    </StackPanel>
+
+                </Border>
+
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- TARGET VS ECU -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <StackPanel
+                    Spacing="16">
+
+
+                    <StackPanel
+                        Spacing="3">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource OverviewTargetVsEcu}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="{DynamicResource OverviewTargetVsEcuDescription}" />
+
+                    </StackPanel>
+
+
+
+                    <Grid
+                        ColumnDefinitions="160,*,*,*"
+                        RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                        RowSpacing="12"
+                        ColumnSpacing="16">
+
+
+                        <!-- HEADER -->
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Classes="eyebrow"
+                            Text="{DynamicResource OverviewTarget}" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Classes="eyebrow"
+                            Text="ECU" />
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            Classes="eyebrow"
+                            Text="{DynamicResource OverviewError}" />
+
+
+
+                        <!-- RPM -->
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="RPM" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding TargetRpm}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Text="{Binding EcuRpm}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            FontWeight="SemiBold"
+                            Text="{Binding RpmError}" />
+
+
+
+                        <!-- TPS -->
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="TPS %" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding TargetTpsPercent,
+                                StringFormat='{}{0:F2}'}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Text="{Binding EcuTpsPercent,
+                                StringFormat='{}{0:F2}'}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            FontWeight="SemiBold"
+                            Text="{Binding TpsErrorPercent,
+                                StringFormat='{}{0:F4}'}" />
+
+
+
+                        <!-- MAP -->
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="MAP kPa" />
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Text="{Binding TargetMapKpa,
+                                StringFormat='{}{0:F2}'}" />
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Text="{Binding EcuMapKpa,
+                                StringFormat='{}{0:F2}'}" />
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            FontWeight="SemiBold"
+                            Text="{Binding MapErrorKpa,
+                                StringFormat='{}{0:F4}'}" />
+
+
+
+                        <!-- SPEED -->
+
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="km/h" />
+
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Text="{Binding TargetSpeedKmh,
+                                StringFormat='{}{0:F2}'}" />
+
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Text="{Binding EcuSpeedKmh,
+                                StringFormat='{}{0:F2}'}" />
+
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="3"
+                            FontWeight="SemiBold"
+                            Text="{Binding SpeedErrorKmh,
+                                StringFormat='{}{0:F4}'}" />
+
+
+                    </Grid>
+
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- COMMUNICATION -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <StackPanel
+                    Spacing="16">
+
+
+                    <Grid
+                        ColumnDefinitions="*,Auto">
+
+
+                        <StackPanel
+                            Grid.Column="0"
+                            Spacing="3">
+
+                            <TextBlock
+                                Classes="section-title"
+                                Text="{DynamicResource OverviewCommunication}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{DynamicResource OverviewCommunicationDescription}" />
+
+                        </StackPanel>
+
+
+                        <Button
+                            Grid.Column="1"
+                            Classes="secondary"
+                            Content="{DynamicResource OverviewResetStatistics}"
+                            Command="{Binding ResetStatisticsCommand}" />
+
+
+                    </Grid>
+
+
+
+                    <Grid
+                        ColumnDefinitions="*,*,*,*"
+                        RowDefinitions="Auto,Auto,Auto"
+                        RowSpacing="14"
+                        ColumnSpacing="16">
+
+
+                        <!-- ROW 1 -->
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="0">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewPacketsSent}" />
+
+                            <TextBlock
+                                FontSize="22"
+                                FontWeight="SemiBold"
+                                Text="{Binding PacketsSent}" />
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="1">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewReceived}" />
+
+                            <TextBlock
+                                FontSize="22"
+                                FontWeight="SemiBold"
+                                Text="{Binding PacketsReceived}" />
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="2">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewLost}" />
+
+                            <TextBlock
+                                FontSize="22"
+                                FontWeight="SemiBold"
+                                Text="{Binding PacketsLost}" />
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="3">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewLoss}" />
+
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontSize="22"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding PacketLossPercent,
+                                        StringFormat='{}{0:F3}'}" />
+
+                                <TextBlock
+                                    FontSize="22"
+                                    FontWeight="SemiBold"
+                                    Text="%" />
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+
+
+                        <!-- ROW 2 -->
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewUpdateRate}" />
+
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding MeasuredUpdateRateHz,
+                                        StringFormat='{}{0:F0}'}" />
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="Hz" />
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewCurrentRtt}" />
+
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding CurrentRttMs,
+                                        StringFormat='{}{0:F3}'}" />
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="ms" />
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="2">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewAverageRtt}" />
+
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding AverageRttMs,
+                                        StringFormat='{}{0:F3}'}" />
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="ms" />
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="3">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource OverviewJitter}" />
+
+
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Spacing="4">
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding JitterMs,
+                                        StringFormat='{}{0:F3}'}" />
+
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Text="ms" />
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+
+
+                        <!-- ROW 3 -->
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            Spacing="4">
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{DynamicResource OverviewMinimum}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{Binding MinimumRttMs,
+                                    StringFormat='{}{0:F3}'}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="ms" />
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="4">
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{DynamicResource OverviewMaximum}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{Binding MaximumRttMs,
+                                    StringFormat='{}{0:F3}'}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="ms" />
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="4">
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="P95" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{Binding P95RttMs,
+                                    StringFormat='{}{0:F3}'}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="ms" />
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            Orientation="Horizontal"
+                            Spacing="4">
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="P99" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="{Binding P99RttMs,
+                                    StringFormat='{}{0:F3}'}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                Text="ms" />
+
+                        </StackPanel>
+
+
+                    </Grid>
+
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- LAST EVENT -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <Grid
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="12">
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Classes="eyebrow"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource OverviewLastEvent}" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Classes="muted"
+                        VerticalAlignment="Center"
+                        Text="{Binding LastMessage}" />
+
+                </Grid>
+
+            </Border>
+
+
+        </StackPanel>
+
+    </ScrollViewer>
+
+
+</UserControl>

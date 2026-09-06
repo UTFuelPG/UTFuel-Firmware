@@ -9,7 +9,7 @@
     Title="UTFuel Showcase"
 
     WindowState="FullScreen"
-    SystemDecorations="None"
+    WindowDecorations="None"
 
     Background="#0B0D0F">
 

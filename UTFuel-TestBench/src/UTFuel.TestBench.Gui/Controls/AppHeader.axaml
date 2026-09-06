@@ -1,0 +1,118 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:controls="using:UTFuel.TestBench.Gui.Controls"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+
+    x:Class="UTFuel.TestBench.Gui.Controls.AppHeader"
+    x:DataType="vm:MainWindowViewModel">
+
+
+    <Border
+        Padding="18,12"
+        Background="{DynamicResource UtfuelSurfaceBrush}"
+        BorderBrush="{DynamicResource UtfuelBorderBrush}"
+        BorderThickness="0,0,0,1">
+
+
+        <Grid
+            ColumnDefinitions="Auto,28,*,24,Auto,12,Auto,10,Auto">
+
+
+            <!-- ============================================= -->
+            <!-- BRAND -->
+            <!-- ============================================= -->
+
+            <controls:BrandMark
+                Grid.Column="0" />
+
+
+
+            <!-- ============================================= -->
+            <!-- FIRMWARE TARGET -->
+            <!-- ============================================= -->
+
+            <StackPanel
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Spacing="4">
+
+                <TextBlock
+                    Classes="eyebrow"
+                    Text="{DynamicResource AppFirmwareTarget}" />
+
+                <TextBox
+                    MinWidth="300"
+                    MaxWidth="560"
+                    Text="{Binding FirmwarePath}"
+                    PlaceholderText="Path to utfuel_host.exe" />
+
+            </StackPanel>
+
+
+
+            <!-- ============================================= -->
+            <!-- CONNECTION STATUS -->
+            <!-- ============================================= -->
+
+            <Border
+                Grid.Column="4"
+                Classes="status"
+                VerticalAlignment="Center">
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="8">
+
+                    <Border
+                        Width="8"
+                        Height="8"
+                        CornerRadius="4"
+                        Background="{DynamicResource UtfuelAccentBrush}"
+                        VerticalAlignment="Center" />
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="SemiBold"
+                        Text="{Binding ConnectionStatus}" />
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ============================================= -->
+            <!-- CONNECT -->
+            <!-- ============================================= -->
+
+            <Button
+                Grid.Column="6"
+                Classes="primary"
+                Width="118"
+                Content="{DynamicResource CommonConnect}"
+                Command="{Binding ConnectCommand}" />
+
+
+
+            <!-- ============================================= -->
+            <!-- DISCONNECT -->
+            <!-- ============================================= -->
+
+            <Button
+                Grid.Column="8"
+                Classes="secondary"
+                Width="130"
+                Content="{DynamicResource CommonDisconnect}"
+                Command="{Binding DisconnectCommand}" />
+
+
+        </Grid>
+
+
+    </Border>
+
+
+</UserControl>

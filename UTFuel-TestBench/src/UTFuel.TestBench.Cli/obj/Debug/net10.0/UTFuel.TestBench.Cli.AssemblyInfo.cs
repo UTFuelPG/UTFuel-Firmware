@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UTFuel.TestBench.Cli")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f085661a2eb03cb7a6348ddbca33c49c595f3072")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92e3e048fc0265ddbfc31c35e3147001e59642b3")]
 [assembly: System.Reflection.AssemblyProductAttribute("UTFuel.TestBench.Cli")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UTFuel.TestBench.Cli")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,15 +1,21 @@
-<Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="UTFuel.TestBench.Gui.App"
-             xmlns:local="using:UTFuel.TestBench.Gui"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+<Application
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 
-    <Application.DataTemplates>
-        <local:ViewLocator />
-    </Application.DataTemplates>
+    x:Class="UTFuel.TestBench.Gui.App"
+
+    RequestedThemeVariant="Dark">
 
     <Application.Styles>
+
         <FluentTheme />
+
+        <StyleInclude
+            Source="avares://UTFuel.TestBench.Gui/Themes/UTFuelTokens.axaml" />
+
+        <StyleInclude
+            Source="avares://UTFuel.TestBench.Gui/Themes/UTFuelControls.axaml" />
+
     </Application.Styles>
+
 </Application>

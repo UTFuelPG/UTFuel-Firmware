@@ -1,0 +1,30 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    x:Class="UTFuel.TestBench.Gui.Controls.LanguageSelector">
+
+
+    <StackPanel
+        Orientation="Horizontal"
+        Spacing="8">
+
+
+        <TextBlock
+            VerticalAlignment="Center"
+            Classes="eyebrow"
+            Text="{DynamicResource LanguageTitle}" />
+
+
+        <ComboBox
+            x:Name="LanguageComboBox"
+
+            Width="135"
+
+            SelectionChanged="LanguageComboBox_SelectionChanged" />
+
+
+    </StackPanel>
+
+
+</UserControl>

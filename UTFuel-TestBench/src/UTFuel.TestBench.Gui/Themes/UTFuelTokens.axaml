@@ -1,0 +1,99 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Styles.Resources>
+
+        <!-- BASE -->
+
+        <SolidColorBrush
+            x:Key="UtfuelBackgroundBrush"
+            Color="#090C11" />
+
+        <SolidColorBrush
+            x:Key="UtfuelSurfaceBrush"
+            Color="#10151D" />
+
+        <SolidColorBrush
+            x:Key="UtfuelSurfaceRaisedBrush"
+            Color="#151B24" />
+
+        <SolidColorBrush
+            x:Key="UtfuelSurfaceHoverBrush"
+            Color="#1B222D" />
+
+
+        <!-- BORDERS -->
+
+        <SolidColorBrush
+            x:Key="UtfuelBorderBrush"
+            Color="#252D39" />
+
+        <SolidColorBrush
+            x:Key="UtfuelBorderStrongBrush"
+            Color="#343E4D" />
+
+
+        <!-- TEXT -->
+
+        <SolidColorBrush
+            x:Key="UtfuelTextPrimaryBrush"
+            Color="#F4F6F8" />
+
+        <SolidColorBrush
+            x:Key="UtfuelTextSecondaryBrush"
+            Color="#98A2B3" />
+
+        <SolidColorBrush
+            x:Key="UtfuelTextMutedBrush"
+            Color="#667085" />
+
+
+        <!-- BRAND -->
+
+        <SolidColorBrush
+            x:Key="UtfuelAccentBrush"
+            Color="#E63B3B" />
+
+        <SolidColorBrush
+            x:Key="UtfuelAccentHoverBrush"
+            Color="#F05252" />
+
+        <SolidColorBrush
+            x:Key="UtfuelAccentPressedBrush"
+            Color="#C72F2F" />
+
+        <SolidColorBrush
+            x:Key="UtfuelAccentSoftBrush"
+            Color="#2A1619" />
+
+
+        <!-- STATUS -->
+
+        <SolidColorBrush
+            x:Key="UtfuelSuccessBrush"
+            Color="#3CCB7F" />
+
+        <SolidColorBrush
+            x:Key="UtfuelSuccessSoftBrush"
+            Color="#10271D" />
+
+        <SolidColorBrush
+            x:Key="UtfuelWarningBrush"
+            Color="#F4B740" />
+
+        <SolidColorBrush
+            x:Key="UtfuelWarningSoftBrush"
+            Color="#2C2412" />
+
+        <SolidColorBrush
+            x:Key="UtfuelDangerBrush"
+            Color="#EF4444" />
+
+        <SolidColorBrush
+            x:Key="UtfuelDangerSoftBrush"
+            Color="#2A1517" />
+
+    </Styles.Resources>
+
+</Styles>

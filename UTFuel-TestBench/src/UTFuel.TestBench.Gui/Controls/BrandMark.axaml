@@ -1,0 +1,68 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    x:Class="UTFuel.TestBench.Gui.Controls.BrandMark">
+
+
+    <StackPanel
+        Orientation="Horizontal"
+        Spacing="12">
+
+
+        <!-- LOGO MARK -->
+
+        <Border
+            Width="40"
+            Height="40"
+
+            Background="{DynamicResource UtfuelAccentBrush}"
+
+            CornerRadius="9">
+
+
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+
+                FontSize="21"
+                FontWeight="Bold"
+
+                Foreground="White"
+
+                Text="U" />
+
+
+        </Border>
+
+
+
+        <!-- WORDMARK -->
+
+        <StackPanel
+            VerticalAlignment="Center"
+            Spacing="0">
+
+
+            <TextBlock
+                FontSize="20"
+                FontWeight="Bold"
+
+                Foreground="{DynamicResource UtfuelTextPrimaryBrush}"
+
+                Text="UTFuel" />
+
+
+            <TextBlock
+                Classes="eyebrow"
+
+                Text="TESTBENCH" />
+
+
+        </StackPanel>
+
+
+    </StackPanel>
+
+
+</UserControl>

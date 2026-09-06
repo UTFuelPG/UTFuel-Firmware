@@ -1,8 +1,9 @@
-<Window
+﻿<Window
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
     xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
-    xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+    xmlns:controls="using:UTFuel.TestBench.Gui.Controls"
 
     x:Class="UTFuel.TestBench.Gui.Views.MainWindow"
     x:DataType="vm:MainWindowViewModel"
@@ -20,1714 +21,233 @@
         RowDefinitions="Auto,*">
 
 
-        <!-- ===================================================== -->
-        <!-- CONNECTION BAR -->
-        <!-- ===================================================== -->
+        <!-- ================================================= -->
+        <!-- APPLICATION HEADER -->
+        <!-- ================================================= -->
 
-        <Border
-            Grid.Row="0"
-            Padding="16"
-            BorderThickness="0,0,0,1">
+        <controls:AppHeader
+            Grid.Row="0" />
 
-            <Grid
-                ColumnDefinitions="Auto,*,Auto,Auto,Auto"
-                ColumnSpacing="10">
 
 
-                <TextBlock
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    FontSize="18"
-                    FontWeight="Bold"
-                    Text="UTFuel ECU" />
+        <!-- ================================================= -->
+        <!-- APPLICATION BODY -->
+        <!-- ================================================= -->
 
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="240,*">
 
-                <TextBox
-                    Grid.Column="1"
-                    Text="{Binding FirmwarePath}"
-                    PlaceholderText="Path to utfuel_host.exe" />
 
+            <!-- ============================================= -->
+            <!-- SIDEBAR -->
+            <!-- ============================================= -->
 
-                <Button
-                    Grid.Column="2"
-                    Content="CONNECT"
-                    Command="{Binding ConnectCommand}" />
+            <Border
+                Grid.Column="0"
+                Background="{DynamicResource UtfuelSurfaceBrush}"
+                BorderBrush="{DynamicResource UtfuelBorderBrush}"
+                BorderThickness="0,0,1,0">
 
 
-                <Button
-                    Grid.Column="3"
-                    Content="DISCONNECT"
-                    Command="{Binding DisconnectCommand}" />
+                <Grid
+                    RowDefinitions="*,Auto">
 
 
-                <TextBlock
-                    Grid.Column="4"
-                    VerticalAlignment="Center"
-                    FontWeight="Bold"
-                    Text="{Binding ConnectionStatus}" />
+                    <!-- ===================================== -->
+                    <!-- NAVIGATION -->
+                    <!-- ===================================== -->
 
-            </Grid>
+                    <ScrollViewer
+                        Grid.Row="0"
+                        VerticalScrollBarVisibility="Auto"
+                        HorizontalScrollBarVisibility="Disabled">
 
-        </Border>
-
-
-
-        <!-- ===================================================== -->
-        <!-- MAIN -->
-        <!-- ===================================================== -->
-
-        <TabControl
-            Grid.Row="1">
-
-
-            <!-- ================================================= -->
-            <!-- DASHBOARD -->
-            <!-- ================================================= -->
-
-            <TabItem
-                Header="Dashboard">
-
-
-                <ScrollViewer>
-
-                    <StackPanel
-                        Margin="24"
-                        Spacing="20">
-
-
-                        <TextBlock
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Text="UTFuel Dashboard" />
-
-
-
-                        <!-- ===================================== -->
-                        <!-- TARGET + ECU -->
-                        <!-- ===================================== -->
-
-                        <Grid
-                            ColumnDefinitions="*,*"
-                            ColumnSpacing="20">
-
-
-                            <!-- TARGET -->
-
-                            <Border
-                                Grid.Column="0"
-                                Padding="20"
-                                BorderThickness="1"
-                                CornerRadius="8">
-
-                                <StackPanel
-                                    Spacing="12">
-
-
-                                    <TextBlock
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Text="TARGET / SIMULATOR" />
-
-
-                                    <TextBlock
-                                        Text="{Binding BenchmarkPhase,
-                                            StringFormat='Phase: {0}'}" />
-
-
-                                    <TextBlock
-                                        FontSize="28"
-                                        FontWeight="Bold"
-                                        Text="{Binding TargetRpm,
-                                            StringFormat='RPM: {0}'}" />
-
-
-                                    <TextBlock
-                                        Text="{Binding TargetTpsPercent,
-                                            StringFormat='TPS: {0:F2} %'}" />
-
-
-                                    <TextBlock
-                                        Text="{Binding TargetMapKpa,
-                                            StringFormat='MAP: {0:F2} kPa'}" />
-
-
-                                    <TextBlock
-                                        Text="{Binding TargetSpeedKmh,
-                                            StringFormat='Speed: {0:F2} km/h'}" />
-
-
-                                    <TextBlock
-                                        FontSize="24"
-                                        FontWeight="Bold"
-                                        Text="{Binding TargetGear,
-                                            StringFormat='Target Gear: {0}'}" />
-
-                                </StackPanel>
-
-                            </Border>
-
-
-
-                            <!-- ECU -->
-
-                            <Border
-                                Grid.Column="1"
-                                Padding="20"
-                                BorderThickness="1"
-                                CornerRadius="8">
-
-                                <StackPanel
-                                    Spacing="12">
-
-
-                                    <TextBlock
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Text="UTFuel ECU" />
-
-
-                                    <TextBlock
-                                        FontSize="32"
-                                        FontWeight="Bold"
-                                        Text="{Binding EcuRpm,
-                                            StringFormat='RPM: {0}'}" />
-
-
-                                    <TextBlock
-                                        Text="{Binding EcuTpsPercent,
-                                            StringFormat='TPS: {0:F2} %'}" />
-
-
-                                    <TextBlock
-                                        Text="{Binding EcuMapKpa,
-                                            StringFormat='MAP: {0:F2} kPa'}" />
-
-
-                                    <TextBlock
-                                        Text="{Binding EcuBatteryVoltage,
-                                            StringFormat='Battery: {0:F2} V'}" />
-
-
-                                    <TextBlock
-                                        Text="{Binding EcuSpeedKmh,
-                                            StringFormat='Speed: {0:F2} km/h'}" />
-
-
-                                    <TextBlock
-                                        FontSize="28"
-                                        FontWeight="Bold"
-                                        Text="{Binding EcuGear,
-                                            StringFormat='GEAR: {0}'}" />
-
-
-                                    <TextBlock
-                                        FontSize="22"
-                                        FontWeight="Bold"
-                                        Text="{Binding EcuShiftWarning,
-                                            StringFormat='SHIFT: {0}'}" />
-
-                                </StackPanel>
-
-                            </Border>
-
-                        </Grid>
-
-
-
-                        <!-- ===================================== -->
-                        <!-- TARGET vs ECU -->
-                        <!-- ===================================== -->
-
-                        <Border
-                            Padding="20"
-                            BorderThickness="1"
-                            CornerRadius="8">
-
-
-                            <StackPanel
-                                Spacing="12">
-
-
-                                <TextBlock
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Text="TARGET vs ECU" />
-
-
-                                <Grid
-                                    ColumnDefinitions="140,*,*,*"
-                                    RowDefinitions="Auto,Auto,Auto,Auto,Auto"
-                                    RowSpacing="10"
-                                    ColumnSpacing="12">
-
-
-                                    <!-- HEADER -->
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        FontWeight="Bold"
-                                        Text="TARGET" />
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        FontWeight="Bold"
-                                        Text="ECU" />
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="3"
-                                        FontWeight="Bold"
-                                        Text="ERROR" />
-
-
-
-                                    <!-- RPM -->
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Text="RPM" />
-
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Text="{Binding TargetRpm}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="2"
-                                        Text="{Binding EcuRpm}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="3"
-                                        Text="{Binding RpmError}" />
-
-
-
-                                    <!-- TPS -->
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Text="TPS %" />
-
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="1"
-                                        Text="{Binding TargetTpsPercent,
-                                            StringFormat='Target: {0:F2}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="2"
-                                        Text="{Binding EcuTpsPercent,
-                                            StringFormat='ECU: {0:F2}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="3"
-                                        Text="{Binding TpsErrorPercent,
-                                            StringFormat='Error: {0:F4}'}" />
-
-
-
-                                    <!-- MAP -->
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="0"
-                                        Text="MAP kPa" />
-
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="1"
-                                        Text="{Binding TargetMapKpa,
-                                            StringFormat='Target: {0:F2}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="2"
-                                        Text="{Binding EcuMapKpa,
-                                            StringFormat='ECU: {0:F2}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="3"
-                                        Text="{Binding MapErrorKpa,
-                                            StringFormat='Error: {0:F4}'}" />
-
-
-
-                                    <!-- SPEED -->
-
-                                    <TextBlock
-                                        Grid.Row="4"
-                                        Grid.Column="0"
-                                        Text="Speed km/h" />
-
-
-                                    <TextBlock
-                                        Grid.Row="4"
-                                        Grid.Column="1"
-                                        Text="{Binding TargetSpeedKmh,
-                                            StringFormat='Target: {0:F2}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="4"
-                                        Grid.Column="2"
-                                        Text="{Binding EcuSpeedKmh,
-                                            StringFormat='ECU: {0:F2}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="4"
-                                        Grid.Column="3"
-                                        Text="{Binding SpeedErrorKmh,
-                                            StringFormat='Error: {0:F4}'}" />
-
-                                </Grid>
-
-                            </StackPanel>
-
-                        </Border>
-
-
-
-                        <!-- ===================================== -->
-                        <!-- COMMUNICATION -->
-                        <!-- ===================================== -->
-
-                        <Border
-                            Padding="20"
-                            BorderThickness="1"
-                            CornerRadius="8">
-
-
-                            <StackPanel
-                                Spacing="10">
-
-
-                                <TextBlock
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Text="Communication" />
-
-
-                                <Grid
-                                    ColumnDefinitions="*,*,*"
-                                    RowDefinitions="Auto,Auto,Auto,Auto"
-                                    RowSpacing="10">
-
-
-                                    <!-- PACKETS -->
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Text="{Binding PacketsSent,
-                                            StringFormat='Sent: {0}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Text="{Binding PacketsReceived,
-                                            StringFormat='Received: {0}'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        Text="{Binding PacketsLost,
-                                            StringFormat='Lost: {0}'}" />
-
-
-
-                                    <!-- LIVE -->
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Text="{Binding PacketLossPercent,
-                                            StringFormat='Loss: {0:F3} %'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Text="{Binding MeasuredUpdateRateHz,
-                                            StringFormat='Rate: {0:F0} Hz'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="2"
-                                        Text="{Binding CurrentRttMs,
-                                            StringFormat='Current RTT: {0:F3} ms'}" />
-
-
-
-                                    <!-- RTT -->
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Text="{Binding AverageRttMs,
-                                            StringFormat='Average: {0:F3} ms'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="1"
-                                        Text="{Binding MinimumRttMs,
-                                            StringFormat='Minimum: {0:F3} ms'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="2"
-                                        Text="{Binding MaximumRttMs,
-                                            StringFormat='Maximum: {0:F3} ms'}" />
-
-
-
-                                    <!-- PERCENTILES -->
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="0"
-                                        Text="{Binding P95RttMs,
-                                            StringFormat='P95: {0:F3} ms'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="1"
-                                        Text="{Binding P99RttMs,
-                                            StringFormat='P99: {0:F3} ms'}" />
-
-
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.Column="2"
-                                        Text="{Binding JitterMs,
-                                            StringFormat='Jitter: {0:F3} ms'}" />
-
-                                </Grid>
-
-
-                                <Button
-                                    Margin="0,10,0,0"
-                                    Width="180"
-                                    HorizontalAlignment="Left"
-                                    Content="RESET STATISTICS"
-                                    Command="{Binding ResetStatisticsCommand}" />
-
-                            </StackPanel>
-
-                        </Border>
-
-
-                        <TextBlock
-                            Text="{Binding LastMessage}" />
-
-
-                    </StackPanel>
-
-                </ScrollViewer>
-
-            </TabItem>
-
-
-
-            <!-- ================================================= -->
-            <!-- MANUAL -->
-            <!-- ================================================= -->
-
-            <TabItem
-                Header="Manual">
-
-
-                <ScrollViewer>
-
-                    <StackPanel
-                        Margin="24"
-                        Spacing="18">
-
-
-                        <TextBlock
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Text="Manual Sensor Control" />
-
-
-                        <TextBlock
-                            TextWrapping="Wrap"
-                            Text="Define exact sensor values or use the sliders. LIVE SEND continuously sends the current values to the ECU." />
-
-
-
-                        <!-- ===================================== -->
-                        <!-- NUMERIC INPUTS -->
-                        <!-- ===================================== -->
 
                         <StackPanel
-                            Spacing="16"
-                            IsEnabled="{Binding CanEditManualInputs}">
+                            Margin="12,20,12,16"
+                            Spacing="4">
 
 
-                            <Grid
-                                ColumnDefinitions="240,220"
-                                RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                                RowSpacing="10"
-                                ColumnSpacing="16">
-
-
-                                <!-- TPS -->
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Text="TPS Voltage" />
-
-
-                                <NumericUpDown
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="5"
-                                    Increment="0.1"
-                                    Value="{Binding ManualTpsVoltage}" />
-
-
-
-                                <!-- MAP -->
-
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Text="MAP Voltage" />
-
-
-                                <NumericUpDown
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="5"
-                                    Increment="0.1"
-                                    Value="{Binding ManualMapVoltage}" />
-
-
-
-                                <!-- CLT -->
-
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    Text="Coolant Resistance (ohm)" />
-
-
-                                <NumericUpDown
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="100000"
-                                    Value="{Binding ManualCoolantResistance}" />
-
-
-
-                                <!-- IAT -->
-
-                                <TextBlock
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    Text="IAT Resistance (ohm)" />
-
-
-                                <NumericUpDown
-                                    Grid.Row="3"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="100000"
-                                    Value="{Binding ManualIntakeResistance}" />
-
-
-
-                                <!-- BATTERY -->
-
-                                <TextBlock
-                                    Grid.Row="4"
-                                    Grid.Column="0"
-                                    Text="Battery Voltage" />
-
-
-                                <NumericUpDown
-                                    Grid.Row="4"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="20"
-                                    Increment="0.1"
-                                    Value="{Binding ManualBatteryVoltage}" />
-
-
-
-                                <!-- RPM -->
-
-                                <TextBlock
-                                    Grid.Row="5"
-                                    Grid.Column="0"
-                                    Text="Engine RPM" />
-
-
-                                <NumericUpDown
-                                    Grid.Row="5"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="20000"
-                                    Increment="100"
-                                    Value="{Binding ManualRpm}" />
-
-
-
-                                <!-- SPEED -->
-
-                                <TextBlock
-                                    Grid.Row="6"
-                                    Grid.Column="0"
-                                    Text="Vehicle Speed (km/h)" />
-
-
-                                <NumericUpDown
-                                    Grid.Row="6"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="400"
-                                    Increment="1"
-                                    Value="{Binding ManualSpeedKmh}" />
-
-                            </Grid>
-
-
-
-                            <!-- ================================= -->
-                            <!-- QUICK CONTROL -->
-                            <!-- ================================= -->
+                            <!-- ============================= -->
+                            <!-- OVERVIEW -->
+                            <!-- ============================= -->
 
                             <TextBlock
-                                Margin="0,20,0,0"
-                                FontSize="20"
-                                FontWeight="Bold"
-                                Text="Quick Control" />
+                                Classes="eyebrow"
+                                Margin="14,0,0,6"
+                                Text="{DynamicResource NavSectionOverview}" />
+
+
+                            <Button
+                                x:Name="OverviewNavButton"
+                                Classes="nav-item"
+                                Tag="Overview"
+                                Click="NavigationButton_Click"
+                                Content="{DynamicResource NavOverview}" />
+
+
+
+                            <!-- ============================= -->
+                            <!-- CONTROL -->
+                            <!-- ============================= -->
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Margin="14,20,0,6"
+                                Text="{DynamicResource NavSectionControl}" />
+
+
+                            <Button
+                                x:Name="ManualNavButton"
+                                Classes="nav-item"
+                                Tag="Manual"
+                                Click="NavigationButton_Click"
+                                Content="{DynamicResource NavManualControl}" />
+
+
+                            <Button
+                                x:Name="BenchmarkNavButton"
+                                Classes="nav-item"
+                                Tag="Benchmark"
+                                Click="NavigationButton_Click"
+                                Content="{DynamicResource NavDynamicBenchmark}" />
+
+
+
+                            <!-- ============================= -->
+                            <!-- ANALYSIS -->
+                            <!-- ============================= -->
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Margin="14,20,0,6"
+                                Text="{DynamicResource NavSectionAnalysis}" />
+
+
+                            <Button
+                                x:Name="TelemetryNavButton"
+                                Classes="nav-item"
+                                Tag="Telemetry"
+                                Click="NavigationButton_Click"
+                                Content="{DynamicResource NavLiveTelemetry}" />
+
+
+                            <Button
+                                x:Name="ValidationNavButton"
+                                Classes="nav-item"
+                                Tag="Validation"
+                                Click="NavigationButton_Click"
+                                Content="{DynamicResource NavValidation}" />
+
+
+
+                            <!-- ============================= -->
+                            <!-- TOOLS -->
+                            <!-- ============================= -->
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Margin="14,20,0,6"
+                                Text="{DynamicResource NavSectionTools}" />
+
+
+                            <Button
+                                x:Name="ShowcaseNavButton"
+                                Classes="nav-item"
+                                Tag="Showcase"
+                                Click="NavigationButton_Click"
+                                Content="{DynamicResource NavShowcase}" />
+
+
+                        </StackPanel>
+
+
+                    </ScrollViewer>
+
+
+
+                    <!-- ===================================== -->
+                    <!-- SIDEBAR FOOTER -->
+                    <!-- ===================================== -->
+
+                    <Border
+                        Grid.Row="1"
+                        Padding="16"
+                        BorderBrush="{DynamicResource UtfuelBorderBrush}"
+                        BorderThickness="0,1,0,0">
+
+
+                        <StackPanel
+                            Spacing="14">
+
+
+                            <controls:LanguageSelector />
 
 
                             <Grid
-                                ColumnDefinitions="100,*,160"
-                                RowDefinitions="Auto,Auto,Auto,Auto"
-                                RowSpacing="14"
-                                ColumnSpacing="12">
+                                ColumnDefinitions="*,Auto">
 
-
-                                <!-- TPS SLIDER -->
-
-                                <TextBlock
-                                    Grid.Row="0"
+                                <StackPanel
                                     Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Text="TPS" />
+                                    Spacing="2">
+
+                                    <TextBlock
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Text="UTFuel TestBench" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        FontSize="11"
+                                        Text="Development Build" />
+
+                                </StackPanel>
 
 
-                                <Slider
-                                    Grid.Row="0"
+                                <TextBlock
                                     Grid.Column="1"
-                                    Minimum="0.5"
-                                    Maximum="4.5"
-                                    Value="{Binding ManualTpsVoltageSlider,
-                                        Mode=TwoWay}" />
-
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    Grid.Column="2"
+                                    Classes="muted"
                                     VerticalAlignment="Center"
-                                    Text="{Binding ManualTpsVoltage,
-                                        StringFormat='TPS: {0:F2} V'}" />
-
-
-
-                                <!-- MAP SLIDER -->
-
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Text="MAP" />
-
-
-                                <Slider
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Minimum="0.5"
-                                    Maximum="4.5"
-                                    Value="{Binding ManualMapVoltageSlider,
-                                        Mode=TwoWay}" />
-
-
-                                <TextBlock
-                                    Grid.Row="1"
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding ManualMapVoltage,
-                                        StringFormat='MAP: {0:F2} V'}" />
-
-
-
-                                <!-- RPM SLIDER -->
-
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Text="RPM" />
-
-
-                                <Slider
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="12000"
-                                    Value="{Binding ManualRpmSlider,
-                                        Mode=TwoWay}" />
-
-
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding ManualRpm,
-                                        StringFormat='RPM: {0:F0}'}" />
-
-
-
-                                <!-- SPEED SLIDER -->
-
-                                <TextBlock
-                                    Grid.Row="3"
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center"
-                                    Text="Speed" />
-
-
-                                <Slider
-                                    Grid.Row="3"
-                                    Grid.Column="1"
-                                    Minimum="0"
-                                    Maximum="250"
-                                    Value="{Binding ManualSpeedSlider,
-                                        Mode=TwoWay}" />
-
-
-                                <TextBlock
-                                    Grid.Row="3"
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding ManualSpeedKmh,
-                                        StringFormat='Speed: {0:F1}'}" />
+                                    FontSize="11"
+                                    Text="v0.1.0-dev" />
 
                             </Grid>
 
 
-
-                            <!-- SINGLE SEND -->
-
-                            <Button
-                                Width="180"
-                                HorizontalAlignment="Left"
-                                Content="SEND TO ECU"
-                                IsEnabled="{Binding CanSendManual}"
-                                Command="{Binding SendManualCommand}" />
-
-
-
-                            <!-- ================================= -->
-                            <!-- LIVE SEND -->
-                            <!-- ================================= -->
-
-                            <Border
-                                Margin="0,20,0,0"
-                                Padding="16"
-                                BorderThickness="1"
-                                CornerRadius="8">
-
-
-                                <StackPanel
-                                    Spacing="12">
-
-
-                                    <TextBlock
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Text="LIVE SEND" />
-
-
-                                    <StackPanel
-                                        Orientation="Horizontal"
-                                        Spacing="10">
-
-
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Text="Update rate:" />
-
-
-                                        <NumericUpDown
-                                            Width="90"
-                                            Minimum="1"
-                                            Maximum="100"
-                                            Value="{Binding ManualUpdateRateHz}" />
-
-
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Text="Hz" />
-
-                                    </StackPanel>
-
-
-                                    <StackPanel
-                                        Orientation="Horizontal"
-                                        Spacing="10">
-
-
-                                        <Button
-                                            Width="150"
-                                            Content="START LIVE"
-                                            IsEnabled="{Binding CanStartManualLive}"
-                                            Command="{Binding StartManualLiveCommand}" />
-
-
-                                        <Button
-                                            Width="150"
-                                            Content="STOP LIVE"
-                                            IsEnabled="{Binding CanStopManualLive}"
-                                            Command="{Binding StopManualLiveCommand}" />
-
-                                    </StackPanel>
-
-
-                                    <TextBlock
-                                        FontWeight="Bold"
-                                        Text="{Binding IsManualLiveRunning,
-                                            StringFormat='Running: {0}'}" />
-
-
-                                </StackPanel>
-
-                            </Border>
-
                         </StackPanel>
 
 
-                        <TextBlock
-                            Text="{Binding LastMessage}" />
-
-
-                    </StackPanel>
-
-                </ScrollViewer>
-
-            </TabItem>
-
-
-
-            <!-- ================================================= -->
-            <!-- DYNAMIC BENCHMARK -->
-            <!-- ================================================= -->
-
-            <TabItem
-                Header="Dynamic Benchmark">
-
-
-                <ScrollViewer>
-
-                    <StackPanel
-                        Margin="24"
-                        Spacing="20">
-
-
-                        <TextBlock
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Text="Dynamic Benchmark" />
-
-
-                        <TextBlock
-                            MaxWidth="850"
-                            HorizontalAlignment="Left"
-                            TextWrapping="Wrap"
-                            Text="Runs a continuous simulated driving cycle. RPM, TPS, MAP, vehicle speed and gears change automatically until the benchmark is stopped." />
-
-
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="12">
-
-
-                            <Button
-                                Width="190"
-                                Content="START BENCHMARK"
-                                IsEnabled="{Binding CanStartBenchmark}"
-                                Command="{Binding StartBenchmarkCommand}" />
-
-
-                            <Button
-                                Width="190"
-                                Content="STOP BENCHMARK"
-                                IsEnabled="{Binding CanStopBenchmark}"
-                                Command="{Binding StopBenchmarkCommand}" />
-
-                        </StackPanel>
-
-
-
-                        <Border
-                            Padding="24"
-                            BorderThickness="1"
-                            CornerRadius="8">
-
-
-                            <StackPanel
-                                Spacing="14">
-
-
-                                <TextBlock
-                                    FontSize="22"
-                                    FontWeight="Bold"
-                                    Text="{Binding BenchmarkPhase,
-                                        StringFormat='Phase: {0}'}" />
-
-
-                                <TextBlock
-                                    FontSize="42"
-                                    FontWeight="Bold"
-                                    Text="{Binding EcuRpm,
-                                        StringFormat='RPM: {0}'}" />
-
-
-                                <TextBlock
-                                    FontSize="34"
-                                    FontWeight="Bold"
-                                    Text="{Binding EcuGear,
-                                        StringFormat='GEAR: {0}'}" />
-
-
-                                <TextBlock
-                                    FontSize="20"
-                                    Text="{Binding EcuTpsPercent,
-                                        StringFormat='TPS: {0:F1} %'}" />
-
-
-                                <TextBlock
-                                    FontSize="20"
-                                    Text="{Binding EcuMapKpa,
-                                        StringFormat='MAP: {0:F1} kPa'}" />
-
-
-                                <TextBlock
-                                    FontSize="20"
-                                    Text="{Binding EcuSpeedKmh,
-                                        StringFormat='Speed: {0:F1} km/h'}" />
-
-
-                                <TextBlock
-                                    FontSize="24"
-                                    FontWeight="Bold"
-                                    Text="{Binding EcuShiftWarning,
-                                        StringFormat='SHIFT: {0}'}" />
-
-
-                                <TextBlock
-                                    Text="{Binding CurrentRttMs,
-                                        StringFormat='RTT: {0:F3} ms'}" />
-
-                            </StackPanel>
-
-                        </Border>
-
-
-                    </StackPanel>
-
-                </ScrollViewer>
-
-            </TabItem>
-
-
-
-            <!-- ================================================= -->
-            <!-- LIVE GRAPHS -->
-            <!-- ================================================= -->
-
-            <TabItem
-                Header="Live Graphs">
-
-
-                <ScrollViewer>
-
-                    <StackPanel
-                        Margin="24"
-                        Spacing="20">
-
-
-                        <TextBlock
-                            FontSize="28"
-                            FontWeight="Bold"
-                            Text="Live Telemetry" />
-
-
-                        <TextBlock
-                            TextWrapping="Wrap"
-                            Text="Real-time values received from the UTFuel ECU." />
-
-
-
-                        <Grid
-                            ColumnDefinitions="*,*"
-                            RowDefinitions="360,360"
-                            ColumnSpacing="16"
-                            RowSpacing="16">
-
-
-                            <!-- RPM GRAPH -->
-
-                            <Border
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Padding="12"
-                                BorderThickness="1"
-                                CornerRadius="8">
-
-
-                                <Grid
-                                    RowDefinitions="Auto,*">
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        FontSize="18"
-                                        FontWeight="Bold"
-                                        Text="Engine RPM" />
-
-
-                                    <ScottPlot:AvaPlot
-                                        x:Name="RpmPlot"
-                                        Grid.Row="1" />
-
-                                </Grid>
-
-                            </Border>
-
-
-
-                            <!-- TPS GRAPH -->
-
-                            <Border
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Padding="12"
-                                BorderThickness="1"
-                                CornerRadius="8">
-
-
-                                <Grid
-                                    RowDefinitions="Auto,*">
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        FontSize="18"
-                                        FontWeight="Bold"
-                                        Text="TPS %" />
-
-
-                                    <ScottPlot:AvaPlot
-                                        x:Name="TpsPlot"
-                                        Grid.Row="1" />
-
-                                </Grid>
-
-                            </Border>
-
-
-
-                            <!-- MAP GRAPH -->
-
-                            <Border
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Padding="12"
-                                BorderThickness="1"
-                                CornerRadius="8">
-
-
-                                <Grid
-                                    RowDefinitions="Auto,*">
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        FontSize="18"
-                                        FontWeight="Bold"
-                                        Text="MAP kPa" />
-
-
-                                    <ScottPlot:AvaPlot
-                                        x:Name="MapPlot"
-                                        Grid.Row="1" />
-
-                                </Grid>
-
-                            </Border>
-
-
-
-                            <!-- SPEED GRAPH -->
-
-                            <Border
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Padding="12"
-                                BorderThickness="1"
-                                CornerRadius="8">
-
-
-                                <Grid
-                                    RowDefinitions="Auto,*">
-
-
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        FontSize="18"
-                                        FontWeight="Bold"
-                                        Text="Vehicle Speed" />
-
-
-                                    <ScottPlot:AvaPlot
-                                        x:Name="SpeedPlot"
-                                        Grid.Row="1" />
-
-                                </Grid>
-
-                            </Border>
-
-
-                        </Grid>
-
-
-                    </StackPanel>
-
-                </ScrollViewer>
-
-            </TabItem>
-
-
-
-            <!-- ================================================= -->
-            <!-- SHOWCASE -->
-            <!-- ================================================= -->
-
-           <TabItem
-    Header="Showcase">
-
-    <StackPanel
-        Margin="30"
-        Spacing="20">
-
-
-        <TextBlock
-            FontSize="28"
-            FontWeight="Bold"
-            Text="Showcase Mode" />
-
-
-        <TextBlock
-            MaxWidth="800"
-            HorizontalAlignment="Left"
-            TextWrapping="Wrap"
-            Text="Opens a dedicated fullscreen UTFuel driver display. It uses the same ECU connection and telemetry as the TestBench." />
-
-
-        <Border
-            Padding="20"
-            BorderThickness="1"
-            CornerRadius="8">
-
-
-            <StackPanel
-                Spacing="10">
-
-
-                <TextBlock
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Text="Showcase telemetry" />
-
-
-                <TextBlock
-                    Text="{Binding EcuRpm,
-                        StringFormat='RPM: {0}'}" />
-
-
-                <TextBlock
-                    Text="{Binding EcuGear,
-                        StringFormat='Gear: {0}'}" />
-
-
-                <TextBlock
-                    Text="{Binding EcuTpsPercent,
-                        StringFormat='TPS: {0:F1} %'}" />
-
-
-                <TextBlock
-                    Text="{Binding EcuMapKpa,
-                        StringFormat='MAP: {0:F1} kPa'}" />
-
-
-                <TextBlock
-                    Text="{Binding ConnectionStatus,
-                        StringFormat='ECU: {0}'}" />
-
-
-            </StackPanel>
-
-        </Border>
-
-
-        <StackPanel
-            Orientation="Horizontal"
-            Spacing="12">
-
-
-            <Button
-                Width="220"
-                Height="50"
-                Content="OPEN SHOWCASE"
-                Click="OpenShowcaseWindow_Click" />
-
-
-            <Button
-                Width="190"
-                Height="50"
-                Content="START BENCHMARK"
-                IsEnabled="{Binding CanStartBenchmark}"
-                Command="{Binding StartBenchmarkCommand}" />
-
-
-            <Button
-                Width="190"
-                Height="50"
-                Content="STOP BENCHMARK"
-                IsEnabled="{Binding CanStopBenchmark}"
-                Command="{Binding StopBenchmarkCommand}" />
-
-
-        </StackPanel>
-
-
-        <TextBlock
-            Foreground="#777777"
-            Text="Press ESC inside the fullscreen window to close it." />
-
-
-    </StackPanel>
-
-</TabItem>
-
-<TabItem
-    Header="Tests">
-
-
-    <ScrollViewer>
-
-
-        <StackPanel
-            Margin="24"
-            Spacing="20">
-
-
-            <TextBlock
-                FontSize="28"
-                FontWeight="Bold"
-                Text="Automated Validation" />
-
-
-            <TextBlock
-                MaxWidth="900"
-                HorizontalAlignment="Left"
-                TextWrapping="Wrap"
-                Text="Runs the complete UTFuel HOST validation suite: communication, TPS, MAP, gear detection and shift indicator." />
-
-
-
-            <!-- ===================================== -->
-            <!-- CONTROLS -->
-            <!-- ===================================== -->
-
-            <StackPanel
-                Orientation="Horizontal"
-                Spacing="12">
-
-
-                <Button
-                    Width="180"
-                    Content="RUN ALL TESTS"
-                    IsEnabled="{Binding CanStartValidation}"
-                    Command="{Binding RunAllTestsCommand}" />
-
-
-                <Button
-                    Width="140"
-                    Content="STOP"
-                    IsEnabled="{Binding CanStopValidation}"
-                    Command="{Binding StopValidationCommand}" />
-
-
-                <Button
-                    Width="160"
-                    Content="RESET"
-                    IsEnabled="{Binding CanStartValidation}"
-                    Command="{Binding ResetValidationResultsCommand}" />
-
-            </StackPanel>
-
-
-
-            <!-- ===================================== -->
-            <!-- PROGRESS -->
-            <!-- ===================================== -->
-
-            <Border
-                Padding="18"
-                BorderThickness="1"
-                CornerRadius="8">
-
-
-                <StackPanel
-                    Spacing="10">
-
-
-                    <Grid
-                        ColumnDefinitions="*,Auto">
-
-
-                        <TextBlock
-                            Grid.Column="0"
-                            FontSize="18"
-                            FontWeight="Bold"
-                            Text="{Binding ValidationCurrentStep}" />
-
-
-                        <TextBlock
-                            Grid.Column="1"
-                            FontSize="18"
-                            FontWeight="Bold"
-                            Text="{Binding ValidationProgress,
-                                StringFormat='Progress: {0:F0} %'}" />
-
-
-                    </Grid>
-
-
-                    <ProgressBar
-                        Minimum="0"
-                        Maximum="100"
-                        Height="18"
-                        Value="{Binding ValidationProgress}" />
-
-
-                </StackPanel>
-
-            </Border>
-
-
-
-            <!-- ===================================== -->
-            <!-- COMMUNICATION -->
-            <!-- ===================================== -->
-
-            <Border
-                Padding="18"
-                BorderThickness="1"
-                CornerRadius="8">
-
-
-                <Grid
-                    ColumnDefinitions="*,Auto"
-                    RowDefinitions="Auto,Auto">
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="Communication Benchmark" />
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="{Binding CommunicationTestStatus}" />
-
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Margin="0,8,0,0"
-                        Text="{Binding CommunicationTestDetails}" />
+                    </Border>
 
 
                 </Grid>
 
+
             </Border>
 
 
 
-            <!-- ===================================== -->
-            <!-- TPS -->
-            <!-- ===================================== -->
+            <!-- ============================================= -->
+            <!-- PAGE HOST -->
+            <!-- ============================================= -->
 
             <Border
-                Padding="18"
-                BorderThickness="1"
-                CornerRadius="8">
+                Grid.Column="1"
+                Background="{DynamicResource UtfuelBackgroundBrush}">
 
 
-                <Grid
-                    ColumnDefinitions="*,Auto"
-                    RowDefinitions="Auto,Auto">
+                <ContentControl
+                    x:Name="PageHost" />
 
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="TPS Sweep" />
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="{Binding TpsTestStatus}" />
-
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Margin="0,8,0,0"
-                        Text="{Binding TpsTestDetails}" />
-
-
-                </Grid>
 
             </Border>
 
 
+        </Grid>
 
-            <!-- ===================================== -->
-            <!-- MAP -->
-            <!-- ===================================== -->
-
-            <Border
-                Padding="18"
-                BorderThickness="1"
-                CornerRadius="8">
-
-
-                <Grid
-                    ColumnDefinitions="*,Auto"
-                    RowDefinitions="Auto,Auto">
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="MAP Sweep" />
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="{Binding MapTestStatus}" />
-
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Margin="0,8,0,0"
-                        Text="{Binding MapTestDetails}" />
-
-
-                </Grid>
-
-            </Border>
-
-
-
-            <!-- ===================================== -->
-            <!-- GEAR -->
-            <!-- ===================================== -->
-
-            <Border
-                Padding="18"
-                BorderThickness="1"
-                CornerRadius="8">
-
-
-                <Grid
-                    ColumnDefinitions="*,Auto"
-                    RowDefinitions="Auto,Auto">
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="Gear Detection" />
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="{Binding GearTestStatus}" />
-
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Margin="0,8,0,0"
-                        Text="{Binding GearTestDetails}" />
-
-
-                </Grid>
-
-            </Border>
-
-
-
-            <!-- ===================================== -->
-            <!-- SHIFT -->
-            <!-- ===================================== -->
-
-            <Border
-                Padding="18"
-                BorderThickness="1"
-                CornerRadius="8">
-
-
-                <Grid
-                    ColumnDefinitions="*,Auto"
-                    RowDefinitions="Auto,Auto">
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="Shift Indicator" />
-
-
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Text="{Binding ShiftTestStatus}" />
-
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.ColumnSpan="2"
-                        Margin="0,8,0,0"
-                        Text="{Binding ShiftTestDetails}" />
-
-
-                </Grid>
-
-            </Border>
-
-
-
-            <!-- ===================================== -->
-            <!-- OVERALL RESULT -->
-            <!-- ===================================== -->
-
-            <Border
-                Padding="24"
-                BorderThickness="2"
-                CornerRadius="8">
-
-
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    Spacing="8">
-
-
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="18"
-                        Text="OVERALL RESULT" />
-
-
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="44"
-                        FontWeight="Bold"
-                        Text="{Binding OverallValidationStatus}" />
-
-
-                </StackPanel>
-
-            </Border>
-
-
-        </StackPanel>
-
-
-    </ScrollViewer>
-
-
-</TabItem>
-
-
-        </TabControl>
 
     </Grid>
+
 
 </Window>
