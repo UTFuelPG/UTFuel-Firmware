@@ -1,0 +1,480 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+
+    x:Class="UTFuel.TestBench.Gui.Views.ShowcaseWindow"
+    x:DataType="vm:MainWindowViewModel"
+
+    Title="UTFuel Showcase"
+
+    WindowState="FullScreen"
+    WindowDecorations="None"
+
+    Background="#0B0D0F">
+
+    <Grid>
+
+
+        <!-- ================================================= -->
+        <!-- NORMAL DRIVER DASHBOARD -->
+        <!-- ================================================= -->
+
+        <Grid
+            Margin="40"
+            RowDefinitions="Auto,Auto,*,Auto">
+
+
+            <!-- ============================================= -->
+            <!-- HEADER -->
+            <!-- ============================================= -->
+
+            <Grid
+                Grid.Row="0"
+                ColumnDefinitions="*,Auto">
+
+
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    Spacing="14">
+
+
+                    <TextBlock
+                        FontSize="30"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="UTFuel" />
+
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="#888888"
+                        Text="PERFORMANCE ECU" />
+
+                </StackPanel>
+
+
+                <StackPanel
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="8">
+
+
+                    <Ellipse
+                        Width="12"
+                        Height="12"
+                        Fill="#2ED47A"
+                        VerticalAlignment="Center" />
+
+
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="{Binding ConnectionStatus}" />
+
+                </StackPanel>
+
+            </Grid>
+
+
+
+            <!-- ============================================= -->
+            <!-- RPM BAR -->
+            <!-- ============================================= -->
+
+            <Grid
+                Grid.Row="1"
+                Margin="0,28,0,10"
+                RowDefinitions="Auto,Auto">
+
+
+                <ProgressBar
+                    Grid.Row="0"
+                    Height="18"
+                    Minimum="0"
+                    Maximum="9000"
+                    Value="{Binding EcuRpm}" />
+
+
+                <Grid
+                    Grid.Row="1"
+                    Margin="0,6,0,0"
+                    ColumnDefinitions="*,*,*,*,*,*,*">
+
+
+                    <TextBlock
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Foreground="#777777"
+                        Text="0" />
+
+
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Foreground="#777777"
+                        Text="3000" />
+
+
+                    <TextBlock
+                        Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        Foreground="#777777"
+                        Text="6000" />
+
+
+                    <TextBlock
+                        Grid.Column="5"
+                        HorizontalAlignment="Center"
+                        Foreground="#777777"
+                        Text="8000" />
+
+
+                    <TextBlock
+                        Grid.Column="6"
+                        HorizontalAlignment="Right"
+                        Foreground="#777777"
+                        Text="9000" />
+
+
+                </Grid>
+
+            </Grid>
+
+
+
+            <!-- ============================================= -->
+            <!-- MAIN DRIVER INFORMATION -->
+            <!-- ============================================= -->
+
+            <Grid
+                Grid.Row="2"
+
+                ColumnDefinitions="1.1*,1.8*,1.1*"
+
+                ColumnSpacing="40">
+
+
+                <!-- ========================================= -->
+                <!-- LEFT -->
+                <!-- ========================================= -->
+
+                <StackPanel
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Spacing="32">
+
+
+                    <!-- SPEED -->
+
+                    <StackPanel>
+
+                        <TextBlock
+                            Foreground="#777777"
+                            FontSize="18"
+                            Text="SPEED" />
+
+
+                        <TextBlock
+                            Foreground="White"
+                            FontSize="48"
+                            FontWeight="Bold"
+                            Text="{Binding EcuSpeedKmh,
+                                StringFormat='Speed: {0:F0}'}" />
+
+
+                        <TextBlock
+                            Foreground="#888888"
+                            FontSize="18"
+                            Text="km/h" />
+
+                    </StackPanel>
+
+
+                    <!-- MAP -->
+
+                    <StackPanel>
+
+                        <TextBlock
+                            Foreground="#777777"
+                            FontSize="18"
+                            Text="MAP" />
+
+
+                        <TextBlock
+                            Foreground="White"
+                            FontSize="36"
+                            FontWeight="Bold"
+                            Text="{Binding EcuMapKpa,
+                                StringFormat='MAP: {0:F0}'}" />
+
+
+                        <TextBlock
+                            Foreground="#888888"
+                            Text="kPa" />
+
+                    </StackPanel>
+
+
+                    <!-- CLT PLACEHOLDER -->
+
+                    <StackPanel>
+
+                        <TextBlock
+                            Foreground="#777777"
+                            FontSize="18"
+                            Text="COOLANT" />
+
+
+                        <TextBlock
+                            Foreground="White"
+                            FontSize="32"
+                            FontWeight="Bold"
+                            Text="-- °C" />
+
+                    </StackPanel>
+
+
+                </StackPanel>
+
+
+
+                <!-- ========================================= -->
+                <!-- CENTER -->
+                <!-- ========================================= -->
+
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Spacing="12">
+
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="#777777"
+                        FontSize="22"
+                        Text="RPM" />
+
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="White"
+                        FontSize="105"
+                        FontWeight="Bold"
+                        Text="{Binding EcuRpm}" />
+
+
+                    <Border
+                        Margin="0,25,0,0"
+
+                        Width="180"
+                        Height="170"
+
+                        BorderBrush="#D52424"
+                        BorderThickness="3"
+
+                        CornerRadius="12">
+
+
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+
+
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Foreground="#777777"
+                                FontSize="18"
+                                Text="GEAR" />
+
+
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                Foreground="White"
+                                FontSize="95"
+                                FontWeight="Bold"
+                                Text="{Binding EcuGear}" />
+
+
+                        </StackPanel>
+
+                    </Border>
+
+
+                </StackPanel>
+
+
+
+                <!-- ========================================= -->
+                <!-- RIGHT -->
+                <!-- ========================================= -->
+
+                <StackPanel
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Spacing="32">
+
+
+                    <!-- TPS -->
+
+                    <StackPanel>
+
+                        <TextBlock
+                            Foreground="#777777"
+                            FontSize="18"
+                            Text="TPS" />
+
+
+                        <TextBlock
+                            Foreground="White"
+                            FontSize="48"
+                            FontWeight="Bold"
+                            Text="{Binding EcuTpsPercent,
+                                StringFormat='TPS: {0:F0}'}" />
+
+
+                        <TextBlock
+                            Foreground="#888888"
+                            FontSize="18"
+                            Text="%" />
+
+                    </StackPanel>
+
+
+                    <!-- BATTERY -->
+
+                    <StackPanel>
+
+                        <TextBlock
+                            Foreground="#777777"
+                            FontSize="18"
+                            Text="BATTERY" />
+
+
+                        <TextBlock
+                            Foreground="White"
+                            FontSize="36"
+                            FontWeight="Bold"
+                            Text="{Binding EcuBatteryVoltage,
+                                StringFormat='BAT: {0:F1}'}" />
+
+
+                        <TextBlock
+                            Foreground="#888888"
+                            Text="V" />
+
+                    </StackPanel>
+
+
+                    <!-- RESPONSE -->
+
+                    <StackPanel>
+
+                        <TextBlock
+                            Foreground="#777777"
+                            FontSize="18"
+                            Text="ECU RESPONSE" />
+
+
+                        <TextBlock
+                            Foreground="White"
+                            FontSize="28"
+                            FontWeight="Bold"
+                            Text="{Binding CurrentRttMs,
+                                StringFormat='RTT: {0:F3} ms'}" />
+
+
+                    </StackPanel>
+
+
+                </StackPanel>
+
+
+            </Grid>
+
+
+
+            <!-- ============================================= -->
+            <!-- FOOTER -->
+            <!-- ============================================= -->
+
+            <Grid
+                Grid.Row="3"
+                Margin="0,20,0,0"
+                ColumnDefinitions="*,Auto">
+
+
+                <TextBlock
+                    Grid.Column="0"
+                    Foreground="#666666"
+                    Text="UTFuel Electronic Management Platform" />
+
+
+                <StackPanel
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="25">
+
+
+                    <TextBlock
+                        Foreground="#888888"
+                        Text="{Binding MeasuredUpdateRateHz,
+                            StringFormat='Rate: {0:F0} Hz'}" />
+
+
+                    <TextBlock
+                        Foreground="#888888"
+                        Text="{Binding PacketLossPercent,
+                            StringFormat='Loss: {0:F3} %'}" />
+
+
+                    <TextBlock
+                        Foreground="#666666"
+                        Text="ESC to exit" />
+
+
+                </StackPanel>
+
+
+            </Grid>
+
+
+        </Grid>
+
+
+
+        <!-- ================================================= -->
+        <!-- FULLSCREEN SHIFT OVERLAY -->
+        <!-- ================================================= -->
+
+        <Grid
+            x:Name="ShiftOverlay"
+
+            IsVisible="False"
+
+            Background="#FFD400"
+
+            ZIndex="1000">
+
+
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+
+                Foreground="White"
+
+                FontSize="180"
+                FontWeight="Bold"
+
+                Text="SHIFT" />
+
+
+        </Grid>
+
+
+    </Grid>
+
+</Window>

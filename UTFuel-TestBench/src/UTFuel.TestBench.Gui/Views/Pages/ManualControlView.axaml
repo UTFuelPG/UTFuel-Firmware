@@ -1,0 +1,734 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+
+    x:Class="UTFuel.TestBench.Gui.Views.Pages.ManualControlView"
+    x:DataType="vm:MainWindowViewModel">
+
+
+    <ScrollViewer>
+
+        <StackPanel
+            Margin="28"
+            Spacing="20">
+
+
+            <!-- ================================================= -->
+            <!-- PAGE HEADER -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,Auto">
+
+                <StackPanel
+                    Grid.Column="0"
+                    Spacing="5">
+
+                    <TextBlock
+                        Classes="title"
+                        Text="{DynamicResource NavManualControl}" />
+
+                    <TextBlock
+                        Classes="muted"
+                        TextWrapping="Wrap"
+                        Text="{DynamicResource ManualSubtitle}" />
+
+                </StackPanel>
+
+
+                <Border
+                    Grid.Column="1"
+                    Classes="status"
+                    VerticalAlignment="Center">
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+                        <Border
+    Classes="status-dot"
+
+    Background="{Binding ConnectionStatus,
+        Converter={StaticResource StatusBrushConverter}}" />
+
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Text="{Binding ConnectionStatus}" />
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- CONTROL MODE -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <Grid
+                    ColumnDefinitions="*,Auto">
+
+                    <StackPanel
+                        Grid.Column="0"
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource ManualSimulator}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="{DynamicResource ManualSimulatorDescription}" />
+
+                    </StackPanel>
+
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Spacing="5">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="{DynamicResource ManualLiveMode}" />
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="{Binding IsManualLiveRunning}" />
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- SENSOR INPUTS -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <StackPanel
+                    Spacing="18"
+                    IsEnabled="{Binding CanEditManualInputs}">
+
+
+                    <StackPanel
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource ManualSensorInputs}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="{DynamicResource ManualSensorInputsDescription}" />
+
+                    </StackPanel>
+
+
+
+                    <Grid
+                        ColumnDefinitions="*,*,*"
+                        ColumnSpacing="18">
+
+
+                        <!-- ===================================== -->
+                        <!-- ANALOG SENSORS -->
+                        <!-- ===================================== -->
+
+                        <Border
+                            Grid.Column="0"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="15">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{DynamicResource ManualAnalogSensors}" />
+
+
+                                <!-- TPS -->
+
+                                <StackPanel
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        Text="{DynamicResource ManualTpsVoltage}" />
+
+                                    <NumericUpDown
+                                        Minimum="0"
+                                        Maximum="5"
+                                        Increment="0.1"
+                                        Value="{Binding ManualTpsVoltage}" />
+
+                                </StackPanel>
+
+
+                                <!-- MAP -->
+
+                                <StackPanel
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        Text="{DynamicResource ManualMapVoltage}" />
+
+                                    <NumericUpDown
+                                        Minimum="0"
+                                        Maximum="5"
+                                        Increment="0.1"
+                                        Value="{Binding ManualMapVoltage}" />
+
+                                </StackPanel>
+
+
+                                <!-- BATTERY -->
+
+                                <StackPanel
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        Text="{DynamicResource ManualBatteryVoltage}" />
+
+                                    <NumericUpDown
+                                        Minimum="0"
+                                        Maximum="20"
+                                        Increment="0.1"
+                                        Value="{Binding ManualBatteryVoltage}" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- ===================================== -->
+                        <!-- RESISTIVE SENSORS -->
+                        <!-- ===================================== -->
+
+                        <Border
+                            Grid.Column="1"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="15">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{DynamicResource ManualResistiveSensors}" />
+
+
+                                <!-- CLT -->
+
+                                <StackPanel
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        Text="{DynamicResource ManualCoolantResistance}" />
+
+                                    <NumericUpDown
+                                        Minimum="0"
+                                        Maximum="100000"
+                                        Value="{Binding ManualCoolantResistance}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        FontSize="11"
+                                        Text="ohm" />
+
+                                </StackPanel>
+
+
+                                <!-- IAT -->
+
+                                <StackPanel
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        Text="{DynamicResource ManualIntakeResistance}" />
+
+                                    <NumericUpDown
+                                        Minimum="0"
+                                        Maximum="100000"
+                                        Value="{Binding ManualIntakeResistance}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        FontSize="11"
+                                        Text="ohm" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- ===================================== -->
+                        <!-- VEHICLE STATE -->
+                        <!-- ===================================== -->
+
+                        <Border
+                            Grid.Column="2"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="15">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{DynamicResource ManualVehicleState}" />
+
+
+                                <!-- RPM -->
+
+                                <StackPanel
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        Text="{DynamicResource ManualEngineRpm}" />
+
+                                    <NumericUpDown
+                                        Minimum="0"
+                                        Maximum="20000"
+                                        Increment="100"
+                                        Value="{Binding ManualRpm}" />
+
+                                </StackPanel>
+
+
+                                <!-- SPEED -->
+
+                                <StackPanel
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        Text="{DynamicResource ManualVehicleSpeed}" />
+
+                                    <NumericUpDown
+                                        Minimum="0"
+                                        Maximum="400"
+                                        Increment="1"
+                                        Value="{Binding ManualSpeedKmh}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        FontSize="11"
+                                        Text="km/h" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+                    </Grid>
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- QUICK CONTROL -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <StackPanel
+                    Spacing="18"
+                    IsEnabled="{Binding CanEditManualInputs}">
+
+
+                    <StackPanel
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource ManualQuickControl}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="{DynamicResource ManualQuickControlDescription}" />
+
+                    </StackPanel>
+
+
+
+                    <!-- TPS -->
+
+                    <Grid
+                        ColumnDefinitions="130,*,170"
+                        ColumnSpacing="16">
+
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Classes="muted"
+                            Text="{DynamicResource ManualThrottle}" />
+
+                        <Slider
+                            Grid.Column="1"
+                            Minimum="0.5"
+                            Maximum="4.5"
+                            Value="{Binding ManualTpsVoltageSlider,
+                                Mode=TwoWay}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Spacing="4">
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{Binding ManualTpsVoltage,
+                                    StringFormat='{}{0:F2}'}" />
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="V" />
+
+                        </StackPanel>
+
+                    </Grid>
+
+
+
+                    <!-- MAP -->
+
+                    <Grid
+                        ColumnDefinitions="130,*,170"
+                        ColumnSpacing="16">
+
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Classes="muted"
+                            Text="MAP" />
+
+                        <Slider
+                            Grid.Column="1"
+                            Minimum="0.5"
+                            Maximum="4.5"
+                            Value="{Binding ManualMapVoltageSlider,
+                                Mode=TwoWay}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Spacing="4">
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{Binding ManualMapVoltage,
+                                    StringFormat='{}{0:F2}'}" />
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="V" />
+
+                        </StackPanel>
+
+                    </Grid>
+
+
+
+                    <!-- RPM -->
+
+                    <Grid
+                        ColumnDefinitions="130,*,170"
+                        ColumnSpacing="16">
+
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Classes="muted"
+                            Text="{DynamicResource ManualEngineRpm}" />
+
+                        <Slider
+                            Grid.Column="1"
+                            Minimum="0"
+                            Maximum="12000"
+                            Value="{Binding ManualRpmSlider,
+                                Mode=TwoWay}" />
+
+                        <TextBlock
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Text="{Binding ManualRpm,
+                                StringFormat='{}{0:F0} RPM'}" />
+
+                    </Grid>
+
+
+
+                    <!-- SPEED -->
+
+                    <Grid
+                        ColumnDefinitions="130,*,170"
+                        ColumnSpacing="16">
+
+                        <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Classes="muted"
+                            Text="{DynamicResource ManualVehicleSpeed}" />
+
+                        <Slider
+                            Grid.Column="1"
+                            Minimum="0"
+                            Maximum="250"
+                            Value="{Binding ManualSpeedSlider,
+                                Mode=TwoWay}" />
+
+                        <StackPanel
+                            Grid.Column="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Spacing="4">
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{Binding ManualSpeedKmh,
+                                    StringFormat='{}{0:F1}'}" />
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="km/h" />
+
+                        </StackPanel>
+
+                    </Grid>
+
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- TRANSMISSION -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="16">
+
+
+                <!-- ============================================= -->
+                <!-- SINGLE TRANSMISSION -->
+                <!-- ============================================= -->
+
+                <Border
+                    Grid.Column="0"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="16">
+
+                        <StackPanel
+                            Spacing="4">
+
+                            <TextBlock
+                                Classes="section-title"
+                                Text="{DynamicResource ManualSingleTransmission}" />
+
+                            <TextBlock
+                                Classes="muted"
+                                TextWrapping="Wrap"
+                                Text="{DynamicResource ManualSingleTransmissionDescription}" />
+
+                        </StackPanel>
+
+
+                        <Button
+                            Classes="primary"
+                            HorizontalAlignment="Left"
+                            MinWidth="180"
+                            Content="{DynamicResource ManualSendToEcu}"
+                            IsEnabled="{Binding CanSendManual}"
+                            Command="{Binding SendManualCommand}" />
+
+                    </StackPanel>
+
+                </Border>
+
+
+
+                <!-- ============================================= -->
+                <!-- LIVE TRANSMISSION -->
+                <!-- ============================================= -->
+
+                <Border
+                    Grid.Column="1"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="16">
+
+
+                        <Grid
+                            ColumnDefinitions="*,Auto">
+
+                            <StackPanel
+                                Grid.Column="0"
+                                Spacing="4">
+
+                                <TextBlock
+                                    Classes="section-title"
+                                    Text="{DynamicResource ManualLiveTransmission}" />
+
+                                <TextBlock
+                                    Classes="muted"
+                                    Text="{DynamicResource ManualLiveTransmissionDescription}" />
+
+                            </StackPanel>
+
+
+                            <StackPanel
+                                Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Spacing="5">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{DynamicResource ManualRunning}" />
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{Binding IsManualLiveRunning}" />
+
+                            </StackPanel>
+
+                        </Grid>
+
+
+
+                        <!-- UPDATE RATE -->
+
+                        <Grid
+                            ColumnDefinitions="Auto,110,Auto,*"
+                            ColumnSpacing="10">
+
+                            <TextBlock
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="muted"
+                                Text="{DynamicResource ManualUpdateRate}" />
+
+                            <NumericUpDown
+                                Grid.Column="1"
+                                Minimum="1"
+                                Maximum="100"
+                                Value="{Binding ManualUpdateRateHz}" />
+
+                            <TextBlock
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                Classes="muted"
+                                Text="Hz" />
+
+                        </Grid>
+
+
+
+                        <!-- CONTROLS -->
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="10">
+
+                            <Button
+                                Classes="primary"
+                                Width="150"
+                                Content="{DynamicResource ManualStartLive}"
+                                IsEnabled="{Binding CanStartManualLive}"
+                                Command="{Binding StartManualLiveCommand}" />
+
+                            <Button
+                                Classes="danger"
+                                Width="150"
+                                Content="{DynamicResource ManualStopLive}"
+                                IsEnabled="{Binding CanStopManualLive}"
+                                Command="{Binding StopManualLiveCommand}" />
+
+                        </StackPanel>
+
+
+                    </StackPanel>
+
+                </Border>
+
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- LAST EVENT -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <Grid
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="12">
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Classes="eyebrow"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource ManualLastEvent}" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Classes="muted"
+                        VerticalAlignment="Center"
+                        Text="{Binding LastMessage}" />
+
+                </Grid>
+
+            </Border>
+
+
+        </StackPanel>
+
+    </ScrollViewer>
+
+
+</UserControl>

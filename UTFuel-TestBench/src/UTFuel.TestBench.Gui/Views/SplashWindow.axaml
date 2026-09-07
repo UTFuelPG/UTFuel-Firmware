@@ -1,0 +1,163 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:controls="using:UTFuel.TestBench.Gui.Controls"
+
+    x:Class="UTFuel.TestBench.Gui.Views.SplashWindow"
+
+    Title="UTFuel TestBench"
+
+    Width="720"
+    Height="420"
+
+    CanResize="False"
+
+    ShowInTaskbar="False"
+
+    WindowDecorations="None"
+
+    WindowStartupLocation="CenterScreen"
+
+    Background="{DynamicResource UtfuelBackgroundBrush}">
+
+
+    <Border
+        Background="{DynamicResource UtfuelSurfaceBrush}"
+
+        BorderBrush="{DynamicResource UtfuelBorderBrush}"
+
+        BorderThickness="1">
+
+
+        <Grid
+            Margin="38"
+
+            RowDefinitions="Auto,*,Auto">
+
+
+            <!-- ============================================= -->
+            <!-- TOP -->
+            <!-- ============================================= -->
+
+            <Grid
+                Grid.Row="0"
+                ColumnDefinitions="*,Auto">
+
+
+                <controls:BrandMark
+                    Grid.Column="0" />
+
+
+                <TextBlock
+                    Grid.Column="1"
+
+                    Classes="eyebrow"
+
+                    VerticalAlignment="Center"
+
+                    Text="ELECTRONIC MANAGEMENT PLATFORM" />
+
+
+            </Grid>
+
+
+
+            <!-- ============================================= -->
+            <!-- CENTER -->
+            <!-- ============================================= -->
+
+            <StackPanel
+                Grid.Row="1"
+
+                VerticalAlignment="Center"
+
+                HorizontalAlignment="Center"
+
+                Spacing="12">
+
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+
+                    FontSize="38"
+                    FontWeight="SemiBold"
+
+                    Foreground="{DynamicResource UtfuelTextPrimaryBrush}"
+
+                    Text="Engineering starts here." />
+
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+
+                    FontSize="15"
+
+                    Foreground="{DynamicResource UtfuelTextSecondaryBrush}"
+
+                    Text="Initializing UTFuel development environment" />
+
+
+            </StackPanel>
+
+
+
+            <!-- ============================================= -->
+            <!-- FOOTER -->
+            <!-- ============================================= -->
+
+            <Grid
+                Grid.Row="2"
+
+                RowDefinitions="Auto,Auto"
+
+                RowSpacing="16">
+
+
+                <ProgressBar
+                    Grid.Row="0"
+
+                    Height="5"
+
+                    IsIndeterminate="True" />
+
+
+                <Grid
+                    Grid.Row="1"
+
+                    ColumnDefinitions="*,Auto">
+
+
+                    <TextBlock
+                        Grid.Column="0"
+
+                        Classes="muted"
+
+                        FontSize="12"
+
+                        Text="UTFuel TestBench" />
+
+
+                    <TextBlock
+                        Grid.Column="1"
+
+                        Classes="muted"
+
+                        FontSize="12"
+
+                        Text="v0.1 development" />
+
+
+                </Grid>
+
+
+            </Grid>
+
+
+        </Grid>
+
+
+    </Border>
+
+
+</Window>

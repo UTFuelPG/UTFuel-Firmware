@@ -1,0 +1,450 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:controls="using:UTFuel.TestBench.Gui.Controls"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+
+    x:Class="UTFuel.TestBench.Gui.Controls.AppHeader"
+    x:DataType="vm:MainWindowViewModel">
+
+
+    <Border
+        Padding="18,10"
+
+        Background="{DynamicResource UtfuelSurfaceBrush}"
+
+        BorderBrush="{DynamicResource UtfuelBorderBrush}"
+        BorderThickness="0,0,0,1">
+
+
+        <Grid
+            ColumnDefinitions="
+                Auto,
+                16,
+                1,
+                16,
+                *,
+                16,
+                1,
+                16,
+                Auto,
+                12,
+                Auto,
+                10,
+                Auto">
+
+
+            <!-- ================================================= -->
+            <!-- BRAND -->
+            <!-- ================================================= -->
+
+            <controls:BrandMark
+                Grid.Column="0"
+                VerticalAlignment="Center" />
+
+
+
+            <!-- ================================================= -->
+            <!-- DIVIDER -->
+            <!-- ================================================= -->
+
+            <Border
+                Grid.Column="2"
+
+                Width="1"
+                Margin="0,4"
+
+                Background="{DynamicResource UtfuelDividerBrush}" />
+
+
+
+            <!-- ================================================= -->
+            <!-- TARGET INFORMATION -->
+            <!-- ================================================= -->
+
+            <Grid
+                Grid.Column="4"
+
+                VerticalAlignment="Center">
+
+
+                <!-- ============================================= -->
+                <!-- LOCAL SIMULATION -->
+                <!-- ============================================= -->
+
+                <StackPanel
+                    IsVisible="{Binding IsLocalSimulationMode}"
+
+                    Spacing="4">
+
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+
+                        <TextBlock
+                            Classes="eyebrow"
+
+                            VerticalAlignment="Center"
+
+                            Text="{DynamicResource AppFirmwareTarget}" />
+
+
+                        <TextBlock
+                            Classes="muted"
+
+                            FontSize="10"
+
+                            VerticalAlignment="Center"
+
+                            Text="LOCAL PROCESS" />
+
+
+                    </StackPanel>
+
+
+                    <TextBox
+                        MinWidth="300"
+                        MaxWidth="640"
+
+                        Height="34"
+
+                        Padding="10,5"
+
+                        VerticalContentAlignment="Center"
+
+                        Text="{Binding FirmwarePath, Mode=TwoWay}"
+
+                        PlaceholderText="Path to utfuel_host.exe" />
+
+
+                </StackPanel>
+
+
+
+                <!-- ============================================= -->
+                <!-- HARDWARE BENCH -->
+                <!-- ============================================= -->
+
+                <StackPanel
+                    IsVisible="{Binding IsHardwareBenchMode}"
+
+                    Spacing="5">
+
+
+                    <!-- MODE -->
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+
+                        <TextBlock
+                            Classes="eyebrow"
+
+                            VerticalAlignment="Center"
+
+                            Text="{DynamicResource ConnectionModeHardware}" />
+
+
+                        <TextBlock
+                            Classes="muted"
+
+                            FontSize="10"
+
+                            VerticalAlignment="Center"
+
+                            Text="PHYSICAL I/O" />
+
+
+                    </StackPanel>
+
+
+
+                    <!-- ========================================= -->
+                    <!-- DEVICE STRIP -->
+                    <!-- ========================================= -->
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="12">
+
+
+                        <!-- ===================================== -->
+                        <!-- SIMULATOR -->
+                        <!-- ===================================== -->
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Spacing="5">
+
+
+                            <TextBlock
+                                FontSize="12"
+
+                                FontWeight="Bold"
+
+                                Text="SIM" />
+
+
+                            <TextBlock
+                                Classes="muted"
+
+                                FontSize="12"
+
+                                Text="{Binding SimulatorPort}" />
+
+
+                            <TextBlock
+                                Classes="muted"
+
+                                FontSize="11"
+
+                                Text="@" />
+
+
+                            <TextBlock
+                                Classes="muted"
+
+                                FontSize="12"
+
+                                Text="{Binding SimulatorBaudRate}" />
+
+
+                            <!-- STATUS LED -->
+
+                            <Border
+                                Width="6"
+                                Height="6"
+
+                                Margin="4,0,1,0"
+
+                                CornerRadius="3"
+
+                                VerticalAlignment="Center"
+
+                                Background="{Binding SimulatorConnectionStatus,
+                                    Converter={StaticResource StatusBrushConverter}}" />
+
+
+                            <!-- STATUS TEXT -->
+
+                            <TextBlock
+                                FontSize="11"
+
+                                FontWeight="SemiBold"
+
+                                VerticalAlignment="Center"
+
+                                Text="{Binding SimulatorConnectionStatus}" />
+
+
+                        </StackPanel>
+
+
+
+                        <!-- ===================================== -->
+                        <!-- INTERNAL DIVIDER -->
+                        <!-- ===================================== -->
+
+                        <Border
+                            Width="1"
+                            Height="18"
+
+                            VerticalAlignment="Center"
+
+                            Background="{DynamicResource UtfuelDividerBrush}" />
+
+
+
+                        <!-- ===================================== -->
+                        <!-- ECU -->
+                        <!-- ===================================== -->
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Spacing="5">
+
+
+                            <TextBlock
+                                FontSize="12"
+
+                                FontWeight="Bold"
+
+                                Text="ECU" />
+
+
+                            <TextBlock
+                                Classes="muted"
+
+                                FontSize="12"
+
+                                Text="{Binding EcuPort}" />
+
+
+                            <TextBlock
+                                Classes="muted"
+
+                                FontSize="11"
+
+                                Text="@" />
+
+
+                            <TextBlock
+                                Classes="muted"
+
+                                FontSize="12"
+
+                                Text="{Binding EcuBaudRate}" />
+
+
+                            <!-- STATUS LED -->
+
+                            <Border
+                                Width="6"
+                                Height="6"
+
+                                Margin="4,0,1,0"
+
+                                CornerRadius="3"
+
+                                VerticalAlignment="Center"
+
+                                Background="{Binding EcuConnectionStatus,
+                                    Converter={StaticResource StatusBrushConverter}}" />
+
+
+                            <!-- STATUS TEXT -->
+
+                            <TextBlock
+                                FontSize="11"
+
+                                FontWeight="SemiBold"
+
+                                VerticalAlignment="Center"
+
+                                Text="{Binding EcuConnectionStatus}" />
+
+
+                        </StackPanel>
+
+
+                    </StackPanel>
+
+
+                </StackPanel>
+
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- DIVIDER -->
+            <!-- ================================================= -->
+
+            <Border
+                Grid.Column="6"
+
+                Width="1"
+                Margin="0,4"
+
+                Background="{DynamicResource UtfuelDividerBrush}" />
+
+
+
+            <!-- ================================================= -->
+            <!-- GLOBAL CONNECTION STATUS -->
+            <!-- ================================================= -->
+
+            <Border
+                Grid.Column="8"
+
+                Classes="status"
+
+                VerticalAlignment="Center">
+
+
+                <StackPanel
+                    Orientation="Horizontal"
+
+                    Spacing="7">
+
+
+                    <!-- LED -->
+
+                    <Border
+                        Width="7"
+                        Height="7"
+
+                        CornerRadius="4"
+
+                        VerticalAlignment="Center"
+
+                        Background="{Binding ConnectionStatus,
+                            Converter={StaticResource StatusBrushConverter}}" />
+
+
+                    <!-- TEXT -->
+
+                    <TextBlock
+                        FontSize="12"
+
+                        FontWeight="SemiBold"
+
+                        VerticalAlignment="Center"
+
+                        Text="{Binding ConnectionStatus}" />
+
+
+                </StackPanel>
+
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- CONNECT -->
+            <!-- ================================================= -->
+
+            <Button
+                Grid.Column="10"
+
+                Classes="primary"
+
+                Width="118"
+
+                Content="{DynamicResource CommonConnect}"
+
+                Command="{Binding ConnectCommand}" />
+
+
+
+            <!-- ================================================= -->
+            <!-- DISCONNECT -->
+            <!-- ================================================= -->
+
+            <Button
+                Grid.Column="12"
+
+                Classes="secondary"
+
+                Width="130"
+
+                Content="{DynamicResource CommonDisconnect}"
+
+                Command="{Binding DisconnectCommand}" />
+
+
+        </Grid>
+
+
+    </Border>
+
+
+</UserControl>

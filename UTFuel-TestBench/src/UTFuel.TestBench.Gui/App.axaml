@@ -1,0 +1,33 @@
+<Application
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:UTFuel.TestBench.Gui.Converters"
+
+    x:Class="UTFuel.TestBench.Gui.App"
+
+    RequestedThemeVariant="Dark">
+
+        <Application.Resources>
+
+        <converters:StatusBrushConverter
+            x:Key="StatusBrushConverter" />
+
+        <converters:BooleanStatusBrushConverter
+    x:Key="BooleanStatusBrushConverter" />
+
+    </Application.Resources>
+
+
+    <Application.Styles>
+
+        <FluentTheme />
+
+        <StyleInclude
+            Source="avares://UTFuel.TestBench.Gui/Themes/UTFuelTokens.axaml" />
+
+        <StyleInclude
+            Source="avares://UTFuel.TestBench.Gui/Themes/UTFuelControls.axaml" />
+
+    </Application.Styles>
+
+</Application>

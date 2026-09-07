@@ -1,0 +1,563 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+
+    x:Class="UTFuel.TestBench.Gui.Views.Pages.ShowcaseControlView"
+    x:DataType="vm:MainWindowViewModel">
+
+
+    <ScrollViewer>
+
+        <StackPanel
+            Margin="28"
+            Spacing="20">
+
+
+            <!-- ================================================= -->
+            <!-- HEADER -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,Auto">
+
+                <StackPanel
+                    Grid.Column="0"
+                    Spacing="5">
+
+                    <TextBlock
+                        Classes="title"
+                        Text="{DynamicResource NavShowcase}" />
+
+                    <TextBlock
+                        Classes="muted"
+                        TextWrapping="Wrap"
+                        Text="{DynamicResource ShowcaseSubtitle}" />
+
+                </StackPanel>
+
+
+                <Border
+                    Grid.Column="1"
+                    Classes="status"
+                    VerticalAlignment="Center">
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+                        <Border
+                            Width="8"
+                            Height="8"
+                            CornerRadius="4"
+                            Background="{DynamicResource UtfuelAccentBrush}" />
+
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Text="{Binding ConnectionStatus}" />
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- SHOWCASE LAUNCH -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="30">
+
+                    <StackPanel
+                        Grid.Column="0"
+                        Spacing="10">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="{DynamicResource ShowcaseDriverDisplay}" />
+
+                        <TextBlock
+                            FontSize="26"
+                            FontWeight="SemiBold"
+                            Text="{DynamicResource ShowcaseFullscreenTitle}" />
+
+                        <TextBlock
+                            MaxWidth="700"
+                            Classes="muted"
+                            TextWrapping="Wrap"
+                            Text="{DynamicResource ShowcaseFullscreenDescription}" />
+
+                    </StackPanel>
+
+
+                    <Button
+                        Grid.Column="1"
+                        Classes="primary"
+                        Width="210"
+                        Height="52"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource ShowcaseOpen}"
+                        Click="OpenShowcase_Click" />
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- LIVE PREVIEW -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <StackPanel
+                    Spacing="18">
+
+
+                    <StackPanel
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource ShowcaseLiveDriverData}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="{DynamicResource ShowcaseLiveDriverDataDescription}" />
+
+                    </StackPanel>
+
+
+
+                    <Grid
+                        ColumnDefinitions="*,*,*,*,*"
+                        ColumnSpacing="12">
+
+
+                        <!-- RPM -->
+
+                        <Border
+                            Grid.Column="0"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="5">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="RPM" />
+
+                                <TextBlock
+                                    FontSize="28"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuRpm}" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- GEAR -->
+
+                        <Border
+                            Grid.Column="1"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="5">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{DynamicResource ShowcaseGear}" />
+
+                                <TextBlock
+                                    FontSize="28"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuGear}" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- TPS -->
+
+                        <Border
+                            Grid.Column="2"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="5">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="TPS" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="4">
+
+                                    <TextBlock
+                                        FontSize="28"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuTpsPercent,
+                                            StringFormat='{}{0:F1}'}" />
+
+                                    <TextBlock
+                                        FontSize="28"
+                                        FontWeight="SemiBold"
+                                        Text="%" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- MAP -->
+
+                        <Border
+                            Grid.Column="3"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="5">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="MAP" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="4">
+
+                                    <TextBlock
+                                        FontSize="28"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuMapKpa,
+                                            StringFormat='{}{0:F1}'}" />
+
+                                    <TextBlock
+                                        FontSize="28"
+                                        FontWeight="SemiBold"
+                                        Text="kPa" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- SPEED -->
+
+                        <Border
+                            Grid.Column="4"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="5">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="{DynamicResource ShowcaseSpeed}" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="4">
+
+                                    <TextBlock
+                                        FontSize="28"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuSpeedKmh,
+                                            StringFormat='{}{0:F0}'}" />
+
+                                    <TextBlock
+                                        FontSize="18"
+                                        FontWeight="SemiBold"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,3"
+                                        Text="km/h" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+                    </Grid>
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- SHOWCASE BEHAVIOR -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="16">
+
+
+                <!-- ============================================= -->
+                <!-- DISPLAY BEHAVIOR -->
+                <!-- ============================================= -->
+
+                <Border
+                    Grid.Column="0"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="15">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource ShowcaseDisplayBehavior}" />
+
+
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            RowDefinitions="Auto,Auto,Auto,Auto"
+                            RowSpacing="12">
+
+
+                            <!-- DISPLAY MODE -->
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource ShowcaseDisplayMode}" />
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="{DynamicResource ShowcaseFullscreen}" />
+
+
+
+                            <!-- TELEMETRY SOURCE -->
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource ShowcaseTelemetrySource}" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="{DynamicResource ShowcaseSharedConnection}" />
+
+
+
+                            <!-- SHIFT ALERT -->
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource ShowcaseShiftAlert}" />
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="{DynamicResource ShowcaseEnabled}" />
+
+
+
+                            <!-- EXIT -->
+
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Classes="muted"
+                                Text="{DynamicResource ShowcaseExitShortcut}" />
+
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                FontWeight="SemiBold"
+                                Text="ESC" />
+
+
+                        </Grid>
+
+                    </StackPanel>
+
+                </Border>
+
+
+
+                <!-- ============================================= -->
+                <!-- DEMONSTRATION CONTROL -->
+                <!-- ============================================= -->
+
+                <Border
+                    Grid.Column="1"
+                    Classes="card">
+
+                    <StackPanel
+                        Spacing="15">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource ShowcaseDemonstrationControl}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            TextWrapping="Wrap"
+                            Text="{DynamicResource ShowcaseDemonstrationDescription}" />
+
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="10">
+
+                            <Button
+                                Classes="primary"
+                                Width="180"
+                                Content="{DynamicResource ShowcaseStartBenchmark}"
+                                IsEnabled="{Binding CanStartBenchmark}"
+                                Command="{Binding StartBenchmarkCommand}" />
+
+                            <Button
+                                Classes="danger"
+                                Width="150"
+                                Content="{DynamicResource ShowcaseStop}"
+                                IsEnabled="{Binding CanStopBenchmark}"
+                                Command="{Binding StopBenchmarkCommand}" />
+
+                        </StackPanel>
+
+
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="5">
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{DynamicResource ShowcaseCurrentPhase}" />
+
+                            <TextBlock
+                                Classes="eyebrow"
+                                Text="{Binding BenchmarkPhase}" />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- SHIFT INFORMATION -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="24">
+
+                    <StackPanel
+                        Grid.Column="0"
+                        Spacing="5">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="{DynamicResource ShowcaseShiftAlertSystem}" />
+
+                        <TextBlock
+                            Classes="muted"
+                            TextWrapping="Wrap"
+                            Text="{DynamicResource ShowcaseShiftAlertDescription}" />
+
+                    </StackPanel>
+
+
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            HorizontalAlignment="Center"
+                            Text="{DynamicResource ShowcaseEcuShift}" />
+
+                        <TextBlock
+                            FontSize="26"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Center"
+                            Text="{Binding EcuShiftWarning}" />
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- LAST EVENT -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <Grid
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="12">
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Classes="eyebrow"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource ShowcaseLastEvent}" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Classes="muted"
+                        VerticalAlignment="Center"
+                        Text="{Binding LastMessage}" />
+
+                </Grid>
+
+            </Border>
+
+
+        </StackPanel>
+
+    </ScrollViewer>
+
+</UserControl>

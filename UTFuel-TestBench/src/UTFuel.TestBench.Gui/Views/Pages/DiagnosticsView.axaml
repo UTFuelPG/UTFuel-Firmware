@@ -1,0 +1,818 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+
+    x:Class="UTFuel.TestBench.Gui.Views.Pages.DiagnosticsView"
+    x:DataType="vm:MainWindowViewModel">
+
+
+    <ScrollViewer>
+
+
+        <StackPanel
+            Margin="28"
+            Spacing="20">
+
+
+            <!-- ================================================= -->
+            <!-- PAGE HEADER -->
+            <!-- ================================================= -->
+
+            <Grid
+                ColumnDefinitions="*,Auto">
+
+
+                <StackPanel
+                    Grid.Column="0"
+                    Spacing="5">
+
+                    <TextBlock
+                        Classes="title"
+                        Text="Diagnostics" />
+
+                    <TextBlock
+                        Classes="muted"
+                        TextWrapping="Wrap"
+                        Text="System health, communication state and hardware bench diagnostics." />
+
+                </StackPanel>
+
+
+                <Border
+                    Grid.Column="1"
+                    Classes="status"
+                    VerticalAlignment="Center">
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="7">
+
+                        <Border
+                            Classes="status-dot"
+                            Background="{Binding ConnectionStatus,
+                                Converter={StaticResource StatusBrushConverter}}" />
+
+                        <TextBlock
+                            Classes="status-label"
+                            Text="{Binding ConnectionStatus}" />
+
+                    </StackPanel>
+
+                </Border>
+
+
+            </Grid>
+
+
+
+            <!-- ================================================= -->
+            <!-- SYSTEM STATE -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <StackPanel
+                    Spacing="18">
+
+
+                    <StackPanel
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="System State" />
+
+                        <TextBlock
+                            Classes="muted"
+                            Text="Current TestBench execution and session state." />
+
+                    </StackPanel>
+
+
+
+                    <Grid
+                        ColumnDefinitions="160,*"
+                        RowDefinitions="Auto,Auto,Auto"
+                        RowSpacing="14">
+
+
+                        <!-- SESSION -->
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="Session" />
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="8">
+
+                            <Border
+                                Classes="status-dot"
+                                Background="{Binding ConnectionStatus,
+                                    Converter={StaticResource StatusBrushConverter}}" />
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{Binding ConnectionStatus}" />
+
+                        </StackPanel>
+
+
+
+                        <!-- BENCHMARK -->
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="Benchmark" />
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="8">
+
+                            <Border
+                                Classes="status-dot"
+                                Background="{Binding IsBenchmarkRunning,
+                                    Converter={StaticResource BooleanStatusBrushConverter}}" />
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{Binding BenchmarkPhase}" />
+
+                        </StackPanel>
+
+
+
+                        <!-- VALIDATION -->
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="Validation" />
+
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="8">
+
+                            <Border
+                                Classes="status-dot"
+                                Background="{Binding OverallValidationStatus,
+                                    Converter={StaticResource StatusBrushConverter}}" />
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{Binding OverallValidationStatus}" />
+
+                        </StackPanel>
+
+
+                    </Grid>
+
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- HARDWARE BENCH -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card"
+                IsVisible="{Binding IsHardwareBenchMode}">
+
+                <StackPanel
+                    Spacing="22">
+
+
+                    <StackPanel
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="section-title"
+                            Text="Hardware Bench" />
+
+                        <TextBlock
+                            Classes="muted"
+                            TextWrapping="Wrap"
+                            Text="Physical simulator and UTFuel ECU communication state." />
+
+                    </StackPanel>
+
+
+
+                    <!-- ========================================= -->
+                    <!-- DEVICE HEALTH -->
+                    <!-- ========================================= -->
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="14">
+
+
+                        <!-- SIMULATOR -->
+
+                        <Border
+                            Grid.Column="0"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="10">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="SIMULATOR" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+
+                                    <Border
+                                        Classes="status-dot"
+                                        Background="{Binding SimulatorConnectionStatus,
+                                            Converter={StaticResource StatusBrushConverter}}" />
+
+                                    <TextBlock
+                                        FontWeight="SemiBold"
+                                        Text="{Binding SimulatorConnectionStatus}" />
+
+                                </StackPanel>
+
+
+                                <Grid
+                                    ColumnDefinitions="Auto,*"
+                                    RowDefinitions="Auto,Auto"
+                                    RowSpacing="5"
+                                    ColumnSpacing="12">
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Classes="muted"
+                                        Text="Port" />
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Text="{Binding SimulatorPort}" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Classes="muted"
+                                        Text="Baud" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Text="{Binding SimulatorBaudRate}" />
+
+                                </Grid>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- ECU -->
+
+                        <Border
+                            Grid.Column="1"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="10">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="UTFUEL ECU" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+
+                                    <Border
+                                        Classes="status-dot"
+                                        Background="{Binding EcuConnectionStatus,
+                                            Converter={StaticResource StatusBrushConverter}}" />
+
+                                    <TextBlock
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuConnectionStatus}" />
+
+                                </StackPanel>
+
+
+                                <Grid
+                                    ColumnDefinitions="Auto,*"
+                                    RowDefinitions="Auto,Auto"
+                                    RowSpacing="5"
+                                    ColumnSpacing="12">
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Classes="muted"
+                                        Text="Port" />
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Text="{Binding EcuPort}" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Classes="muted"
+                                        Text="Baud" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Text="{Binding EcuBaudRate}" />
+
+                                </Grid>
+
+                            </StackPanel>
+
+                        </Border>
+
+
+                    </Grid>
+
+
+
+                    <!-- ========================================= -->
+                    <!-- TRANSACTION METRICS -->
+                    <!-- ========================================= -->
+
+                    <StackPanel
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="TRANSACTION METRICS" />
+
+                        <TextBlock
+                            Classes="muted"
+                            FontSize="11"
+                            TextWrapping="Wrap"
+                            Text="Measurements produced by a TestBench stimulus transaction through the simulator and ECU observation path." />
+
+                    </StackPanel>
+
+
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="14">
+
+
+                        <!-- ESP ACK -->
+
+                        <Border
+                            Grid.Column="0"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="ESP ACK RTT" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        FontSize="24"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding SimulatorAckRttMs,
+                                            StringFormat='{}{0:F3}'}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,3"
+                                        Text="ms" />
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="PC → simulator → ACK" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- END TO END -->
+
+                        <Border
+                            Grid.Column="1"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="BENCH E2E LATENCY" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        FontSize="24"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EndToEndLatencyMs,
+                                            StringFormat='{}{0:F3}'}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,3"
+                                        Text="ms" />
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="PC target → ECU observation" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+                    </Grid>
+
+
+
+                    <!-- ========================================= -->
+                    <!-- CONTINUOUS ECU TELEMETRY -->
+                    <!-- ========================================= -->
+
+                    <StackPanel
+                        Spacing="4">
+
+                        <TextBlock
+                            Classes="eyebrow"
+                            Text="CONTINUOUS ECU TELEMETRY" />
+
+                        <TextBlock
+                            Classes="muted"
+                            FontSize="11"
+                            TextWrapping="Wrap"
+                            Text="Host-observed health of the continuous ECU_DATA stream. Timing includes serial transport, OS scheduling, parsing and buffering." />
+
+                    </StackPanel>
+
+
+                    <Grid
+                        ColumnDefinitions="*,*,*"
+                        ColumnSpacing="14">
+
+
+                        <!-- RX RATE -->
+
+                        <Border
+                            Grid.Column="0"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="ECU RX RATE" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        FontSize="24"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuRxRateHz,
+                                            StringFormat='{}{0:F1}'}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,3"
+                                        Text="Hz" />
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="Rolling host-observed receive rate" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- RX INTERVAL -->
+
+                        <Border
+                            Grid.Column="1"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="RX INTERVAL" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        FontSize="24"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuRxIntervalMs,
+                                            StringFormat='{}{0:F3}'}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,3"
+                                        Text="ms" />
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="Latest interval between received frames" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- RX JITTER -->
+
+                        <Border
+                            Grid.Column="2"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="RX JITTER" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        FontSize="24"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuRxJitterMs,
+                                            StringFormat='{}{0:F3}'}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,3"
+                                        Text="ms" />
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="Host-observed interval standard deviation" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+                    </Grid>
+
+
+                    <Grid
+                        ColumnDefinitions="*,*,*"
+                        ColumnSpacing="14">
+
+
+                        <!-- DROPPED -->
+
+                        <Border
+                            Grid.Column="0"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="ECU DROPPED SAMPLES" />
+
+                                <TextBlock
+                                    FontSize="24"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuDroppedSamples}" />
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="Detected from ECU sample ID gaps" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- SAMPLE ID -->
+
+                        <Border
+                            Grid.Column="1"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="ECU SAMPLE ID" />
+
+                                <TextBlock
+                                    FontSize="24"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding EcuSampleId,
+                                        StringFormat='#{0}'}" />
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="Latest received telemetry frame" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+
+                        <!-- UPTIME -->
+
+                        <Border
+                            Grid.Column="2"
+                            Classes="card-raised">
+
+                            <StackPanel
+                                Spacing="6">
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Text="ECU UPTIME" />
+
+                                <StackPanel
+                                    Orientation="Horizontal"
+                                    Spacing="5">
+
+                                    <TextBlock
+                                        FontSize="24"
+                                        FontWeight="SemiBold"
+                                        Text="{Binding EcuUptimeUs}" />
+
+                                    <TextBlock
+                                        Classes="muted"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0,0,0,3"
+                                        Text="µs" />
+
+                                </StackPanel>
+
+                                <TextBlock
+                                    Classes="muted"
+                                    FontSize="11"
+                                    Text="ECU monotonic runtime counter" />
+
+                            </StackPanel>
+
+                        </Border>
+
+
+                    </Grid>
+
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- LOCAL SIMULATION -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card"
+                IsVisible="{Binding IsLocalSimulationMode}">
+
+                <StackPanel
+                    Spacing="12">
+
+                    <TextBlock
+                        Classes="section-title"
+                        Text="Local Simulation" />
+
+                    <TextBlock
+                        Classes="muted"
+                        TextWrapping="Wrap"
+                        Text="The current session is running against the local UTFuel host firmware process." />
+
+                    <Grid
+                        ColumnDefinitions="150,*">
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Classes="muted"
+                            Text="Firmware target" />
+
+                        <TextBlock
+                            Grid.Column="1"
+                            TextTrimming="CharacterEllipsis"
+                            Text="{Binding FirmwarePath}" />
+
+                    </Grid>
+
+                </StackPanel>
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+            <!-- LAST EVENT -->
+            <!-- ================================================= -->
+
+            <Border
+                Classes="card">
+
+                <Grid
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="14">
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Classes="eyebrow"
+                        VerticalAlignment="Center"
+                        Text="LAST EVENT" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Classes="muted"
+                        VerticalAlignment="Center"
+                        TextWrapping="Wrap"
+                        Text="{Binding LastMessage}" />
+
+                </Grid>
+
+            </Border>
+
+
+        </StackPanel>
+
+
+    </ScrollViewer>
+
+
+</UserControl>

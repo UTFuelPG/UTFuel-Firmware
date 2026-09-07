@@ -1,0 +1,256 @@
+{
+  "AppName": "UTFuel TestBench",
+  "AppSubtitle": "Plataforma de Gerenciamento Eletrônico",
+  "AppFirmwareTarget": "FIRMWARE ALVO",
+
+  "CommonConnect": "CONECTAR",
+  "CommonDisconnect": "DESCONECTAR",
+  "CommonStart": "INICIAR",
+  "CommonStop": "PARAR",
+  "CommonReset": "REDEFINIR",
+  "CommonRunning": "EXECUTANDO",
+  "CommonReady": "PRONTO",
+
+  "NavOverview": "Visão Geral",
+  "NavManualControl": "Controle Manual",
+  "NavDynamicBenchmark": "Teste Dinâmico",
+  "NavLiveTelemetry": "Telemetria",
+  "NavValidation": "Validação",
+  "NavShowcase": "Showcase",
+  "NavSettings": "Configurações",
+
+  "NavSectionOverview": "VISÃO GERAL",
+  "NavSectionControl": "CONTROLE",
+  "NavSectionAnalysis": "ANÁLISE",
+  "NavSectionTools": "FERRAMENTAS",
+
+  "LanguageTitle": "Idioma",
+  "LanguagePortuguese": "Português",
+  "LanguageEnglish": "Inglês",
+  "LanguageSpanish": "Espanhol",
+
+  "SplashTitle": "Engenharia começa aqui.",
+  "SplashInitializing": "Inicializando o ambiente de desenvolvimento UTFuel",
+  "SplashVersion": "v0.1 desenvolvimento",
+
+  "OverviewSubtitle": "Visão em tempo real dos alvos do simulador, da telemetria da ECU e da integridade da comunicação.",
+
+  "OverviewEngineSpeed": "ROTAÇÃO DO MOTOR",
+  "OverviewCurrentGear": "MARCHA ATUAL",
+  "OverviewShiftWarning": "Alerta de troca:",
+  "OverviewThrottlePosition": "POSIÇÃO DO ACELERADOR",
+  "OverviewProcessedEcuValue": "Valor processado pela ECU",
+  "OverviewManifoldPressure": "PRESSÃO DO COLETOR",
+
+  "OverviewSimulatorTarget": "Alvo do Simulador",
+  "OverviewSimulatorTargetDescription": "Valores solicitados pelo TestBench.",
+  "OverviewPhase": "FASE:",
+  "OverviewEngineRpm": "Rotação do motor",
+  "OverviewVehicleSpeed": "Velocidade do veículo",
+  "OverviewCalculatedGear": "Marcha calculada",
+
+  "OverviewUtfuelEcu": "UTFuel ECU",
+  "OverviewEcuDescription": "Valores retornados pelo firmware.",
+  "OverviewBattery": "Bateria",
+  "OverviewGear": "Marcha",
+
+  "OverviewTargetVsEcu": "Alvo vs ECU",
+  "OverviewTargetVsEcuDescription": "Diferença entre os valores solicitados e processados.",
+  "OverviewTarget": "ALVO",
+  "OverviewError": "ERRO",
+
+  "OverviewCommunication": "Comunicação",
+  "OverviewCommunicationDescription": "Estatísticas atuais de comunicação do TestBench.",
+  "OverviewResetStatistics": "REDEFINIR ESTATÍSTICAS",
+
+  "OverviewPacketsSent": "PACOTES ENVIADOS",
+  "OverviewReceived": "RECEBIDOS",
+  "OverviewLost": "PERDIDOS",
+  "OverviewLoss": "PERDA",
+
+  "OverviewUpdateRate": "TAXA DE ATUALIZAÇÃO",
+  "OverviewCurrentRtt": "RTT ATUAL",
+  "OverviewAverageRtt": "RTT MÉDIO",
+  "OverviewJitter": "JITTER",
+
+  "OverviewMinimum": "Mínimo:",
+  "OverviewMaximum": "Máximo:",
+
+  "OverviewLastEvent": "ÚLTIMO EVENTO",
+
+  "ManualSubtitle": "Defina manualmente os valores simulados dos sensores automotivos e transmita-os para o alvo UTFuel atual.",
+
+"ManualSimulator": "Simulador Manual",
+"ManualSimulatorDescription": "Os valores inseridos aqui representam o estado físico solicitado ao simulador.",
+"ManualLiveMode": "MODO AO VIVO:",
+
+"ManualSensorInputs": "Entradas dos Sensores",
+"ManualSensorInputsDescription": "Valores elétricos e do veículo transmitidos pelo TestBench.",
+
+"ManualAnalogSensors": "SENSORES ANALÓGICOS",
+"ManualTpsVoltage": "Tensão do TPS",
+"ManualMapVoltage": "Tensão do MAP",
+"ManualBatteryVoltage": "Tensão da bateria",
+
+"ManualResistiveSensors": "SENSORES RESISTIVOS",
+"ManualCoolantResistance": "Resistência do líquido de arrefecimento",
+"ManualIntakeResistance": "Resistência do ar de admissão",
+
+"ManualVehicleState": "ESTADO DO VEÍCULO",
+"ManualEngineRpm": "Rotação do motor",
+"ManualVehicleSpeed": "Velocidade do veículo",
+
+"ManualQuickControl": "Controle Rápido",
+"ManualQuickControlDescription": "Use os controles deslizantes para testes interativos rápidos em bancada.",
+"ManualThrottle": "Acelerador",
+
+"ManualSingleTransmission": "Transmissão Única",
+"ManualSingleTransmissionDescription": "Transmita o estado atual uma vez e aguarde a resposta da ECU.",
+"ManualSendToEcu": "ENVIAR PARA ECU",
+
+"ManualLiveTransmission": "Transmissão Contínua",
+"ManualLiveTransmissionDescription": "Transmita continuamente o estado atual do simulador.",
+"ManualRunning": "EXECUTANDO:",
+"ManualUpdateRate": "Taxa de atualização",
+"ManualStartLive": "INICIAR AO VIVO",
+"ManualStopLive": "PARAR AO VIVO",
+
+"ManualLastEvent": "ÚLTIMO EVENTO",
+
+"DynamicSubtitle": "Execute um ciclo de condução automatizado para validar o comportamento dinâmico da ECU e do TestBench.",
+
+"DynamicTestSequence": "Sequência de Teste",
+"DynamicTestSequenceDescription": "Executa automaticamente aceleração, trocas de marcha, desaceleração e retorno à marcha lenta.",
+"DynamicStartBenchmark": "INICIAR TESTE",
+"DynamicStopBenchmark": "PARAR TESTE",
+
+"DynamicEngineState": "Estado do Motor",
+"DynamicEngineStateDescription": "Estado atual retornado pela ECU durante o ciclo dinâmico.",
+"DynamicEngineRpm": "ROTAÇÃO DO MOTOR",
+"DynamicGear": "MARCHA",
+"DynamicSpeed": "VELOCIDADE",
+
+"DynamicBenchmarkStatus": "Status do Teste",
+"DynamicPhase": "FASE",
+"DynamicShiftWarning": "ALERTA DE TROCA",
+"DynamicCurrentRtt": "RTT ATUAL",
+
+"DynamicLiveTargetTracking": "Rastreamento do Alvo",
+"DynamicLiveTargetTrackingDescription": "Comparação em tempo real entre os valores solicitados pelo simulador e os valores processados pela ECU.",
+"DynamicTarget": "ALVO",
+"DynamicError": "ERRO",
+
+"DynamicCommunication": "Comunicação",
+"DynamicPacketsSent": "PACOTES ENVIADOS",
+"DynamicUpdateRate": "TAXA DE ATUALIZAÇÃO",
+"DynamicAverageRtt": "RTT MÉDIO",
+"DynamicPacketLoss": "PERDA DE PACOTES",
+
+"DynamicLastEvent": "ÚLTIMO EVENTO",
+
+"TelemetrySubtitle": "Visualização em tempo real da telemetria processada recebida da ECU UTFuel.",
+
+"TelemetryRate": "TAXA:",
+"TelemetrySpeed": "VELOCIDADE",
+
+"TelemetryEngineSpeed": "Rotação do Motor",
+"TelemetryEngineSpeedDescription": "Rotação do motor processada pela ECU ao longo do tempo.",
+
+"TelemetryThrottlePosition": "Posição do Acelerador",
+"TelemetryThrottleDescription": "Posição processada do acelerador.",
+
+"TelemetryManifoldPressure": "Pressão do Coletor",
+"TelemetryManifoldDescription": "Pressão processada do sensor MAP.",
+
+"TelemetryVehicleSpeed": "Velocidade do Veículo",
+"TelemetryVehicleSpeedDescription": "Velocidade calculada do veículo.",
+
+"TelemetryPackets": "PACOTES",
+"TelemetryReceived": "Recebidos:",
+"TelemetryPacketLoss": "PERDA DE PACOTES",
+"TelemetryJitter": "JITTER",
+
+"TelemetryTimeAxis": "Tempo (s)",
+"TelemetrySpeedAxis": "Velocidade (km/h)",
+
+"ValidationSubtitle": "Execute a suíte completa de validação UTFuel contra o alvo atualmente conectado.",
+
+"ValidationSuite": "Suíte de Validação",
+"ValidationSuiteDescription": "Comunicação → TPS → MAP → Detecção de Marcha → Indicador de Troca",
+
+"ValidationRunAll": "EXECUTAR TODOS",
+"ValidationStop": "PARAR",
+"ValidationReset": "REDEFINIR",
+
+"ValidationCurrentStep": "ETAPA ATUAL",
+"ValidationProgress": "PROGRESSO",
+
+"ValidationCommunication": "Teste de Comunicação",
+"ValidationCommunicationDescription": "Validação da integridade dos pacotes e da latência.",
+
+"ValidationTpsSweep": "Varredura TPS",
+"ValidationTpsDescription": "Varredura completa da conversão do sensor de posição do acelerador.",
+
+"ValidationMapSweep": "Varredura MAP",
+"ValidationMapDescription": "Varredura completa da conversão de pressão do coletor.",
+
+"ValidationGearDetection": "Detecção de Marcha",
+"ValidationGearDescription": "Validação da marcha calculada da transmissão.",
+
+"ValidationShiftIndicator": "Indicador de Troca",
+"ValidationShiftDescription": "Validação da ativação do alerta de troca próximo ao limite de RPM configurado.",
+
+"ValidationResult": "RESULTADO",
+"ValidationOverallResult": "RESULTADO DA VALIDAÇÃO",
+"ValidationTarget": "ALVO",
+
+"ValidationLastEvent": "ÚLTIMO EVENTO",
+
+"ShowcaseSubtitle": "Abra a interface dedicada de condução da UTFuel em tela cheia para demonstrações e apresentações externas.",
+
+"ShowcaseDriverDisplay": "INTERFACE DO PILOTO",
+"ShowcaseFullscreenTitle": "Showcase UTFuel em Tela Cheia",
+"ShowcaseFullscreenDescription": "O Showcase é aberto em uma janela separada em tela cheia e utiliza a mesma conexão com a ECU e o mesmo fluxo de telemetria do TestBench.",
+"ShowcaseOpen": "ABRIR SHOWCASE",
+
+"ShowcaseLiveDriverData": "Dados do Piloto em Tempo Real",
+"ShowcaseLiveDriverDataDescription": "Valores atuais da ECU que serão exibidos no modo Showcase.",
+
+"ShowcaseGear": "MARCHA",
+"ShowcaseSpeed": "VELOCIDADE",
+
+"ShowcaseDisplayBehavior": "Comportamento da Interface",
+"ShowcaseDisplayMode": "Modo de exibição",
+"ShowcaseFullscreen": "Tela cheia",
+"ShowcaseTelemetrySource": "Fonte da telemetria",
+"ShowcaseSharedConnection": "Conexão compartilhada do TestBench",
+"ShowcaseShiftAlert": "Alerta de troca",
+"ShowcaseEnabled": "Ativado",
+"ShowcaseExitShortcut": "Atalho para sair",
+
+"ShowcaseDemonstrationControl": "Controle da Demonstração",
+"ShowcaseDemonstrationDescription": "Execute o ciclo automatizado de condução enquanto a interface em tela cheia estiver ativa.",
+"ShowcaseStartBenchmark": "INICIAR BENCHMARK",
+"ShowcaseStop": "PARAR",
+"ShowcaseCurrentPhase": "FASE ATUAL:",
+
+"ShowcaseShiftAlertSystem": "Sistema de Alerta de Troca",
+"ShowcaseShiftAlertDescription": "Um alerta SHIFT em tela cheia é acionado somente na borda de subida do sinal de troca da ECU. O sistema é rearmado automaticamente depois que a ECU retorna o alerta para falso.",
+"ShowcaseEcuShift": "SHIFT DA ECU",
+
+"ShowcaseLastEvent": "ÚLTIMO EVENTO",
+
+"ConnectionModeTitle": "MODO DE CONEXÃO",
+"ConnectionModeLocal": "Simulação Local",
+"ConnectionModeHardware": "Bancada Física",
+"ConnectionModeLocalDescription": "Executa a ECU localmente no computador através do utfuel_host.exe.",
+"ConnectionModeHardwareDescription": "Utiliza o ESP32-S3 como simulador físico e uma ECU conectada ao computador.",
+
+"HardwareSimulator": "SIMULADOR",
+"HardwareEcu": "ECU UTFUEL",
+"HardwarePort": "Porta",
+"HardwareBaudRate": "Baud Rate",
+"HardwareStatus": "Status:",
+"HardwareRefreshPorts": "ATUALIZAR PORTAS"
+
+}

@@ -1,0 +1,1088 @@
+﻿<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:UTFuel.TestBench.Gui.ViewModels"
+    xmlns:controls="using:UTFuel.TestBench.Gui.Controls"
+
+    x:Class="UTFuel.TestBench.Gui.Views.MainWindow"
+    x:DataType="vm:MainWindowViewModel"
+
+    Title="UTFuel TestBench"
+
+    Width="1350"
+    Height="850"
+
+    MinWidth="1050"
+    MinHeight="700">
+
+
+    <Grid
+        RowDefinitions="Auto,*">
+
+
+        <!-- ================================================= -->
+        <!-- APPLICATION HEADER -->
+        <!-- ================================================= -->
+
+        <controls:AppHeader
+            Grid.Row="0" />
+
+
+
+        <!-- ================================================= -->
+        <!-- APPLICATION BODY -->
+        <!-- ================================================= -->
+
+        <Grid
+            x:Name="BodyGrid"
+            Grid.Row="1">
+
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition
+                    Width="240" />
+
+                <ColumnDefinition
+                    Width="*" />
+
+            </Grid.ColumnDefinitions>
+
+
+
+            <!-- ================================================= -->
+            <!-- SIDEBAR -->
+            <!-- ================================================= -->
+
+            <Border
+                Grid.Column="0"
+                Background="{DynamicResource UtfuelSurfaceBrush}"
+                BorderBrush="{DynamicResource UtfuelBorderBrush}"
+                BorderThickness="0,0,1,0">
+
+
+                <Grid>
+
+
+                    <!-- ================================================= -->
+                    <!-- EXPANDED SIDEBAR -->
+                    <!-- ================================================= -->
+
+                    <Grid
+                        x:Name="ExpandedSidebarContent"
+                        RowDefinitions="Auto,*,Auto">
+
+
+                        <!-- ============================================= -->
+                        <!-- COLLAPSE BUTTON -->
+                        <!-- ============================================= -->
+
+                        <Grid
+                            Grid.Row="0"
+                            ColumnDefinitions="*,Auto"
+                            Margin="12,8,12,0">
+
+
+                            <TextBlock
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Classes="eyebrow"
+                                Text="TESTBENCH" />
+
+
+                            <Button
+                                Grid.Column="1"
+                                Width="34"
+                                Height="30"
+                                Padding="0"
+
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+
+                                Content="‹"
+
+                                ToolTip.Tip="Collapse sidebar"
+
+                                Click="ToggleSidebar_Click" />
+
+
+                        </Grid>
+
+
+
+                        <!-- ============================================= -->
+                        <!-- NAVIGATION -->
+                        <!-- ============================================= -->
+
+                        <ScrollViewer
+                            Grid.Row="1"
+
+                            VerticalScrollBarVisibility="Auto"
+                            HorizontalScrollBarVisibility="Disabled">
+
+
+                            <StackPanel
+                                Margin="12,16,12,16"
+                                Spacing="4">
+
+
+                                <!-- ============================= -->
+                                <!-- OVERVIEW -->
+                                <!-- ============================= -->
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Margin="14,0,0,6"
+                                    Text="{DynamicResource NavSectionOverview}" />
+
+
+                                <Button
+                                    x:Name="OverviewNavButton"
+
+                                    Classes="nav-item"
+
+                                    Tag="Overview"
+
+                                    Click="NavigationButton_Click"
+
+                                    Content="{DynamicResource NavOverview}" />
+
+
+
+                                <!-- ============================= -->
+                                <!-- CONTROL -->
+                                <!-- ============================= -->
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Margin="14,20,0,6"
+                                    Text="{DynamicResource NavSectionControl}" />
+
+
+                                <Button
+                                    x:Name="ManualNavButton"
+
+                                    Classes="nav-item"
+
+                                    Tag="Manual"
+
+                                    Click="NavigationButton_Click"
+
+                                    Content="{DynamicResource NavManualControl}" />
+
+
+                                <Button
+                                    x:Name="BenchmarkNavButton"
+
+                                    Classes="nav-item"
+
+                                    Tag="Benchmark"
+
+                                    Click="NavigationButton_Click"
+
+                                    Content="{DynamicResource NavDynamicBenchmark}" />
+
+
+
+                                <!-- ============================= -->
+                                <!-- ANALYSIS -->
+                                <!-- ============================= -->
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Margin="14,20,0,6"
+                                    Text="{DynamicResource NavSectionAnalysis}" />
+
+
+                                <Button
+                                    x:Name="TelemetryNavButton"
+
+                                    Classes="nav-item"
+
+                                    Tag="Telemetry"
+
+                                    Click="NavigationButton_Click"
+
+                                    Content="{DynamicResource NavLiveTelemetry}" />
+
+
+                                <Button
+                                    x:Name="ValidationNavButton"
+
+                                    Classes="nav-item"
+
+                                    Tag="Validation"
+
+                                    Click="NavigationButton_Click"
+
+                                    Content="{DynamicResource NavValidation}" />
+                                
+                                <Button
+                                    x:Name="DiagnosticsNavButton"
+
+                                    Classes="nav-item"
+
+                                    Tag="Diagnostics"
+
+                                    Click="NavigationButton_Click"
+
+                                    Content="Diagnostics" />
+
+                                <!-- ============================= -->
+                                <!-- TOOLS -->
+                                <!-- ============================= -->
+
+                                <TextBlock
+                                    Classes="eyebrow"
+                                    Margin="14,20,0,6"
+                                    Text="{DynamicResource NavSectionTools}" />
+
+
+                                <Button
+                                    x:Name="ShowcaseNavButton"
+
+                                    Classes="nav-item"
+
+                                    Tag="Showcase"
+
+                                    Click="NavigationButton_Click"
+
+                                    Content="{DynamicResource NavShowcase}" />
+
+
+                            </StackPanel>
+
+
+                        </ScrollViewer>
+
+
+
+                        <!-- ============================================= -->
+                        <!-- EXPANDED SIDEBAR FOOTER -->
+                        <!-- ============================================= -->
+
+                        <Border
+                            Grid.Row="2"
+
+                            Padding="14"
+
+                            BorderBrush="{DynamicResource UtfuelBorderBrush}"
+                            BorderThickness="0,1,0,0">
+
+
+                            <StackPanel
+                                Spacing="14">
+
+
+                                <!-- ===================================== -->
+                                <!-- CONNECTION MODE -->
+                                <!-- ===================================== -->
+
+                                <Border
+                                    Padding="12"
+
+                                    Background="{DynamicResource UtfuelBackgroundBrush}"
+
+                                    BorderBrush="{DynamicResource UtfuelBorderBrush}"
+                                    BorderThickness="1">
+
+
+                                    <StackPanel
+                                        Spacing="8">
+
+
+                                        <!-- CONNECTION MODE TITLE -->
+
+                                        <TextBlock
+                                            Classes="eyebrow"
+                                            Text="{DynamicResource ConnectionModeTitle}" />
+
+
+
+                                        <!-- CONNECTION MODE SELECTOR -->
+
+                                        <ComboBox
+                                            HorizontalAlignment="Stretch"
+
+                                            SelectedIndex="{Binding SelectedConnectionModeIndex, Mode=TwoWay}"
+
+                                            IsEnabled="{Binding CanSelectConnectionMode}">
+
+
+                                            <ComboBoxItem
+                                                Content="{DynamicResource ConnectionModeLocal}" />
+
+
+                                            <ComboBoxItem
+                                                Content="{DynamicResource ConnectionModeHardware}" />
+
+
+                                        </ComboBox>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- LOCAL SIMULATION DESCRIPTION -->
+                                        <!-- ================================= -->
+
+                                        <TextBlock
+                                            Classes="muted"
+
+                                            FontSize="11"
+
+                                            TextWrapping="Wrap"
+
+                                            IsVisible="{Binding IsLocalSimulationMode}"
+
+                                            Text="{DynamicResource ConnectionModeLocalDescription}" />
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- HARDWARE BENCH CONFIGURATION -->
+                                        <!-- ================================= -->
+
+                                        <Expander
+                                            IsVisible="{Binding IsHardwareBenchMode}"
+
+                                            IsExpanded="True"
+
+                                            Margin="0,6,0,0">
+
+
+                                            <!-- ============================= -->
+                                            <!-- EXPANDER HEADER -->
+                                            <!-- ============================= -->
+
+                                            <Expander.Header>
+
+
+                                                <StackPanel
+                                                    Spacing="2"
+                                                    Margin="2,4,0,4">
+
+
+                                                    <TextBlock
+                                                        Classes="eyebrow"
+                                                        Text="HARDWARE CONFIGURATION" />
+
+
+                                                    <TextBlock
+                                                        Classes="muted"
+
+                                                        FontSize="10"
+
+                                                        Text="Simulator and ECU connections" />
+
+
+                                                </StackPanel>
+
+
+                                            </Expander.Header>
+
+
+
+                                            <!-- ============================= -->
+                                            <!-- EXPANDER CONTENT -->
+                                            <!-- ============================= -->
+
+                                            <Border
+                                                Margin="0,8,0,0"
+
+                                                Padding="10"
+
+                                                Background="{DynamicResource UtfuelSurfaceBrush}"
+
+                                                BorderBrush="{DynamicResource UtfuelBorderBrush}"
+                                                BorderThickness="1">
+
+
+                                                <StackPanel
+                                                    Spacing="10">
+
+
+                                                    <!-- ===================== -->
+                                                    <!-- SIMULATOR -->
+                                                    <!-- ===================== -->
+
+                                                    <StackPanel
+                                                        Spacing="5">
+
+
+                                                        <TextBlock
+                                                            Classes="eyebrow"
+
+                                                            Text="{DynamicResource HardwareSimulator}" />
+
+
+
+                                                        <!-- PORT -->
+
+                                                        <TextBlock
+                                                            Classes="muted"
+
+                                                            FontSize="11"
+
+                                                            Text="{DynamicResource HardwarePort}" />
+
+
+                                                        <ComboBox
+                                                            HorizontalAlignment="Stretch"
+
+                                                            ItemsSource="{Binding AvailableSerialPorts}"
+
+                                                            SelectedItem="{Binding SimulatorPort, Mode=TwoWay}"
+
+                                                            IsEnabled="{Binding CanSelectConnectionMode}" />
+
+
+
+                                                        <!-- BAUD -->
+
+                                                        <TextBlock
+                                                            Classes="muted"
+
+                                                            FontSize="11"
+
+                                                            Text="{DynamicResource HardwareBaudRate}" />
+
+
+                                                        <ComboBox
+                                                            HorizontalAlignment="Stretch"
+
+                                                            ItemsSource="{Binding AvailableBaudRates}"
+
+                                                            SelectedItem="{Binding SimulatorBaudRate, Mode=TwoWay}"
+
+                                                            IsEnabled="{Binding CanSelectConnectionMode}" />
+
+
+
+                                                        <!-- STATUS -->
+
+                                                        <StackPanel
+                                                            Orientation="Horizontal"
+                                                            Spacing="5">
+
+
+                                                            <TextBlock
+                                                                Classes="muted"
+
+                                                                FontSize="11"
+
+                                                                Text="{DynamicResource HardwareStatus}" />
+
+
+                                                            <TextBlock
+                                                                FontSize="11"
+
+                                                                FontWeight="SemiBold"
+
+                                                                Text="{Binding SimulatorConnectionStatus}" />
+
+
+                                                        </StackPanel>
+
+
+                                                    </StackPanel>
+
+
+
+                                                    <!-- ===================== -->
+                                                    <!-- DIVIDER -->
+                                                    <!-- ===================== -->
+
+                                                    <Border
+                                                        Height="1"
+
+                                                        Margin="0,3"
+
+                                                        Background="{DynamicResource UtfuelBorderBrush}" />
+
+
+
+                                                    <!-- ===================== -->
+                                                    <!-- UTFUEL ECU -->
+                                                    <!-- ===================== -->
+
+                                                    <StackPanel
+                                                        Spacing="5">
+
+
+                                                        <TextBlock
+                                                            Classes="eyebrow"
+
+                                                            Text="{DynamicResource HardwareEcu}" />
+
+
+
+                                                        <!-- PORT -->
+
+                                                        <TextBlock
+                                                            Classes="muted"
+
+                                                            FontSize="11"
+
+                                                            Text="{DynamicResource HardwarePort}" />
+
+
+                                                        <ComboBox
+                                                            HorizontalAlignment="Stretch"
+
+                                                            ItemsSource="{Binding AvailableSerialPorts}"
+
+                                                            SelectedItem="{Binding EcuPort, Mode=TwoWay}"
+
+                                                            IsEnabled="{Binding CanSelectConnectionMode}" />
+
+
+
+                                                        <!-- BAUD -->
+
+                                                        <TextBlock
+                                                            Classes="muted"
+
+                                                            FontSize="11"
+
+                                                            Text="{DynamicResource HardwareBaudRate}" />
+
+
+                                                        <ComboBox
+                                                            HorizontalAlignment="Stretch"
+
+                                                            ItemsSource="{Binding AvailableBaudRates}"
+
+                                                            SelectedItem="{Binding EcuBaudRate, Mode=TwoWay}"
+
+                                                            IsEnabled="{Binding CanSelectConnectionMode}" />
+
+
+
+                                                        <!-- STATUS -->
+
+                                                        <StackPanel
+                                                            Orientation="Horizontal"
+                                                            Spacing="5">
+
+
+                                                            <TextBlock
+                                                                Classes="muted"
+
+                                                                FontSize="11"
+
+                                                                Text="{DynamicResource HardwareStatus}" />
+
+
+                                                            <TextBlock
+                                                                FontSize="11"
+
+                                                                FontWeight="SemiBold"
+
+                                                                Text="{Binding EcuConnectionStatus}" />
+
+
+                                                        </StackPanel>
+
+
+                                                    </StackPanel>
+
+
+
+                                                    <!-- ===================== -->
+                                                    <!-- REFRESH PORTS -->
+                                                    <!-- ===================== -->
+
+                                                    <Button
+                                                        Margin="0,4,0,0"
+
+                                                        HorizontalAlignment="Stretch"
+
+                                                        Command="{Binding RefreshSerialPortsCommand}"
+
+                                                        Content="{DynamicResource HardwareRefreshPorts}"
+
+                                                        IsEnabled="{Binding CanSelectConnectionMode}" />
+
+
+                                                </StackPanel>
+
+
+                                            </Border>
+
+
+                                        </Expander>
+
+
+
+                                        <!-- ================================= -->
+                                        <!-- HARDWARE DESCRIPTION -->
+                                        <!-- ================================= -->
+
+                                        <TextBlock
+                                            Classes="muted"
+
+                                            FontSize="11"
+
+                                            TextWrapping="Wrap"
+
+                                            IsVisible="{Binding IsHardwareBenchMode}"
+
+                                            Text="{DynamicResource ConnectionModeHardwareDescription}" />
+
+
+                                    </StackPanel>
+
+
+                                </Border>
+
+
+
+                                <!-- ===================================== -->
+                                <!-- LANGUAGE -->
+                                <!-- ===================================== -->
+
+                                <controls:LanguageSelector />
+
+
+
+                                <!-- ===================================== -->
+                                <!-- BUILD INFORMATION -->
+                                <!-- ===================================== -->
+
+                                <Grid
+                                    ColumnDefinitions="*,Auto">
+
+
+                                    <StackPanel
+                                        Grid.Column="0"
+                                        Spacing="2">
+
+
+                                        <TextBlock
+                                            FontSize="13"
+
+                                            FontWeight="SemiBold"
+
+                                            Text="UTFuel TestBench" />
+
+
+                                        <TextBlock
+                                            Classes="muted"
+
+                                            FontSize="11"
+
+                                            Text="Development Build" />
+
+
+                                    </StackPanel>
+
+
+
+                                    <TextBlock
+                                        Grid.Column="1"
+
+                                        Classes="muted"
+
+                                        VerticalAlignment="Center"
+
+                                        FontSize="11"
+
+                                        Text="v0.2.0-dev" />
+
+
+                                </Grid>
+
+
+                            </StackPanel>
+
+
+                        </Border>
+
+
+                    </Grid>
+
+
+
+                    <!-- ================================================= -->
+                    <!-- COLLAPSED SIDEBAR -->
+                    <!-- ================================================= -->
+
+                    <Grid
+                        x:Name="CollapsedSidebarContent"
+
+                        RowDefinitions="Auto,*,Auto"
+
+                        IsVisible="False">
+
+
+                        <!-- ============================================= -->
+                        <!-- EXPAND BUTTON -->
+                        <!-- ============================================= -->
+
+                        <Button
+                            Grid.Row="0"
+
+                            Width="40"
+                            Height="36"
+
+                            Margin="12,10,12,8"
+
+                            Padding="0"
+
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+
+                            FontSize="18"
+
+                            Content="›"
+
+                            ToolTip.Tip="Expand sidebar"
+
+                            Click="ToggleSidebar_Click" />
+
+
+
+<!-- ============================================= -->
+<!-- COMPACT NAVIGATION -->
+<!-- ============================================= -->
+
+<StackPanel
+    Grid.Row="1"
+    Margin="10,10"
+    Spacing="8">
+
+
+    <!-- ========================================= -->
+    <!-- OVERVIEW -->
+    <!-- ========================================= -->
+
+    <Button
+        x:Name="CompactOverviewNavButton"
+        Classes="nav-item"
+        Width="44"
+        Height="42"
+        Padding="0"
+        Tag="Overview"
+        ToolTip.Tip="Overview"
+        Click="NavigationButton_Click">
+
+        <PathIcon
+            Width="19"
+            Height="19"
+            Data="M3,3 L11,3 L11,11 L3,11 Z
+                  M13,3 L21,3 L21,8 L13,8 Z
+                  M13,10 L21,10 L21,21 L13,21 Z
+                  M3,13 L11,13 L11,21 L3,21 Z" />
+
+    </Button>
+
+
+
+    <!-- ========================================= -->
+    <!-- MANUAL CONTROL -->
+    <!-- ========================================= -->
+
+    <Button
+        x:Name="CompactManualNavButton"
+        Classes="nav-item"
+        Width="44"
+        Height="42"
+        Padding="0"
+        Tag="Manual"
+        ToolTip.Tip="Manual Control"
+        Click="NavigationButton_Click">
+
+        <PathIcon
+            Width="19"
+            Height="19"
+            Data="M3,5 L15,5 L15,7 L3,7 Z
+                  M19,3 L21,3 L21,9 L19,9 Z
+                  M17,5 L23,5 L23,7 L17,7 Z
+
+                  M3,11 L7,11 L7,13 L3,13 Z
+                  M11,9 L13,9 L13,15 L11,15 Z
+                  M9,11 L21,11 L21,13 L9,13 Z
+
+                  M3,17 L15,17 L15,19 L3,19 Z
+                  M19,15 L21,15 L21,21 L19,21 Z
+                  M17,17 L23,17 L23,19 L17,19 Z" />
+
+    </Button>
+
+
+
+    <!-- ========================================= -->
+    <!-- DYNAMIC BENCHMARK -->
+    <!-- ========================================= -->
+
+    <Button
+        x:Name="CompactBenchmarkNavButton"
+        Classes="nav-item"
+        Width="44"
+        Height="42"
+        Padding="0"
+        Tag="Benchmark"
+        ToolTip.Tip="Dynamic Benchmark"
+        Click="NavigationButton_Click">
+
+        <PathIcon
+            Width="19"
+            Height="19"
+            Data="M12,2
+                  C6.48,2 2,6.48 2,12
+                  C2,17.52 6.48,22 12,22
+                  C17.52,22 22,17.52 22,12
+                  C22,6.48 17.52,2 12,2
+                  Z
+
+                  M11,6 L13,6 L13,11.4
+                  L17,14.4
+                  L15.8,16
+                  L11,12.4 Z" />
+
+    </Button>
+
+
+
+    <!-- ========================================= -->
+    <!-- LIVE TELEMETRY -->
+    <!-- ========================================= -->
+
+    <Button
+        x:Name="CompactTelemetryNavButton"
+        Classes="nav-item"
+        Width="44"
+        Height="42"
+        Padding="0"
+        Tag="Telemetry"
+        ToolTip.Tip="Live Telemetry"
+        Click="NavigationButton_Click">
+
+        <PathIcon
+            Width="20"
+            Height="20"
+            Data="M2,13
+                  L6,13
+                  L8.5,6
+                  L12,18
+                  L15,10
+                  L17.5,14
+                  L22,14
+                  L22,16
+                  L16.3,16
+                  L15.3,14
+                  L11.8,22
+                  L8.4,11
+                  L7.4,15
+                  L2,15 Z" />
+
+    </Button>
+
+
+
+    <!-- ========================================= -->
+    <!-- VALIDATION -->
+    <!-- ========================================= -->
+
+    <Button
+        x:Name="CompactValidationNavButton"
+        Classes="nav-item"
+        Width="44"
+        Height="42"
+        Padding="0"
+        Tag="Validation"
+        ToolTip.Tip="Validation"
+        Click="NavigationButton_Click">
+
+        <PathIcon
+            Width="19"
+            Height="19"
+            Data="M9,17.2
+                  L4.8,13
+                  L3.4,14.4
+                  L9,20
+                  L21,8
+                  L19.6,6.6
+                  Z" />
+
+    </Button>
+
+<Button
+    x:Name="CompactDiagnosticsNavButton"
+
+    Classes="nav-item"
+
+    Width="44"
+    Height="42"
+
+    Padding="0"
+
+    Tag="Diagnostics"
+
+    ToolTip.Tip="Diagnostics"
+
+    Click="NavigationButton_Click">
+
+
+    <PathIcon
+        Width="20"
+        Height="20"
+
+        Data="
+            M3,4
+            L21,4
+            L21,20
+            L3,20
+            Z
+
+            M5,14
+            L8,14
+            L10,9
+            L13,17
+            L16,12
+            L19,12
+            L19,14
+            L17,14
+            L13,21
+            L10,14
+            L9,16
+            L5,16
+            Z" />
+
+
+</Button>
+
+
+    <!-- ========================================= -->
+    <!-- SHOWCASE -->
+    <!-- ========================================= -->
+
+    <Button
+        x:Name="CompactShowcaseNavButton"
+        Classes="nav-item"
+        Width="44"
+        Height="42"
+        Padding="0"
+        Tag="Showcase"
+        ToolTip.Tip="Showcase"
+        Click="NavigationButton_Click">
+
+        <PathIcon
+            Width="20"
+            Height="20"
+            Data="M3,3
+                  L21,3
+                  C22.1,3 23,3.9 23,5
+                  L23,17
+                  C23,18.1 22.1,19 21,19
+                  L14,19
+                  L14,21
+                  L17,21
+                  L17,23
+                  L7,23
+                  L7,21
+                  L10,21
+                  L10,19
+                  L3,19
+                  C1.9,19 1,18.1 1,17
+                  L1,5
+                  C1,3.9 1.9,3 3,3
+                  Z
+
+                  M3,5
+                  L3,17
+                  L21,17
+                  L21,5
+                  Z" />
+
+    </Button>
+
+
+</StackPanel>
+
+
+
+                        <!-- ============================================= -->
+                        <!-- COMPACT BRAND -->
+                        <!-- ============================================= -->
+
+                        <Border
+                            Grid.Row="2"
+
+                            Margin="10"
+
+                            Padding="4,10"
+
+                            BorderBrush="{DynamicResource UtfuelBorderBrush}"
+
+                            BorderThickness="0,1,0,0">
+
+
+                            <TextBlock
+                                HorizontalAlignment="Center"
+
+                                FontWeight="Bold"
+
+                                FontSize="13"
+
+                                Text="U" />
+
+
+                        </Border>
+
+
+                    </Grid>
+
+
+                </Grid>
+
+
+            </Border>
+
+
+
+            <!-- ================================================= -->
+<!-- PAGE HOST -->
+<!-- ================================================= -->
+
+<Border
+    Grid.Column="1"
+    Background="{DynamicResource UtfuelBackgroundBrush}">
+
+
+    <Grid>
+
+
+        <!-- ========================================= -->
+        <!-- TECHNICAL DOT GRID -->
+        <!-- ========================================= -->
+
+        <controls:TechnicalDotGrid
+            IsHitTestVisible="False"
+            Spacing="26"
+            DotRadius="0.65"
+            Opacity="0.45" />
+
+
+
+        <!-- ========================================= -->
+        <!-- ACTIVE PAGE -->
+        <!-- ========================================= -->
+
+        <ContentControl
+            x:Name="PageHost" />
+
+
+    </Grid>
+
+
+</Border>
+
+
+        </Grid>
+
+
+    </Grid>
+
+
+</Window>

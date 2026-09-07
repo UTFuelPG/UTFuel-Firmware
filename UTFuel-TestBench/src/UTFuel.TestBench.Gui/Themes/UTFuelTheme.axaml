@@ -1,0 +1,11 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StyleInclude
+        Source="avares://UTFuel.TestBench.Gui/Themes/UTFuelTokens.axaml" />
+
+    <StyleInclude
+        Source="avares://UTFuel.TestBench.Gui/Themes/UTFuelControls.axaml" />
+
+</Styles>

@@ -1,0 +1,3265 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using UTFuel.TestBench.Gui.Models;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Avalonia.Threading;
+
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+
+using UTFuel.TestBench.Core;
+
+
+namespace UTFuel.TestBench.Gui.ViewModels;
+
+
+public partial class MainWindowViewModel :
+    ViewModelBase
+{
+    /*
+     * =========================================
+     * PRIVATE FIELDS
+     * =========================================
+     */
+
+    public event Action<LiveTelemetrySample>?
+    TelemetrySampleReceived;
+
+    private ITestBenchSession?
+    _connection;
+
+
+    private CancellationTokenSource?
+        _benchmarkCancellation;
+
+    private CancellationTokenSource?
+    _validationCancellation;
+
+private Task?
+    _validationTask;
+
+    private Task?
+        _benchmarkTask;
+
+
+    private CancellationTokenSource?
+        _manualLiveCancellation;
+
+
+    private Task?
+        _manualLiveTask;
+
+
+    private uint _manualSequence =
+        1000;
+
+
+    private uint _benchmarkSequence =
+        50000;
+
+
+    private readonly Queue<double>
+        _latencySamples =
+            new();
+
+
+    private readonly Queue<DateTime>
+        _receiveTimestamps =
+            new();
+
+
+    private const int MaxLatencySamples =
+        2000;
+
+public MainWindowViewModel()
+{
+    RefreshSerialPorts();
+}
+
+    /*
+ * =========================================
+ * CONNECTION
+ * =========================================
+ */
+
+[ObservableProperty]
+private string firmwarePath =
+    FindFirmwarePath();
+
+
+[ObservableProperty]
+private ConnectionMode selectedConnectionMode =
+    ConnectionMode.LocalSimulation;
+
+
+[ObservableProperty]
+private string connectionStatus =
+    "DISCONNECTED";
+
+
+[ObservableProperty]
+private bool isConnected;
+
+
+[ObservableProperty]
+private string lastMessage =
+    "Ready.";
+
+/*
+ * =========================================
+ * HARDWARE BENCH METRICS
+ * =========================================
+ */
+
+[ObservableProperty]
+private double simulatorAckRttMs;
+
+
+[ObservableProperty]
+private double endToEndLatencyMs;
+
+
+[ObservableProperty]
+private uint ecuSampleId;
+
+
+[ObservableProperty]
+private ulong ecuUptimeUs;
+
+
+[ObservableProperty]
+private long ecuDroppedSamples;
+
+
+[ObservableProperty]
+private ulong? simulatorAppliedAtUs;
+
+    /*
+ * =========================================
+ * HARDWARE BENCH CONFIGURATION
+ * =========================================
+ */
+
+public ObservableCollection<string>
+    AvailableSerialPorts { get; } =
+        new();
+
+
+public IReadOnlyList<int>
+    AvailableBaudRates { get; } =
+        new[]
+        {
+            9600,
+            19200,
+            38400,
+            57600,
+            115200,
+            230400,
+            460800,
+            921600
+        };
+
+
+[ObservableProperty]
+private string? simulatorPort;
+
+
+[ObservableProperty]
+private string? ecuPort;
+
+
+[ObservableProperty]
+private int simulatorBaudRate =
+    115200;
+
+
+[ObservableProperty]
+private int ecuBaudRate =
+    115200;
+
+
+[ObservableProperty]
+private string simulatorConnectionStatus =
+    "NOT CONNECTED";
+
+
+[ObservableProperty]
+private string ecuConnectionStatus =
+    "NOT CONNECTED";
+
+        /*
+ * =========================================
+ * AUTOMATED VALIDATION
+ * =========================================
+ */
+
+[ObservableProperty]
+private bool isValidationRunning;
+
+
+[ObservableProperty]
+private double validationProgress;
+
+
+[ObservableProperty]
+private string validationCurrentStep =
+    "Ready";
+
+
+[ObservableProperty]
+private string overallValidationStatus =
+    "NOT RUN";
+
+
+[ObservableProperty]
+private string communicationTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string communicationTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string tpsTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string tpsTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string mapTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string mapTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string gearTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string gearTestDetails =
+    "Not executed.";
+
+
+[ObservableProperty]
+private string shiftTestStatus =
+    "WAITING";
+
+
+[ObservableProperty]
+private string shiftTestDetails =
+    "Not executed.";
+
+
+
+    /*
+     * =========================================
+     * MANUAL INPUT
+     * =========================================
+     */
+
+    [ObservableProperty]
+    private decimal manualTpsVoltage =
+        3.50m;
+
+
+    [ObservableProperty]
+    private decimal manualMapVoltage =
+        2.50m;
+
+
+    [ObservableProperty]
+    private decimal manualCoolantResistance =
+        1200m;
+
+
+    [ObservableProperty]
+    private decimal manualIntakeResistance =
+        2500m;
+
+
+    [ObservableProperty]
+    private decimal manualBatteryVoltage =
+        13.80m;
+
+
+    [ObservableProperty]
+    private decimal manualRpm =
+        6000m;
+
+
+    [ObservableProperty]
+    private decimal manualSpeedKmh =
+        90m;
+
+
+    [ObservableProperty]
+    private decimal manualUpdateRateHz =
+        20m;
+
+
+    [ObservableProperty]
+    private bool isManualLiveRunning;
+
+
+
+    /*
+     * =========================================
+     * TARGET / SIMULATOR
+     * =========================================
+     */
+
+    [ObservableProperty]
+    private double targetTpsVoltage;
+
+
+    [ObservableProperty]
+    private double targetMapVoltage;
+
+
+    [ObservableProperty]
+    private double targetTpsPercent;
+
+
+    [ObservableProperty]
+    private double targetMapKpa;
+
+
+    [ObservableProperty]
+    private uint targetRpm;
+
+
+    [ObservableProperty]
+    private double targetSpeedKmh;
+
+
+    [ObservableProperty]
+    private int targetGear;
+
+
+
+    /*
+     * =========================================
+     * ECU RESPONSE
+     * =========================================
+     */
+
+    [ObservableProperty]
+    private uint ecuRpm;
+
+
+    [ObservableProperty]
+    private double ecuTpsPercent;
+
+
+    [ObservableProperty]
+    private double ecuMapKpa;
+
+
+    [ObservableProperty]
+    private double ecuBatteryVoltage;
+
+
+    [ObservableProperty]
+    private double ecuSpeedKmh;
+
+
+    [ObservableProperty]
+    private int ecuGear;
+
+
+    [ObservableProperty]
+    private bool ecuShiftWarning;
+
+
+    [ObservableProperty]
+    private double currentRttMs;
+
+
+
+    /*
+     * =========================================
+     * TARGET vs ECU ERROR
+     * =========================================
+     */
+
+    [ObservableProperty]
+    private int rpmError;
+
+
+    [ObservableProperty]
+    private double tpsErrorPercent;
+
+
+    [ObservableProperty]
+    private double mapErrorKpa;
+
+
+    [ObservableProperty]
+    private double speedErrorKmh;
+
+
+
+    /*
+     * =========================================
+     * COMMUNICATION STATISTICS
+     * =========================================
+     */
+
+    [ObservableProperty]
+    private long packetsSent;
+
+
+    [ObservableProperty]
+    private long packetsReceived;
+
+
+    [ObservableProperty]
+    private long packetsLost;
+
+
+    [ObservableProperty]
+    private double packetLossPercent;
+
+
+    [ObservableProperty]
+    private double averageRttMs;
+
+
+    [ObservableProperty]
+    private double minimumRttMs;
+
+
+    [ObservableProperty]
+    private double maximumRttMs;
+
+
+    [ObservableProperty]
+    private double p95RttMs;
+
+
+    [ObservableProperty]
+    private double p99RttMs;
+
+
+    [ObservableProperty]
+    private double jitterMs;
+
+
+    [ObservableProperty]
+    private double measuredUpdateRateHz;
+
+    /*
+ * =========================================
+ * ECU RX STATISTICS
+ * =========================================
+ */
+
+[ObservableProperty]
+private double ecuRxRateHz;
+
+
+[ObservableProperty]
+private double ecuRxIntervalMs;
+
+
+[ObservableProperty]
+private double ecuRxJitterMs;
+
+
+    /*
+     * =========================================
+     * DYNAMIC BENCHMARK
+     * =========================================
+     */
+
+    [ObservableProperty]
+    private bool isBenchmarkRunning;
+
+
+    [ObservableProperty]
+    private string benchmarkPhase =
+        "Stopped";
+
+
+
+   /*
+ * =========================================
+ * UI STATE
+ * =========================================
+ */
+
+public bool CanEditManualInputs =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsValidationRunning;
+
+
+public bool CanSendManual =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
+
+
+public bool CanStartManualLive =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
+
+
+public bool CanStopManualLive =>
+    IsManualLiveRunning;
+
+
+public bool CanStartBenchmark =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
+
+
+public bool CanStopBenchmark =>
+    IsBenchmarkRunning;
+
+
+public bool CanStartValidation =>
+    IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
+
+
+public bool CanStopValidation =>
+    IsValidationRunning;
+
+
+/*
+ * =========================================
+ * CONNECTION MODE UI STATE
+ * =========================================
+ */
+
+public bool CanSelectConnectionMode =>
+    !IsConnected &&
+    !IsBenchmarkRunning &&
+    !IsManualLiveRunning &&
+    !IsValidationRunning;
+
+
+public bool IsLocalSimulationMode =>
+    SelectedConnectionMode ==
+    ConnectionMode.LocalSimulation;
+
+
+public bool IsHardwareBenchMode =>
+    SelectedConnectionMode ==
+    ConnectionMode.HardwareBench;
+
+
+public int SelectedConnectionModeIndex
+{
+    get
+    {
+        return SelectedConnectionMode ==
+               ConnectionMode.HardwareBench
+            ? 1
+            : 0;
+    }
+
+    set
+    {
+        if (
+            !CanSelectConnectionMode
+        )
+        {
+            OnPropertyChanged(
+                nameof(
+                    SelectedConnectionModeIndex
+                )
+            );
+
+            return;
+        }
+
+
+        ConnectionMode newMode =
+            value == 1
+                ? ConnectionMode.HardwareBench
+                : ConnectionMode.LocalSimulation;
+
+
+        if (
+            SelectedConnectionMode ==
+            newMode
+        )
+        {
+            return;
+        }
+
+
+        SelectedConnectionMode =
+            newMode;
+    }
+}
+
+
+
+/*
+ * =========================================
+ * SLIDER PROPERTIES
+ * =========================================
+ */
+
+public double ManualTpsVoltageSlider
+{
+    get =>
+        (double)ManualTpsVoltage;
+
+    set =>
+        ManualTpsVoltage =
+            (decimal)value;
+}
+
+
+public double ManualMapVoltageSlider
+{
+    get =>
+        (double)ManualMapVoltage;
+
+    set =>
+        ManualMapVoltage =
+            (decimal)value;
+}
+
+
+public double ManualRpmSlider
+{
+    get =>
+        (double)ManualRpm;
+
+    set =>
+        ManualRpm =
+            (decimal)value;
+}
+
+
+public double ManualSpeedSlider
+{
+    get =>
+        (double)ManualSpeedKmh;
+
+    set =>
+        ManualSpeedKmh =
+            (decimal)value;
+}
+
+
+
+/*
+ * =========================================
+ * PROPERTY CHANGE CALLBACKS
+ * =========================================
+ */
+
+partial void OnIsConnectedChanged(
+    bool value
+)
+{
+    NotifyUiState();
+}
+
+
+partial void OnIsBenchmarkRunningChanged(
+    bool value
+)
+{
+    NotifyUiState();
+}
+
+
+partial void OnIsManualLiveRunningChanged(
+    bool value
+)
+{
+    NotifyUiState();
+}
+
+
+partial void OnIsValidationRunningChanged(
+    bool value
+)
+{
+    NotifyUiState();
+}
+
+
+partial void OnSelectedConnectionModeChanged(
+    ConnectionMode value
+)
+{
+    OnPropertyChanged(
+        nameof(
+            SelectedConnectionModeIndex
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            IsLocalSimulationMode
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            IsHardwareBenchMode
+        )
+    );
+
+
+    LastMessage =
+        value switch
+        {
+            ConnectionMode.LocalSimulation =>
+                "Connection mode changed to Local Simulation.",
+
+            ConnectionMode.HardwareBench =>
+                "Connection mode changed to Hardware Bench.",
+
+            _ =>
+                "Connection mode changed."
+        };
+}
+
+
+partial void OnManualTpsVoltageChanged(
+    decimal value
+)
+{
+    OnPropertyChanged(
+        nameof(
+            ManualTpsVoltageSlider
+        )
+    );
+}
+
+
+partial void OnManualMapVoltageChanged(
+    decimal value
+)
+{
+    OnPropertyChanged(
+        nameof(
+            ManualMapVoltageSlider
+        )
+    );
+}
+
+
+partial void OnManualRpmChanged(
+    decimal value
+)
+{
+    OnPropertyChanged(
+        nameof(
+            ManualRpmSlider
+        )
+    );
+}
+
+
+partial void OnManualSpeedKmhChanged(
+    decimal value
+)
+{
+    OnPropertyChanged(
+        nameof(
+            ManualSpeedSlider
+        )
+    );
+}
+
+
+
+/*
+ * =========================================
+ * NOTIFY UI STATE
+ * =========================================
+ */
+
+private void NotifyUiState()
+{
+    OnPropertyChanged(
+        nameof(
+            CanEditManualInputs
+        )
+    );
+    
+
+    OnPropertyChanged(
+        nameof(
+            CanSendManual
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            CanStartManualLive
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            CanStopManualLive
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            CanStartBenchmark
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            CanStopBenchmark
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            CanStartValidation
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            CanStopValidation
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            CanSelectConnectionMode
+        )
+    );
+
+
+    OnPropertyChanged(
+        nameof(
+            SelectedConnectionModeIndex
+        )
+    );
+}
+
+private void OnHardwareEcuRxMetricsUpdated(
+    double rateHz,
+    double intervalMs,
+    double jitterMs,
+    long droppedSamples,
+    uint sampleId,
+    ulong uptimeUs
+)
+{
+    Dispatcher.UIThread.Post(
+        () =>
+        {
+            EcuRxRateHz =
+                rateHz;
+
+            EcuRxIntervalMs =
+                intervalMs;
+
+            EcuRxJitterMs =
+                jitterMs;
+
+            EcuDroppedSamples =
+                droppedSamples;
+
+            EcuSampleId =
+                sampleId;
+
+            EcuUptimeUs =
+                uptimeUs;
+        }
+    );
+}
+
+    /*
+ * =========================================
+ * RUN AUTOMATED VALIDATION
+ * =========================================
+ */
+
+[RelayCommand]
+private async Task RunAllTestsAsync()
+{
+    if (
+        _connection == null ||
+        !CanStartValidation
+    )
+    {
+        return;
+    }
+
+
+    ResetValidationResults();
+
+
+    IsValidationRunning =
+        true;
+
+
+    OverallValidationStatus =
+        "RUNNING";
+
+
+    ValidationProgress =
+        0;
+
+
+    ValidationCurrentStep =
+        "Starting validation suite...";
+
+
+    LastMessage =
+        "Automated validation started.";
+
+
+    _validationCancellation =
+        new CancellationTokenSource();
+
+
+    _validationTask =
+        RunValidationSuiteAsync(
+            _validationCancellation.Token
+        );
+
+
+    try
+    {
+        await _validationTask;
+    }
+    catch (
+        OperationCanceledException
+    )
+    {
+        OverallValidationStatus =
+            "CANCELLED";
+
+
+        ValidationCurrentStep =
+            "Validation cancelled.";
+
+
+        LastMessage =
+            "Automated validation cancelled.";
+    }
+    catch (
+        Exception ex
+    )
+    {
+        OverallValidationStatus =
+            "ERROR";
+
+
+        ValidationCurrentStep =
+            "Validation error.";
+
+
+        LastMessage =
+            $"Validation error: {ex.Message}";
+    }
+    finally
+    {
+        IsValidationRunning =
+            false;
+
+
+        _validationCancellation?
+            .Dispose();
+
+
+        _validationCancellation =
+            null;
+
+
+        _validationTask =
+            null;
+    }
+}
+    
+    /*
+ * =========================================
+ * STOP AUTOMATED VALIDATION
+ * =========================================
+ */
+
+[RelayCommand]
+private async Task StopValidationAsync()
+{
+    if (
+        _validationCancellation ==
+        null
+    )
+    {
+        return;
+    }
+
+
+    _validationCancellation
+        .Cancel();
+
+
+    try
+    {
+        if (
+            _validationTask !=
+            null
+        )
+        {
+            await _validationTask;
+        }
+    }
+    catch (
+        OperationCanceledException
+    )
+    {
+    }
+}
+ /*
+ * =========================================
+ * VALIDATION SUITE
+ * =========================================
+ */
+
+private async Task RunValidationSuiteAsync(
+    CancellationToken cancellationToken
+)
+{
+    if (
+        _connection ==
+        null
+    )
+    {
+        return;
+    }
+
+
+    bool communicationPassed =
+        false;
+
+
+    bool tpsPassed =
+        false;
+
+
+    bool mapPassed =
+        false;
+
+
+    bool gearPassed =
+        false;
+
+
+    bool shiftPassed =
+        false;
+
+
+
+    /*
+     * =====================================
+     * 1. COMMUNICATION BENCHMARK
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "Communication Benchmark";
+
+
+    CommunicationTestStatus =
+        "RUNNING";
+
+
+    ValidationProgress =
+        5;
+
+
+    const int pingCount =
+        1000;
+
+
+    List<double> latencySamples =
+        new();
+
+
+    TimeSpan timeout =
+        TimeSpan.FromMilliseconds(
+            500
+        );
+
+
+    uint communicationSequence =
+        1_000_000;
+
+
+    for (
+        int i = 0;
+        i < pingCount;
+        i++
+    )
+    {
+        cancellationToken
+            .ThrowIfCancellationRequested();
+
+
+        try
+        {
+            double rtt =
+                await _connection
+                    .PingAsync(
+                        communicationSequence++,
+                        timeout
+                    );
+
+
+            latencySamples.Add(
+                rtt
+            );
+        }
+        catch (
+            TimeoutException
+        )
+        {
+            /*
+             * Counted as packet loss.
+             */
+        }
+
+
+        if (
+            i % 20 ==
+            0
+        )
+        {
+            /*
+             * Communication test occupies
+             * approximately 0-20% of total.
+             */
+
+            ValidationProgress =
+                5 +
+                (
+                    (double)i /
+                    pingCount
+                ) *
+                15;
+        }
+    }
+
+
+    LatencyReport communicationReport =
+        LatencyReport.Calculate(
+            pingCount,
+            latencySamples
+        );
+
+
+    communicationPassed =
+        communicationReport.Lost ==
+        0;
+
+
+    CommunicationTestStatus =
+        communicationPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    CommunicationTestDetails =
+        $"{communicationReport.Received}/{communicationReport.Sent} packets | " +
+        $"Loss {communicationReport.LossPercent:F3}% | " +
+        $"Avg {communicationReport.AverageMs:F3} ms | " +
+        $"P99 {communicationReport.P99Ms:F3} ms";
+
+
+    ValidationProgress =
+        20;
+
+
+
+    /*
+     * =====================================
+     * 2. TPS SWEEP
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "TPS Sweep";
+
+
+    TpsTestStatus =
+        "RUNNING";
+
+
+    SensorSweepReport tpsReport =
+        await SensorSweep
+            .RunTpsAsync(
+                _connection,
+                1_100_000,
+                timeout
+            );
+
+
+    tpsPassed =
+        tpsReport.Passed;
+
+
+    TpsTestStatus =
+        tpsPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int tpsPassedPoints =
+        tpsReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    TpsTestDetails =
+        $"{tpsPassedPoints}/{tpsReport.Points.Count} points | " +
+        $"Avg error {tpsReport.AverageError:F5} % | " +
+        $"Max error {tpsReport.MaximumError:F5} %";
+
+
+    ValidationProgress =
+        40;
+
+
+
+    /*
+     * =====================================
+     * 3. MAP SWEEP
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "MAP Sweep";
+
+
+    MapTestStatus =
+        "RUNNING";
+
+
+    SensorSweepReport mapReport =
+        await SensorSweep
+            .RunMapAsync(
+                _connection,
+                1_200_000,
+                timeout
+            );
+
+
+    mapPassed =
+        mapReport.Passed;
+
+
+    MapTestStatus =
+        mapPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int mapPassedPoints =
+        mapReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    MapTestDetails =
+        $"{mapPassedPoints}/{mapReport.Points.Count} points | " +
+        $"Avg error {mapReport.AverageError:F5} kPa | " +
+        $"Max error {mapReport.MaximumError:F5} kPa";
+
+
+    ValidationProgress =
+        60;
+
+
+
+    /*
+     * =====================================
+     * 4. GEAR DETECTION
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "Gear Detection";
+
+
+    GearTestStatus =
+        "RUNNING";
+
+
+    GearValidationReport gearReport =
+        await GearValidation
+            .RunAsync(
+                _connection,
+                1_300_000,
+                timeout
+            );
+
+
+    gearPassed =
+        gearReport.Passed;
+
+
+    GearTestStatus =
+        gearPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int gearsPassed =
+        gearReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    GearTestDetails =
+        $"{gearsPassed}/{gearReport.Points.Count} gears";
+
+
+    ValidationProgress =
+        80;
+
+
+
+    /*
+     * =====================================
+     * 5. SHIFT INDICATOR
+     * =====================================
+     */
+
+    cancellationToken
+        .ThrowIfCancellationRequested();
+
+
+    ValidationCurrentStep =
+        "Shift Indicator";
+
+
+    ShiftTestStatus =
+        "RUNNING";
+
+
+    ShiftValidationReport shiftReport =
+        await ShiftValidation
+            .RunAsync(
+                _connection,
+                1_400_000,
+                timeout
+            );
+
+
+    shiftPassed =
+        shiftReport.Passed;
+
+
+    ShiftTestStatus =
+        shiftPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    int shiftPointsPassed =
+        shiftReport.Points.Count(
+            point =>
+                point.Passed
+        );
+
+
+    ShiftTestDetails =
+        $"{shiftPointsPassed}/{shiftReport.Points.Count} points";
+
+
+    ValidationProgress =
+        100;
+
+
+
+    /*
+     * =====================================
+     * OVERALL
+     * =====================================
+     */
+
+    bool overallPassed =
+        communicationPassed &&
+        tpsPassed &&
+        mapPassed &&
+        gearPassed &&
+        shiftPassed;
+
+
+    OverallValidationStatus =
+        overallPassed
+            ? "PASS"
+            : "FAIL";
+
+
+    ValidationCurrentStep =
+        overallPassed
+            ? "Validation completed successfully."
+            : "Validation completed with failures.";
+
+
+    LastMessage =
+        overallPassed
+            ? "UTFuel validation suite: PASS."
+            : "UTFuel validation suite: FAIL.";
+}
+/*
+ * =========================================
+ * RESET VALIDATION
+ * =========================================
+ */
+
+[RelayCommand]
+private void ResetValidationResults()
+{
+    if (
+        IsValidationRunning
+    )
+    {
+        return;
+    }
+
+
+    ValidationProgress =
+        0;
+
+
+    ValidationCurrentStep =
+        "Ready";
+
+
+    OverallValidationStatus =
+        "NOT RUN";
+
+
+    CommunicationTestStatus =
+        "WAITING";
+
+
+    CommunicationTestDetails =
+        "Not executed.";
+
+
+    TpsTestStatus =
+        "WAITING";
+
+
+    TpsTestDetails =
+        "Not executed.";
+
+
+    MapTestStatus =
+        "WAITING";
+
+
+    MapTestDetails =
+        "Not executed.";
+
+
+    GearTestStatus =
+        "WAITING";
+
+
+    GearTestDetails =
+        "Not executed.";
+
+
+    ShiftTestStatus =
+        "WAITING";
+
+
+    ShiftTestDetails =
+        "Not executed.";
+}
+
+/*
+ * =========================================
+ * REFRESH SERIAL PORTS
+ * =========================================
+ */
+
+[RelayCommand]
+private void RefreshSerialPorts()
+{
+    if (IsConnected)
+    {
+        return;
+    }
+
+    try
+    {
+        string? previousSimulatorPort =
+            SimulatorPort;
+
+        string? previousEcuPort =
+            EcuPort;
+
+        IReadOnlyList<string> ports =
+            SerialPortDiscovery.GetAvailablePorts();
+
+        AvailableSerialPorts.Clear();
+
+        foreach (string port in ports)
+        {
+            AvailableSerialPorts.Add(port);
+        }
+
+        if (
+            previousSimulatorPort != null &&
+            AvailableSerialPorts.Contains(previousSimulatorPort)
+        )
+        {
+            SimulatorPort =
+                previousSimulatorPort;
+        }
+        else
+        {
+            SimulatorPort =
+                AvailableSerialPorts.FirstOrDefault();
+        }
+
+        if (
+            previousEcuPort != null &&
+            AvailableSerialPorts.Contains(previousEcuPort)
+        )
+        {
+            EcuPort =
+                previousEcuPort;
+        }
+        else
+        {
+            EcuPort =
+                AvailableSerialPorts.FirstOrDefault(
+                    port =>
+                        port != SimulatorPort
+                );
+        }
+
+        LastMessage =
+            AvailableSerialPorts.Count == 0
+                ? "No serial ports detected."
+                : $"{AvailableSerialPorts.Count} serial port(s) detected.";
+    }
+    catch (Exception ex)
+    {
+        LastMessage =
+            $"Serial port discovery failed: {ex.Message}";
+    }
+}
+
+
+/*
+ * =========================================
+ * CREATE TESTBENCH SESSION
+ * =========================================
+ */
+
+private ITestBenchSession CreateSession()
+{
+    return SelectedConnectionMode switch
+    {
+        ConnectionMode.LocalSimulation =>
+            new HostFirmwareConnection(
+                FirmwarePath
+            ),
+
+        ConnectionMode.HardwareBench =>
+            CreateHardwareBenchSession(),
+
+        _ =>
+            throw new InvalidOperationException(
+                $"Unsupported connection mode: {SelectedConnectionMode}"
+            )
+    };
+}
+
+
+/*
+ * =========================================
+ * CREATE HARDWARE BENCH SESSION
+ * =========================================
+ */
+
+private ITestBenchSession CreateHardwareBenchSession()
+{
+    /*
+     * =========================================
+     * DEVELOPMENT MOCK
+     * =========================================
+     *
+     * PowerShell:
+     *
+     * $env:UTFUEL_HARDWARE_MOCK="1"
+     *
+     * When enabled, no COM port is opened.
+     */
+
+    string? mockEnvironment =
+        Environment.GetEnvironmentVariable(
+            "UTFUEL_HARDWARE_MOCK"
+        );
+
+
+    bool useMock =
+        string.Equals(
+            mockEnvironment,
+            "1",
+            StringComparison.OrdinalIgnoreCase
+        ) ||
+        string.Equals(
+            mockEnvironment,
+            "true",
+            StringComparison.OrdinalIgnoreCase
+        );
+
+
+    if (
+        useMock
+    )
+    {
+        return new MockHardwareBenchSession();
+    }
+
+
+    /*
+     * =========================================
+     * REAL HARDWARE
+     * =========================================
+     */
+
+    if (
+        string.IsNullOrWhiteSpace(
+            SimulatorPort
+        )
+    )
+    {
+        throw new InvalidOperationException(
+            "Select a simulator serial port."
+        );
+    }
+
+
+    if (
+        string.IsNullOrWhiteSpace(
+            EcuPort
+        )
+    )
+    {
+        throw new InvalidOperationException(
+            "Select an ECU serial port."
+        );
+    }
+
+
+    if (
+        string.Equals(
+            SimulatorPort,
+            EcuPort,
+            StringComparison.OrdinalIgnoreCase
+        )
+    )
+    {
+        throw new InvalidOperationException(
+            "Simulator and ECU cannot use the same serial port."
+        );
+    }
+
+
+    return new HardwareBenchSession(
+        simulatorPort:
+            SimulatorPort,
+
+        simulatorBaudRate:
+            SimulatorBaudRate,
+
+        ecuPort:
+            EcuPort,
+
+        ecuBaudRate:
+            EcuBaudRate
+    );
+}
+
+/*
+ * =========================================
+ * CONNECT
+ * =========================================
+ */
+
+/*
+ * =========================================
+ * CONNECT
+ * =========================================
+ */
+
+[RelayCommand]
+private async Task ConnectAsync()
+{
+    if (
+        IsConnected
+    )
+    {
+        return;
+    }
+
+
+    ITestBenchSession?
+        session =
+            null;
+
+
+    try
+    {
+        ConnectionStatus =
+            "CONNECTING...";
+
+
+        LastMessage =
+            $"Starting {SelectedConnectionMode} session...";
+
+
+        /*
+         * Create selected session.
+         */
+
+session =
+    CreateSession();
+
+await session
+    .StartAsync();
+
+        /*
+         * Store only after successful start.
+         */
+
+        _connection =
+            session;
+
+
+        session =
+            null;
+
+
+        IsConnected =
+            true;
+
+
+        ConnectionStatus =
+            "CONNECTED";
+
+
+        /*
+         * Hardware status indicators.
+         */
+
+        if (
+            _connection is
+                HardwareBenchSession
+                    connectedHardwareSession
+        )
+        {
+            SimulatorConnectionStatus =
+                connectedHardwareSession
+                    .SimulatorConnected
+                        ? "CONNECTED"
+                        : "NOT CONNECTED";
+
+
+            EcuConnectionStatus =
+                connectedHardwareSession
+                    .EcuConnected
+                        ? "CONNECTED"
+                        : "NOT CONNECTED";
+        }
+        else if (
+            _connection is
+                MockHardwareBenchSession
+        )
+        {
+            SimulatorConnectionStatus =
+                "MOCK ONLINE";
+
+
+            EcuConnectionStatus =
+                "MOCK ONLINE";
+        }
+        else
+        {
+            SimulatorConnectionStatus =
+                "NOT CONNECTED";
+
+
+            EcuConnectionStatus =
+                "NOT CONNECTED";
+        }
+
+
+        LastMessage =
+            $"UTFuel session connected ({_connection.Mode}).";
+    }
+    catch (
+        Exception ex
+    )
+    {
+        /*
+         * If StartAsync failed before the
+         * session became _connection, remove
+         * the event subscription first.
+         */
+
+        if (
+            session is
+                HardwareBenchSession
+                    pendingHardwareSession
+        )
+        {
+            pendingHardwareSession
+                .EcuRxMetricsUpdated -=
+                    OnHardwareEcuRxMetricsUpdated;
+        }
+
+
+        /*
+         * Dispose temporary session.
+         */
+
+        if (
+            session !=
+            null
+        )
+        {
+            try
+            {
+                await session
+                    .DisposeAsync();
+            }
+            catch
+            {
+                /*
+                 * Ignore cleanup errors.
+                 */
+            }
+        }
+
+
+        /*
+         * If something failed after assignment,
+         * clean the active connection too.
+         */
+
+        if (
+            _connection is
+                HardwareBenchSession
+                    activeHardwareSession
+        )
+        {
+            activeHardwareSession
+                .EcuRxMetricsUpdated -=
+                    OnHardwareEcuRxMetricsUpdated;
+        }
+
+
+        if (
+            _connection !=
+            null
+        )
+        {
+            if (
+    _connection is
+        HardwareBenchSession
+            hardwareSession
+)
+{
+    hardwareSession.EcuRxMetricsUpdated -=
+        OnHardwareEcuRxMetricsUpdated;
+}
+
+            try
+            {
+                await _connection
+                    .DisposeAsync();
+            }
+            catch
+            {
+                /*
+                 * Ignore cleanup errors.
+                 */
+            }
+
+
+            _connection =
+                null;
+        }
+
+
+        IsConnected =
+            false;
+
+
+        ConnectionStatus =
+            "CONNECTION ERROR";
+
+
+        SimulatorConnectionStatus =
+            "NOT CONNECTED";
+
+
+        EcuConnectionStatus =
+            "NOT CONNECTED";
+
+
+        LastMessage =
+            ex.Message;
+    }
+}
+
+    /*
+ * =========================================
+ * DISCONNECT
+ * =========================================
+ */
+
+[RelayCommand]
+private async Task DisconnectAsync()
+{
+    await StopBenchmarkInternalAsync();
+
+
+    await StopManualLiveInternalAsync();
+
+
+    /*
+     * Stop validation if active.
+     */
+
+    if (
+        _validationCancellation !=
+        null
+    )
+    {
+        _validationCancellation
+            .Cancel();
+
+
+        try
+        {
+            if (
+                _validationTask !=
+                null
+            )
+            {
+                await _validationTask;
+            }
+        }
+        catch (
+            OperationCanceledException
+        )
+        {
+        }
+    }
+
+
+    /*
+     * Disconnect active session.
+     */
+
+    if (
+        _connection !=
+        null
+    )
+    {
+        /*
+         * Real Hardware Bench:
+         * stop forwarding ECU telemetry to UI.
+         */
+
+        if (
+            _connection is
+                HardwareBenchSession
+                    hardwareSession
+        )
+        {
+            hardwareSession
+                .EcuRxMetricsUpdated -=
+                    OnHardwareEcuRxMetricsUpdated;
+        }
+
+
+        await _connection
+            .DisposeAsync();
+
+
+        _connection =
+            null;
+    }
+
+
+    IsConnected =
+        false;
+
+
+    ConnectionStatus =
+        "DISCONNECTED";
+
+
+    SimulatorConnectionStatus =
+        "NOT CONNECTED";
+
+
+    EcuConnectionStatus =
+        "NOT CONNECTED";
+
+
+    LastMessage =
+        "Firmware disconnected.";
+}
+
+
+    /*
+     * =========================================
+     * MANUAL SINGLE SEND
+     * =========================================
+     */
+
+    [RelayCommand]
+    private async Task SendManualAsync()
+    {
+        if (
+            _connection == null ||
+            !CanSendManual
+        )
+        {
+            return;
+        }
+
+
+        try
+        {
+            InputPacket input =
+                BuildManualPacket();
+
+
+            await SendAndDisplayAsync(
+                input,
+                targetGear:
+                    0
+            );
+
+
+            LastMessage =
+                "Manual packet sent successfully.";
+        }
+        catch (TimeoutException)
+        {
+            LastMessage =
+                "Manual packet timeout.";
+        }
+        catch (Exception ex)
+        {
+            LastMessage =
+                $"Manual send failed: {ex.Message}";
+        }
+    }
+
+
+
+    /*
+     * =========================================
+     * MANUAL LIVE START
+     * =========================================
+     */
+
+    [RelayCommand]
+    private async Task StartManualLiveAsync()
+    {
+        if (
+            _connection == null ||
+            !CanStartManualLive
+        )
+        {
+            return;
+        }
+
+
+        IsManualLiveRunning =
+            true;
+
+
+        LastMessage =
+            "Manual Live Control started.";
+
+
+        _manualLiveCancellation =
+            new CancellationTokenSource();
+
+
+        _manualLiveTask =
+            RunManualLiveAsync(
+                _manualLiveCancellation
+                    .Token
+            );
+
+
+        try
+        {
+            await _manualLiveTask;
+        }
+        catch (
+            OperationCanceledException
+        )
+        {
+        }
+        catch (
+            Exception ex
+        )
+        {
+            LastMessage =
+                $"Manual Live error: {ex.Message}";
+        }
+        finally
+        {
+            IsManualLiveRunning =
+                false;
+        }
+    }
+
+
+
+    /*
+     * =========================================
+     * MANUAL LIVE STOP
+     * =========================================
+     */
+
+    [RelayCommand]
+    private async Task StopManualLiveAsync()
+    {
+        await StopManualLiveInternalAsync();
+    }
+
+
+    private async Task StopManualLiveInternalAsync()
+    {
+        if (
+            _manualLiveCancellation ==
+            null
+        )
+        {
+            return;
+        }
+
+
+        _manualLiveCancellation
+            .Cancel();
+
+
+        try
+        {
+            if (
+                _manualLiveTask !=
+                null
+            )
+            {
+                await _manualLiveTask;
+            }
+        }
+        catch (
+            OperationCanceledException
+        )
+        {
+        }
+
+
+        _manualLiveCancellation
+            .Dispose();
+
+
+        _manualLiveCancellation =
+            null;
+
+
+        _manualLiveTask =
+            null;
+
+
+        IsManualLiveRunning =
+            false;
+
+
+        LastMessage =
+            "Manual Live Control stopped.";
+    }
+
+
+
+    /*
+     * =========================================
+     * MANUAL LIVE LOOP
+     * =========================================
+     */
+
+    private async Task RunManualLiveAsync(
+        CancellationToken cancellationToken
+    )
+    {
+        while (
+            !cancellationToken
+                .IsCancellationRequested
+        )
+        {
+            InputPacket input =
+                BuildManualPacket();
+
+
+            try
+            {
+                await SendAndDisplayAsync(
+                    input,
+                    targetGear:
+                        0
+                );
+            }
+            catch (
+                TimeoutException
+            )
+            {
+                LastMessage =
+                    "Manual Live packet timeout.";
+            }
+
+
+            int updateRate =
+                Math.Clamp(
+                    (int)
+                    ManualUpdateRateHz,
+
+                    1,
+                    100
+                );
+
+
+            int delayMs =
+                Math.Max(
+                    1,
+                    1000 /
+                    updateRate
+                );
+
+
+            await Task.Delay(
+                delayMs,
+                cancellationToken
+            );
+        }
+    }
+
+
+
+    /*
+     * =========================================
+     * BUILD MANUAL PACKET
+     * =========================================
+     */
+
+    private InputPacket BuildManualPacket()
+    {
+        return new InputPacket(
+            SequenceId:
+                _manualSequence++,
+
+            TpsVoltage:
+                (double)
+                ManualTpsVoltage,
+
+            MapVoltage:
+                (double)
+                ManualMapVoltage,
+
+            CoolantResistance:
+                (double)
+                ManualCoolantResistance,
+
+            IntakeResistance:
+                (double)
+                ManualIntakeResistance,
+
+            BatteryVoltage:
+                (double)
+                ManualBatteryVoltage,
+
+            Rpm:
+                (uint)
+                ManualRpm,
+
+            SpeedKmh:
+                (double)
+                ManualSpeedKmh
+        );
+    }
+
+
+
+    /*
+     * =========================================
+     * START DYNAMIC BENCHMARK
+     * =========================================
+     */
+
+    [RelayCommand]
+    private async Task StartBenchmarkAsync()
+    {
+        if (
+            _connection == null ||
+            !CanStartBenchmark
+        )
+        {
+            return;
+        }
+
+
+        IsBenchmarkRunning =
+            true;
+
+
+        BenchmarkPhase =
+            "Starting";
+
+
+        LastMessage =
+            "Dynamic benchmark started.";
+
+
+        _benchmarkCancellation =
+            new CancellationTokenSource();
+
+
+        _benchmarkTask =
+            RunBenchmarkAsync(
+                _benchmarkCancellation
+                    .Token
+            );
+
+
+        try
+        {
+            await _benchmarkTask;
+        }
+        catch (
+            OperationCanceledException
+        )
+        {
+        }
+        catch (
+            Exception ex
+        )
+        {
+            LastMessage =
+                $"Benchmark error: {ex.Message}";
+        }
+        finally
+        {
+            IsBenchmarkRunning =
+                false;
+
+
+            BenchmarkPhase =
+                "Stopped";
+        }
+    }
+
+
+
+    /*
+     * =========================================
+     * STOP DYNAMIC BENCHMARK
+     * =========================================
+     */
+
+    [RelayCommand]
+    private async Task StopBenchmarkAsync()
+    {
+        await StopBenchmarkInternalAsync();
+    }
+
+
+    private async Task StopBenchmarkInternalAsync()
+    {
+        if (
+            _benchmarkCancellation ==
+            null
+        )
+        {
+            return;
+        }
+
+
+        _benchmarkCancellation
+            .Cancel();
+
+
+        try
+        {
+            if (
+                _benchmarkTask !=
+                null
+            )
+            {
+                await _benchmarkTask;
+            }
+        }
+        catch (
+            OperationCanceledException
+        )
+        {
+        }
+
+
+        _benchmarkCancellation
+            .Dispose();
+
+
+        _benchmarkCancellation =
+            null;
+
+
+        _benchmarkTask =
+            null;
+
+
+        IsBenchmarkRunning =
+            false;
+
+
+        BenchmarkPhase =
+            "Stopped";
+
+
+        LastMessage =
+            "Dynamic benchmark stopped.";
+    }
+
+
+
+    /*
+     * =========================================
+     * DYNAMIC BENCHMARK LOOP
+     * =========================================
+     */
+
+    private async Task RunBenchmarkAsync(
+        CancellationToken cancellationToken
+    )
+    {
+        if (
+            _connection == null
+        )
+        {
+            return;
+        }
+
+
+        await foreach (
+            DynamicBenchmarkFrame frame
+            in DynamicBenchmark.RunAsync(
+                intervalMs:
+                    50,
+
+                cancellationToken:
+                    cancellationToken
+            )
+        )
+        {
+            BenchmarkPhase =
+                frame.Phase;
+
+
+            InputPacket input =
+                new(
+                    SequenceId:
+                        _benchmarkSequence++,
+
+                    TpsVoltage:
+                        frame.TpsVoltage,
+
+                    MapVoltage:
+                        frame.MapVoltage,
+
+                    CoolantResistance:
+                        frame.CoolantResistance,
+
+                    IntakeResistance:
+                        frame.IntakeResistance,
+
+                    BatteryVoltage:
+                        frame.BatteryVoltage,
+
+                    Rpm:
+                        frame.Rpm,
+
+                    SpeedKmh:
+                        frame.SpeedKmh
+                );
+
+
+            try
+            {
+                await SendAndDisplayAsync(
+                    input,
+                    frame.TargetGear
+                );
+            }
+            catch (
+                TimeoutException
+            )
+            {
+                LastMessage =
+                    "Benchmark packet timeout.";
+            }
+        }
+    }
+
+
+
+    /*
+     * =========================================
+     * SEND TO ECU + UPDATE DASHBOARD
+     * =========================================
+     */
+
+    private async Task SendAndDisplayAsync(
+        InputPacket input,
+        int targetGear
+    )
+    {
+        if (
+            _connection == null
+        )
+        {
+            return;
+        }
+
+
+        PacketsSent++;
+
+
+        try
+        {
+            var response =
+                await _connection
+                    .SendInputAsync(
+                        input,
+
+                        TimeSpan
+                            .FromMilliseconds(
+                                500
+                            )
+                    );
+
+            /*
+ * =========================================
+ * HARDWARE BENCH METRICS
+ * =========================================
+ */
+
+if (
+    _connection is
+        IHardwareBenchMetricsProvider
+            hardwareMetricsProvider &&
+    hardwareMetricsProvider
+        .LastHardwareMetrics is
+        HardwareBenchMetrics
+            hardwareMetrics
+)
+{
+    SimulatorAckRttMs =
+        hardwareMetrics
+            .SimulatorAckRttMs;
+
+
+    EndToEndLatencyMs =
+        hardwareMetrics
+            .EndToEndLatencyMs;
+
+
+    EcuSampleId =
+        hardwareMetrics
+            .EcuSampleId;
+
+
+    EcuUptimeUs =
+        hardwareMetrics
+            .EcuUptimeUs;
+
+
+    EcuDroppedSamples =
+        hardwareMetrics
+            .EcuDroppedSamples;
+
+
+    SimulatorAppliedAtUs =
+        hardwareMetrics
+            .SimulatorAppliedAtUs;
+
+            EcuRxRateHz =
+    hardwareMetrics
+        .EcuRxRateHz;
+
+
+EcuRxIntervalMs =
+    hardwareMetrics
+        .EcuRxIntervalMs;
+
+
+EcuRxJitterMs =
+    hardwareMetrics
+        .EcuRxJitterMs;
+}
+
+
+            PacketsReceived++;
+
+
+            CurrentRttMs =
+                response.RttMs;
+
+
+            AddLatencySample(
+                response.RttMs
+            );
+
+
+            AddReceiveTimestamp();
+
+
+            /*
+             * =================================
+             * TARGET
+             * =================================
+             */
+
+            TargetTpsVoltage =
+                input.TpsVoltage;
+
+
+            TargetMapVoltage =
+                input.MapVoltage;
+
+
+            TargetRpm =
+                input.Rpm;
+
+
+            TargetSpeedKmh =
+                input.SpeedKmh;
+
+
+            TargetGear =
+                targetGear;
+
+
+            TargetTpsPercent =
+                Math.Clamp(
+                    (
+                        input.TpsVoltage -
+                        0.50
+                    ) /
+                    4.00 *
+                    100.0,
+
+                    0.0,
+                    100.0
+                );
+
+
+            double normalizedMap =
+                Math.Clamp(
+                    (
+                        input.MapVoltage -
+                        0.50
+                    ) /
+                    4.00,
+
+                    0.0,
+                    1.0
+                );
+
+
+            TargetMapKpa =
+                20.0 +
+                normalizedMap *
+                230.0;
+
+
+            /*
+             * =================================
+             * ECU RESPONSE
+             * =================================
+             */
+
+            EcuRpm =
+                response.Packet.Rpm;
+
+
+            EcuTpsPercent =
+                response.Packet
+                    .TpsPercent;
+
+
+            EcuMapKpa =
+                response.Packet
+                    .MapKpa;
+
+
+            EcuBatteryVoltage =
+                response.Packet
+                    .BatteryVoltage;
+
+
+            EcuSpeedKmh =
+                response.Packet
+                    .SpeedKmh;
+
+
+            EcuGear =
+                response.Packet
+                    .Gear;
+
+
+            EcuShiftWarning =
+                response.Packet
+                    .ShiftWarning;
+
+
+            /*
+             * =================================
+             * ERROR
+             * =================================
+             */
+
+            RpmError =
+                (int)EcuRpm -
+                (int)TargetRpm;
+
+
+            TpsErrorPercent =
+                EcuTpsPercent -
+                TargetTpsPercent;
+
+
+            MapErrorKpa =
+                EcuMapKpa -
+                TargetMapKpa;
+
+
+            SpeedErrorKmh =
+                EcuSpeedKmh -
+                TargetSpeedKmh;
+
+
+            UpdatePacketStatistics();
+            TelemetrySampleReceived?.Invoke(
+    new LiveTelemetrySample(
+        Rpm:
+            EcuRpm,
+
+        TpsPercent:
+            EcuTpsPercent,
+
+        MapKpa:
+            EcuMapKpa,
+
+        SpeedKmh:
+            EcuSpeedKmh,
+
+        BatteryVoltage:
+            EcuBatteryVoltage,
+
+        Gear:
+            EcuGear,
+
+        ShiftWarning:
+            EcuShiftWarning,
+
+        RttMs:
+            CurrentRttMs
+    )
+);
+        }
+        catch (
+            TimeoutException
+        )
+        {
+            PacketsLost++;
+
+
+            UpdatePacketStatistics();
+
+
+            throw;
+        }
+    }
+
+
+
+    /*
+     * =========================================
+     * LATENCY STATISTICS
+     * =========================================
+     */
+
+    private void AddLatencySample(
+        double latency
+    )
+    {
+        _latencySamples
+            .Enqueue(
+                latency
+            );
+
+
+        while (
+            _latencySamples.Count >
+            MaxLatencySamples
+        )
+        {
+            _latencySamples
+                .Dequeue();
+        }
+
+
+        if (
+            _latencySamples.Count ==
+            0
+        )
+        {
+            return;
+        }
+
+
+        double[] ordered =
+            _latencySamples
+                .OrderBy(
+                    x => x
+                )
+                .ToArray();
+
+
+        AverageRttMs =
+            ordered
+                .Average();
+
+
+        MinimumRttMs =
+            ordered
+                .First();
+
+
+        MaximumRttMs =
+            ordered
+                .Last();
+
+
+        P95RttMs =
+            Percentile(
+                ordered,
+                0.95
+            );
+
+
+        P99RttMs =
+            Percentile(
+                ordered,
+                0.99
+            );
+
+        double average =
+            AverageRttMs;
+
+
+        double variance =
+            ordered
+                .Select(
+                    x =>
+                        Math.Pow(
+                            x -
+                            average,
+
+                            2
+                        )
+                )
+                .Average();
+
+
+JitterMs =
+    Math.Sqrt(
+        variance
+    );
+}
+
+
+    /*
+ * =========================================
+ * UPDATE RATE
+ * =========================================
+ */
+
+private void AddReceiveTimestamp()
+{
+    DateTime now =
+        DateTime.UtcNow;
+
+
+    _receiveTimestamps
+        .Enqueue(
+            now
+        );
+
+
+    while (
+        _receiveTimestamps.Count >
+        0 &&
+        (
+            now -
+            _receiveTimestamps
+                .Peek()
+        ).TotalSeconds >
+        1.0
+    )
+    {
+        _receiveTimestamps
+            .Dequeue();
+    }
+
+
+    MeasuredUpdateRateHz =
+        _receiveTimestamps
+            .Count;
+}
+
+    /*
+     * =========================================
+     * PACKET STATISTICS
+     * =========================================
+     */
+
+    private void UpdatePacketStatistics()
+    {
+        PacketLossPercent =
+            PacketsSent ==
+            0
+                ? 0.0
+                : PacketsLost *
+                  100.0 /
+                  PacketsSent;
+    }
+
+
+
+    /*
+     * =========================================
+     * PERCENTILE
+     * =========================================
+     */
+
+    private static double Percentile(
+        double[] sorted,
+        double percentile
+    )
+    {
+        if (
+            sorted.Length ==
+            0
+        )
+        {
+            return 0.0;
+        }
+
+
+        int index =
+            (int)Math.Ceiling(
+                percentile *
+                sorted.Length
+            ) -
+            1;
+
+
+        index =
+            Math.Clamp(
+                index,
+                0,
+                sorted.Length -
+                1
+            );
+
+
+        return sorted[
+            index
+        ];
+    }
+
+
+
+[RelayCommand]
+private void ResetStatistics()
+{
+    /*
+     * =========================================
+     * INTERNAL STATISTIC BUFFERS
+     * =========================================
+     */
+
+    _latencySamples
+        .Clear();
+
+
+    _receiveTimestamps
+        .Clear();
+
+    /*
+     * =========================================
+     * PACKET STATISTICS
+     * =========================================
+     */
+
+    PacketsSent =
+        0;
+
+
+    PacketsReceived =
+        0;
+
+
+    PacketsLost =
+        0;
+
+
+    PacketLossPercent =
+        0;
+
+
+
+    /*
+     * =========================================
+     * GENERAL LATENCY STATISTICS
+     * =========================================
+     */
+
+    CurrentRttMs =
+        0;
+
+
+    AverageRttMs =
+        0;
+
+
+    MinimumRttMs =
+        0;
+
+
+    MaximumRttMs =
+        0;
+
+
+    P95RttMs =
+        0;
+
+
+    P99RttMs =
+        0;
+
+
+    JitterMs =
+        0;
+
+
+    MeasuredUpdateRateHz =
+        0;
+
+
+
+    /*
+     * =========================================
+     * HARDWARE BENCH METRICS
+     * =========================================
+     */
+
+    SimulatorAckRttMs =
+        0;
+
+
+    EndToEndLatencyMs =
+        0;
+
+
+    EcuSampleId =
+        0;
+
+
+    EcuUptimeUs =
+        0;
+
+
+    EcuDroppedSamples =
+        0;
+
+
+    SimulatorAppliedAtUs =
+        null;
+
+
+
+    /*
+     * =========================================
+     * ECU RX STATISTICS
+     * =========================================
+     */
+
+    EcuRxRateHz =
+        0.0;
+
+
+    EcuRxIntervalMs =
+        0.0;
+
+
+    EcuRxJitterMs =
+        0.0;
+
+
+
+    /*
+     * =========================================
+     * UI
+     * =========================================
+     */
+
+    LastMessage =
+        "Communication statistics reset.";
+}
+
+    /*
+     * =========================================
+     * SHUTDOWN
+     * =========================================
+     */
+
+    public async Task ShutdownAsync()
+    {
+        await DisconnectAsync();
+    }
+
+
+
+    /*
+     * =========================================
+     * AUTO-DETECT UTFUEL HOST
+     * =========================================
+     */
+
+    private static string FindFirmwarePath()
+    {
+        DirectoryInfo? directory =
+            new(
+                AppContext
+                    .BaseDirectory
+            );
+
+
+        while (
+            directory != null
+        )
+        {
+            string candidate =
+                Path.Combine(
+                    directory
+                        .FullName,
+
+                    "build",
+
+                    "utfuel_host.exe"
+                );
+
+
+            if (
+                File.Exists(
+                    candidate
+                )
+            )
+            {
+                return candidate;
+            }
+
+
+            directory =
+                directory
+                    .Parent;
+        }
+
+
+        return string.Empty;
+    }
+
+    
+
+}

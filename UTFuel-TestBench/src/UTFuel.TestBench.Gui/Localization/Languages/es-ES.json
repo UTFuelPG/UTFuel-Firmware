@@ -1,0 +1,256 @@
+{
+  "AppName": "UTFuel TestBench",
+  "AppSubtitle": "Plataforma de Gestión Electrónica",
+  "AppFirmwareTarget": "FIRMWARE OBJETIVO",
+
+  "CommonConnect": "CONECTAR",
+  "CommonDisconnect": "DESCONECTAR",
+  "CommonStart": "INICIAR",
+  "CommonStop": "DETENER",
+  "CommonReset": "RESTABLECER",
+  "CommonRunning": "EJECUTANDO",
+  "CommonReady": "LISTO",
+
+  "NavOverview": "Resumen",
+  "NavManualControl": "Control Manual",
+  "NavDynamicBenchmark": "Prueba Dinámica",
+  "NavLiveTelemetry": "Telemetría",
+  "NavValidation": "Validación",
+  "NavShowcase": "Showcase",
+  "NavSettings": "Configuración",
+
+  "NavSectionOverview": "RESUMEN",
+  "NavSectionControl": "CONTROL",
+  "NavSectionAnalysis": "ANÁLISIS",
+  "NavSectionTools": "HERRAMIENTAS",
+
+  "LanguageTitle": "Idioma",
+  "LanguagePortuguese": "Portugués",
+  "LanguageEnglish": "Inglés",
+  "LanguageSpanish": "Español",
+
+  "SplashTitle": "La ingeniería comienza aquí.",
+  "SplashInitializing": "Inicializando el entorno de desarrollo UTFuel",
+  "SplashVersion": "v0.1 desarrollo",
+
+  "OverviewSubtitle": "Resumen en tiempo real de los objetivos del simulador, la telemetría de la ECU y el estado de la comunicación.",
+
+  "OverviewEngineSpeed": "RPM DEL MOTOR",
+  "OverviewCurrentGear": "MARCHA ACTUAL",
+  "OverviewShiftWarning": "Aviso de cambio:",
+  "OverviewThrottlePosition": "POSICIÓN DEL ACELERADOR",
+  "OverviewProcessedEcuValue": "Valor procesado por la ECU",
+  "OverviewManifoldPressure": "PRESIÓN DEL COLECTOR",
+
+  "OverviewSimulatorTarget": "Objetivo del Simulador",
+  "OverviewSimulatorTargetDescription": "Valores solicitados por el TestBench.",
+  "OverviewPhase": "FASE:",
+  "OverviewEngineRpm": "RPM del motor",
+  "OverviewVehicleSpeed": "Velocidad del vehículo",
+  "OverviewCalculatedGear": "Marcha calculada",
+
+  "OverviewUtfuelEcu": "UTFuel ECU",
+  "OverviewEcuDescription": "Valores devueltos por el firmware.",
+  "OverviewBattery": "Batería",
+  "OverviewGear": "Marcha",
+
+  "OverviewTargetVsEcu": "Objetivo vs ECU",
+  "OverviewTargetVsEcuDescription": "Diferencia entre los valores solicitados y procesados.",
+  "OverviewTarget": "OBJETIVO",
+  "OverviewError": "ERROR",
+
+  "OverviewCommunication": "Comunicación",
+  "OverviewCommunicationDescription": "Estadísticas actuales de comunicación del TestBench.",
+  "OverviewResetStatistics": "RESTABLECER ESTADÍSTICAS",
+
+  "OverviewPacketsSent": "PAQUETES ENVIADOS",
+  "OverviewReceived": "RECIBIDOS",
+  "OverviewLost": "PERDIDOS",
+  "OverviewLoss": "PÉRDIDA",
+
+  "OverviewUpdateRate": "TASA DE ACTUALIZACIÓN",
+  "OverviewCurrentRtt": "RTT ACTUAL",
+  "OverviewAverageRtt": "RTT PROMEDIO",
+  "OverviewJitter": "JITTER",
+
+  "OverviewMinimum": "Mínimo:",
+  "OverviewMaximum": "Máximo:",
+
+  "OverviewLastEvent": "ÚLTIMO EVENTO",
+
+"ManualSubtitle": "Define manualmente los valores simulados de los sensores automotrices y transmítelos al objetivo UTFuel actual.",
+
+"ManualSimulator": "Simulador Manual",
+"ManualSimulatorDescription": "Los valores introducidos aquí representan el estado físico solicitado al simulador.",
+"ManualLiveMode": "MODO EN VIVO:",
+
+"ManualSensorInputs": "Entradas de Sensores",
+"ManualSensorInputsDescription": "Valores eléctricos y del vehículo transmitidos por el TestBench.",
+
+"ManualAnalogSensors": "SENSORES ANALÓGICOS",
+"ManualTpsVoltage": "Voltaje del TPS",
+"ManualMapVoltage": "Voltaje del MAP",
+"ManualBatteryVoltage": "Voltaje de la batería",
+
+"ManualResistiveSensors": "SENSORES RESISTIVOS",
+"ManualCoolantResistance": "Resistencia del refrigerante",
+"ManualIntakeResistance": "Resistencia del aire de admisión",
+
+"ManualVehicleState": "ESTADO DEL VEHÍCULO",
+"ManualEngineRpm": "RPM del motor",
+"ManualVehicleSpeed": "Velocidad del vehículo",
+
+"ManualQuickControl": "Control Rápido",
+"ManualQuickControlDescription": "Usa los controles deslizantes para realizar pruebas interactivas rápidas en banco.",
+"ManualThrottle": "Acelerador",
+
+"ManualSingleTransmission": "Transmisión Única",
+"ManualSingleTransmissionDescription": "Transmite el estado actual una vez y espera la respuesta de la ECU.",
+"ManualSendToEcu": "ENVIAR A LA ECU",
+
+"ManualLiveTransmission": "Transmisión Continua",
+"ManualLiveTransmissionDescription": "Transmite continuamente el estado actual del simulador.",
+"ManualRunning": "EJECUTANDO:",
+"ManualUpdateRate": "Tasa de actualización",
+"ManualStartLive": "INICIAR EN VIVO",
+"ManualStopLive": "DETENER EN VIVO",
+
+"ManualLastEvent": "ÚLTIMO EVENTO",
+
+"DynamicSubtitle": "Ejecuta un ciclo de conducción automatizado para validar el comportamiento dinámico de la ECU y del TestBench.",
+
+"DynamicTestSequence": "Secuencia de Prueba",
+"DynamicTestSequenceDescription": "Realiza automáticamente aceleración, cambios de marcha, desaceleración y regreso al ralentí.",
+"DynamicStartBenchmark": "INICIAR PRUEBA",
+"DynamicStopBenchmark": "DETENER PRUEBA",
+
+"DynamicEngineState": "Estado del Motor",
+"DynamicEngineStateDescription": "Estado actual devuelto por la ECU durante el ciclo dinámico.",
+"DynamicEngineRpm": "RPM DEL MOTOR",
+"DynamicGear": "MARCHA",
+"DynamicSpeed": "VELOCIDAD",
+
+"DynamicBenchmarkStatus": "Estado de la Prueba",
+"DynamicPhase": "FASE",
+"DynamicShiftWarning": "AVISO DE CAMBIO",
+"DynamicCurrentRtt": "RTT ACTUAL",
+
+"DynamicLiveTargetTracking": "Seguimiento del Objetivo",
+"DynamicLiveTargetTrackingDescription": "Comparación en tiempo real entre los valores solicitados por el simulador y los valores procesados por la ECU.",
+"DynamicTarget": "OBJETIVO",
+"DynamicError": "ERROR",
+
+"DynamicCommunication": "Comunicación",
+"DynamicPacketsSent": "PAQUETES ENVIADOS",
+"DynamicUpdateRate": "TASA DE ACTUALIZACIÓN",
+"DynamicAverageRtt": "RTT PROMEDIO",
+"DynamicPacketLoss": "PÉRDIDA DE PAQUETES",
+
+"DynamicLastEvent": "ÚLTIMO EVENTO",
+
+"TelemetrySubtitle": "Visualización en tiempo real de la telemetría procesada recibida de la ECU UTFuel.",
+
+"TelemetryRate": "TASA:",
+"TelemetrySpeed": "VELOCIDAD",
+
+"TelemetryEngineSpeed": "RPM del Motor",
+"TelemetryEngineSpeedDescription": "RPM del motor procesadas por la ECU a lo largo del tiempo.",
+
+"TelemetryThrottlePosition": "Posición del Acelerador",
+"TelemetryThrottleDescription": "Posición procesada del acelerador.",
+
+"TelemetryManifoldPressure": "Presión del Colector",
+"TelemetryManifoldDescription": "Presión procesada del sensor MAP.",
+
+"TelemetryVehicleSpeed": "Velocidad del Vehículo",
+"TelemetryVehicleSpeedDescription": "Velocidad calculada del vehículo.",
+
+"TelemetryPackets": "PAQUETES",
+"TelemetryReceived": "Recibidos:",
+"TelemetryPacketLoss": "PÉRDIDA DE PAQUETES",
+"TelemetryJitter": "JITTER",
+
+"TelemetryTimeAxis": "Tiempo (s)",
+"TelemetrySpeedAxis": "Velocidad (km/h)",
+
+"ValidationSubtitle": "Ejecuta la suite completa de validación UTFuel contra el objetivo actualmente conectado.",
+
+"ValidationSuite": "Suite de Validación",
+"ValidationSuiteDescription": "Comunicación → TPS → MAP → Detección de Marcha → Indicador de Cambio",
+
+"ValidationRunAll": "EJECUTAR TODOS",
+"ValidationStop": "DETENER",
+"ValidationReset": "RESTABLECER",
+
+"ValidationCurrentStep": "ETAPA ACTUAL",
+"ValidationProgress": "PROGRESO",
+
+"ValidationCommunication": "Prueba de Comunicación",
+"ValidationCommunicationDescription": "Validación de la integridad de los paquetes y la latencia.",
+
+"ValidationTpsSweep": "Barrido TPS",
+"ValidationTpsDescription": "Barrido completo de la conversión del sensor de posición del acelerador.",
+
+"ValidationMapSweep": "Barrido MAP",
+"ValidationMapDescription": "Barrido completo de la conversión de presión del colector.",
+
+"ValidationGearDetection": "Detección de Marcha",
+"ValidationGearDescription": "Validación de la marcha calculada de la transmisión.",
+
+"ValidationShiftIndicator": "Indicador de Cambio",
+"ValidationShiftDescription": "Validación de la activación del aviso de cambio cerca del límite de RPM configurado.",
+
+"ValidationResult": "RESULTADO",
+"ValidationOverallResult": "RESULTADO DE LA VALIDACIÓN",
+"ValidationTarget": "OBJETIVO",
+
+"ValidationLastEvent": "ÚLTIMO EVENTO",
+
+"ShowcaseSubtitle": "Abre la interfaz dedicada de conducción de UTFuel en pantalla completa para demostraciones y presentaciones externas.",
+
+"ShowcaseDriverDisplay": "INTERFAZ DEL PILOTO",
+"ShowcaseFullscreenTitle": "Showcase UTFuel en Pantalla Completa",
+"ShowcaseFullscreenDescription": "El Showcase se abre en una ventana separada a pantalla completa y utiliza la misma conexión con la ECU y el mismo flujo de telemetría del TestBench.",
+"ShowcaseOpen": "ABRIR SHOWCASE",
+
+"ShowcaseLiveDriverData": "Datos del Piloto en Tiempo Real",
+"ShowcaseLiveDriverDataDescription": "Valores actuales de la ECU que se mostrarán en el modo Showcase.",
+
+"ShowcaseGear": "MARCHA",
+"ShowcaseSpeed": "VELOCIDAD",
+
+"ShowcaseDisplayBehavior": "Comportamiento de la Interfaz",
+"ShowcaseDisplayMode": "Modo de visualización",
+"ShowcaseFullscreen": "Pantalla completa",
+"ShowcaseTelemetrySource": "Fuente de telemetría",
+"ShowcaseSharedConnection": "Conexión compartida del TestBench",
+"ShowcaseShiftAlert": "Aviso de cambio",
+"ShowcaseEnabled": "Activado",
+"ShowcaseExitShortcut": "Atajo para salir",
+
+"ShowcaseDemonstrationControl": "Control de la Demostración",
+"ShowcaseDemonstrationDescription": "Ejecuta el ciclo automatizado de conducción mientras la interfaz de pantalla completa está activa.",
+"ShowcaseStartBenchmark": "INICIAR BENCHMARK",
+"ShowcaseStop": "DETENER",
+"ShowcaseCurrentPhase": "FASE ACTUAL:",
+
+"ShowcaseShiftAlertSystem": "Sistema de Aviso de Cambio",
+"ShowcaseShiftAlertDescription": "Una advertencia SHIFT a pantalla completa se activa solamente en el flanco ascendente de la señal de cambio de la ECU. El sistema se rearma automáticamente cuando la ECU devuelve el aviso a falso.",
+"ShowcaseEcuShift": "SHIFT DE LA ECU",
+
+"ShowcaseLastEvent": "ÚLTIMO EVENTO",
+
+"ConnectionModeTitle": "MODO DE CONEXIÓN",
+"ConnectionModeLocal": "Simulación Local",
+"ConnectionModeHardware": "Banco de Hardware",
+"ConnectionModeLocalDescription": "Ejecuta la ECU localmente en el ordenador mediante utfuel_host.exe.",
+"ConnectionModeHardwareDescription": "Utiliza el ESP32-S3 como simulador físico y una ECU conectada al ordenador.",
+
+"HardwareSimulator": "SIMULADOR",
+"HardwareEcu": "ECU UTFUEL",
+"HardwarePort": "Puerto",
+"HardwareBaudRate": "Baud Rate",
+"HardwareStatus": "Estado:",
+"HardwareRefreshPorts": "ACTUALIZAR PUERTOS"
+
+}

@@ -1,0 +1,256 @@
+{
+  "AppName": "UTFuel TestBench",
+  "AppSubtitle": "Electronic Management Platform",
+  "AppFirmwareTarget": "FIRMWARE TARGET",
+
+  "CommonConnect": "CONNECT",
+  "CommonDisconnect": "DISCONNECT",
+  "CommonStart": "START",
+  "CommonStop": "STOP",
+  "CommonReset": "RESET",
+  "CommonRunning": "RUNNING",
+  "CommonReady": "READY",
+
+  "NavOverview": "Overview",
+  "NavManualControl": "Manual Control",
+  "NavDynamicBenchmark": "Dynamic Benchmark",
+  "NavLiveTelemetry": "Live Telemetry",
+  "NavValidation": "Validation",
+  "NavShowcase": "Showcase",
+  "NavSettings": "Settings",
+
+  "NavSectionOverview": "OVERVIEW",
+  "NavSectionControl": "CONTROL",
+  "NavSectionAnalysis": "ANALYSIS",
+  "NavSectionTools": "TOOLS",
+
+  "LanguageTitle": "Language",
+  "LanguagePortuguese": "Portuguese",
+  "LanguageEnglish": "English",
+  "LanguageSpanish": "Spanish",
+
+  "SplashTitle": "Engineering starts here.",
+  "SplashInitializing": "Initializing UTFuel development environment",
+  "SplashVersion": "v0.1 development",
+
+  "OverviewSubtitle": "Real-time overview of simulator targets, ECU telemetry and communication health.",
+
+  "OverviewEngineSpeed": "ENGINE SPEED",
+  "OverviewCurrentGear": "CURRENT GEAR",
+  "OverviewShiftWarning": "Shift warning:",
+  "OverviewThrottlePosition": "THROTTLE POSITION",
+  "OverviewProcessedEcuValue": "Processed ECU value",
+  "OverviewManifoldPressure": "MANIFOLD PRESSURE",
+
+  "OverviewSimulatorTarget": "Simulator Target",
+  "OverviewSimulatorTargetDescription": "Values requested by the TestBench.",
+  "OverviewPhase": "PHASE:",
+  "OverviewEngineRpm": "Engine RPM",
+  "OverviewVehicleSpeed": "Vehicle speed",
+  "OverviewCalculatedGear": "Calculated gear",
+
+  "OverviewUtfuelEcu": "UTFuel ECU",
+  "OverviewEcuDescription": "Values returned by the firmware.",
+  "OverviewBattery": "Battery",
+  "OverviewGear": "Gear",
+
+  "OverviewTargetVsEcu": "Target vs ECU",
+  "OverviewTargetVsEcuDescription": "Difference between requested and processed values.",
+  "OverviewTarget": "TARGET",
+  "OverviewError": "ERROR",
+
+  "OverviewCommunication": "Communication",
+  "OverviewCommunicationDescription": "Current TestBench communication statistics.",
+  "OverviewResetStatistics": "RESET STATISTICS",
+
+  "OverviewPacketsSent": "PACKETS SENT",
+  "OverviewReceived": "RECEIVED",
+  "OverviewLost": "LOST",
+  "OverviewLoss": "LOSS",
+
+  "OverviewUpdateRate": "UPDATE RATE",
+  "OverviewCurrentRtt": "CURRENT RTT",
+  "OverviewAverageRtt": "AVERAGE RTT",
+  "OverviewJitter": "JITTER",
+
+  "OverviewMinimum": "Minimum:",
+  "OverviewMaximum": "Maximum:",
+
+  "OverviewLastEvent": "LAST EVENT",
+
+  "ManualSubtitle": "Manually define simulated automotive sensor values and transmit them to the current UTFuel target.",
+
+"ManualSimulator": "Manual Simulator",
+"ManualSimulatorDescription": "Values entered here represent the physical state requested from the simulator.",
+"ManualLiveMode": "LIVE MODE:",
+
+"ManualSensorInputs": "Sensor Inputs",
+"ManualSensorInputsDescription": "Exact electrical and vehicle values transmitted by the TestBench.",
+
+"ManualAnalogSensors": "ANALOG SENSORS",
+"ManualTpsVoltage": "TPS Voltage",
+"ManualMapVoltage": "MAP Voltage",
+"ManualBatteryVoltage": "Battery Voltage",
+
+"ManualResistiveSensors": "RESISTIVE SENSORS",
+"ManualCoolantResistance": "Coolant Resistance",
+"ManualIntakeResistance": "Intake Air Resistance",
+
+"ManualVehicleState": "VEHICLE STATE",
+"ManualEngineRpm": "Engine RPM",
+"ManualVehicleSpeed": "Vehicle Speed",
+
+"ManualQuickControl": "Quick Control",
+"ManualQuickControlDescription": "Use the sliders for fast interactive bench testing.",
+"ManualThrottle": "Throttle",
+
+"ManualSingleTransmission": "Single Transmission",
+"ManualSingleTransmissionDescription": "Transmit the current state once and wait for the ECU response.",
+"ManualSendToEcu": "SEND TO ECU",
+
+"ManualLiveTransmission": "Live Transmission",
+"ManualLiveTransmissionDescription": "Continuously transmit the current simulator state.",
+"ManualRunning": "RUNNING:",
+"ManualUpdateRate": "Update rate",
+"ManualStartLive": "START LIVE",
+"ManualStopLive": "STOP LIVE",
+
+"ManualLastEvent": "LAST EVENT",
+
+"DynamicSubtitle": "Run an automated driving cycle to validate dynamic ECU and TestBench behavior.",
+
+"DynamicTestSequence": "Test Sequence",
+"DynamicTestSequenceDescription": "Automatically performs acceleration, gear shifts, deceleration and return to idle.",
+"DynamicStartBenchmark": "START BENCHMARK",
+"DynamicStopBenchmark": "STOP BENCHMARK",
+
+"DynamicEngineState": "Engine State",
+"DynamicEngineStateDescription": "Current state returned by the ECU during the dynamic cycle.",
+"DynamicEngineRpm": "ENGINE SPEED",
+"DynamicGear": "GEAR",
+"DynamicSpeed": "SPEED",
+
+"DynamicBenchmarkStatus": "Benchmark Status",
+"DynamicPhase": "PHASE",
+"DynamicShiftWarning": "SHIFT WARNING",
+"DynamicCurrentRtt": "CURRENT RTT",
+
+"DynamicLiveTargetTracking": "Live Target Tracking",
+"DynamicLiveTargetTrackingDescription": "Real-time comparison between simulator requested values and ECU processed values.",
+"DynamicTarget": "TARGET",
+"DynamicError": "ERROR",
+
+"DynamicCommunication": "Communication",
+"DynamicPacketsSent": "PACKETS SENT",
+"DynamicUpdateRate": "UPDATE RATE",
+"DynamicAverageRtt": "AVERAGE RTT",
+"DynamicPacketLoss": "PACKET LOSS",
+
+"DynamicLastEvent": "LAST EVENT",
+
+"TelemetrySubtitle": "Real-time visualization of processed telemetry received from the UTFuel ECU.",
+
+"TelemetryRate": "RATE:",
+"TelemetrySpeed": "SPEED",
+
+"TelemetryEngineSpeed": "Engine Speed",
+"TelemetryEngineSpeedDescription": "ECU engine RPM over time.",
+
+"TelemetryThrottlePosition": "Throttle Position",
+"TelemetryThrottleDescription": "Processed throttle position.",
+
+"TelemetryManifoldPressure": "Manifold Pressure",
+"TelemetryManifoldDescription": "Processed MAP sensor pressure.",
+
+"TelemetryVehicleSpeed": "Vehicle Speed",
+"TelemetryVehicleSpeedDescription": "Calculated vehicle speed.",
+
+"TelemetryPackets": "PACKETS",
+"TelemetryReceived": "Received:",
+"TelemetryPacketLoss": "PACKET LOSS",
+"TelemetryJitter": "JITTER",
+
+"TelemetryTimeAxis": "Time (s)",
+"TelemetrySpeedAxis": "Speed (km/h)",
+
+"ValidationSubtitle": "Execute the complete UTFuel validation suite against the currently connected target.",
+
+"ValidationSuite": "Validation Suite",
+"ValidationSuiteDescription": "Communication → TPS → MAP → Gear Detection → Shift Indicator",
+
+"ValidationRunAll": "RUN ALL TESTS",
+"ValidationStop": "STOP",
+"ValidationReset": "RESET",
+
+"ValidationCurrentStep": "CURRENT STEP",
+"ValidationProgress": "PROGRESS",
+
+"ValidationCommunication": "Communication Benchmark",
+"ValidationCommunicationDescription": "Packet integrity and latency validation.",
+
+"ValidationTpsSweep": "TPS Sweep",
+"ValidationTpsDescription": "Complete throttle position sensor conversion sweep.",
+
+"ValidationMapSweep": "MAP Sweep",
+"ValidationMapDescription": "Complete manifold pressure conversion sweep.",
+
+"ValidationGearDetection": "Gear Detection",
+"ValidationGearDescription": "Validation of the calculated transmission gear.",
+
+"ValidationShiftIndicator": "Shift Indicator",
+"ValidationShiftDescription": "Validation of shift-warning activation around the configured RPM threshold.",
+
+"ValidationResult": "RESULT",
+"ValidationOverallResult": "VALIDATION RESULT",
+"ValidationTarget": "TARGET",
+
+"ValidationLastEvent": "LAST EVENT",
+
+"ShowcaseSubtitle": "Launch the dedicated fullscreen UTFuel driver display for demonstrations and external presentations.",
+
+"ShowcaseDriverDisplay": "DRIVER DISPLAY",
+"ShowcaseFullscreenTitle": "UTFuel Fullscreen Showcase",
+"ShowcaseFullscreenDescription": "The Showcase opens as a separate fullscreen window and uses the same ECU connection and telemetry stream as the TestBench.",
+"ShowcaseOpen": "OPEN SHOWCASE",
+
+"ShowcaseLiveDriverData": "Live Driver Data",
+"ShowcaseLiveDriverDataDescription": "Current ECU values that will be displayed in Showcase Mode.",
+
+"ShowcaseGear": "GEAR",
+"ShowcaseSpeed": "SPEED",
+
+"ShowcaseDisplayBehavior": "Display Behavior",
+"ShowcaseDisplayMode": "Display mode",
+"ShowcaseFullscreen": "Fullscreen",
+"ShowcaseTelemetrySource": "Telemetry source",
+"ShowcaseSharedConnection": "Shared TestBench connection",
+"ShowcaseShiftAlert": "Shift alert",
+"ShowcaseEnabled": "Enabled",
+"ShowcaseExitShortcut": "Exit shortcut",
+
+"ShowcaseDemonstrationControl": "Demonstration Control",
+"ShowcaseDemonstrationDescription": "Run the automated driving cycle while the fullscreen display is active.",
+"ShowcaseStartBenchmark": "START BENCHMARK",
+"ShowcaseStop": "STOP",
+"ShowcaseCurrentPhase": "CURRENT PHASE:",
+
+"ShowcaseShiftAlertSystem": "Shift Alert System",
+"ShowcaseShiftAlertDescription": "A fullscreen SHIFT warning is triggered only on the rising edge of the ECU shift signal. It automatically rearms after the ECU returns the warning to false.",
+"ShowcaseEcuShift": "ECU SHIFT",
+
+"ShowcaseLastEvent": "LAST EVENT",
+
+"ConnectionModeTitle": "CONNECTION MODE",
+"ConnectionModeLocal": "Local Simulation",
+"ConnectionModeHardware": "Hardware Bench",
+"ConnectionModeLocalDescription": "Runs the ECU locally on the computer through utfuel_host.exe.",
+"ConnectionModeHardwareDescription": "Uses the ESP32-S3 as a physical simulator and an ECU connected to the computer.",
+
+"HardwareSimulator": "SIMULATOR",
+"HardwareEcu": "UTFUEL ECU",
+"HardwarePort": "Port",
+"HardwareBaudRate": "Baud Rate",
+"HardwareStatus": "Status:",
+"HardwareRefreshPorts": "REFRESH PORTS"
+
+}
