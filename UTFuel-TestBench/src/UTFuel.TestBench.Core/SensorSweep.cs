@@ -1,5 +1,6 @@
 namespace UTFuel.TestBench.Core;
 
+
 public sealed record SensorSweepPoint(
     double Input,
     double Expected,
@@ -22,18 +23,32 @@ public sealed record SensorSweepReport(
 
 public static class SensorSweep
 {
-    public static async Task<SensorSweepReport> RunTpsAsync(
-        HostFirmwareConnection connection,
-        uint initialSequence,
-        TimeSpan timeout
-    )
-    {
-        List<SensorSweepPoint> points = new();
+    /*
+     * =========================================
+     * TPS SWEEP
+     * =========================================
+     */
 
-        uint sequence = initialSequence;
+    public static async Task<SensorSweepReport>
+        RunTpsAsync(
+            ITestBenchSession connection,
+            uint initialSequence,
+            TimeSpan timeout
+        )
+    {
+        List<SensorSweepPoint>
+            points =
+                new();
+
+
+        uint sequence =
+            initialSequence;
+
+
 
         /*
-         * TPS calibration currently used by firmware:
+         * TPS calibration currently used by
+         * firmware:
          *
          * 0.50 V =   0 %
          * 4.50 V = 100 %
@@ -46,46 +61,61 @@ public static class SensorSweep
         )
         {
             double expected =
-                (voltage - 0.50) /
-                (4.50 - 0.50) *
+                (
+                    voltage -
+                    0.50
+                ) /
+                (
+                    4.50 -
+                    0.50
+                ) *
                 100.0;
 
-            InputPacket input = new(
-                SequenceId:
-                    sequence++,
-
-                TpsVoltage:
-                    voltage,
-
-                MapVoltage:
-                    2.50,
-
-                CoolantResistance:
-                    1200,
-
-                IntakeResistance:
-                    2500,
-
-                BatteryVoltage:
-                    13.80,
-
-                Rpm:
-                    3000,
-
-                SpeedKmh:
-                    0.0
-            );
 
 
-            var response =
-                await connection.SendInputAsync(
-                    input,
-                    timeout
+            InputPacket input =
+                new(
+                    SequenceId:
+                        sequence++,
+
+                    TpsVoltage:
+                        voltage,
+
+                    MapVoltage:
+                        2.50,
+
+                    CoolantResistance:
+                        1200,
+
+                    IntakeResistance:
+                        2500,
+
+                    BatteryVoltage:
+                        13.80,
+
+                    Rpm:
+                        3000,
+
+                    SpeedKmh:
+                        0.0
                 );
 
 
+
+            var response =
+                await connection
+                    .SendInputAsync(
+                        input,
+                        timeout
+                    );
+
+
+
             double received =
-                response.Packet.TpsPercent;
+                response
+                    .Packet
+                    .TpsPercent;
+
 
 
             double error =
@@ -95,13 +125,23 @@ public static class SensorSweep
                 );
 
 
+
             /*
              * HOST tolerance.
              *
-             * Later this value must be changed
-             * for physical hardware validation.
+             * IMPORTANT:
+             * This tolerance is appropriate for
+             * local software simulation only.
+             *
+             * Hardware Bench will eventually
+             * require a different tolerance due
+             * to DAC/output conditioning, ADC,
+             * wiring and electrical noise.
              */
-            const double tolerance = 0.01;
+
+            const double tolerance =
+                0.01;
+
 
 
             points.Add(
@@ -119,10 +159,12 @@ public static class SensorSweep
                         error,
 
                     Passed:
-                        error <= tolerance
+                        error <=
+                        tolerance
                 )
             );
         }
+
 
 
         return BuildReport(
@@ -134,15 +176,28 @@ public static class SensorSweep
     }
 
 
-    public static async Task<SensorSweepReport> RunMapAsync(
-        HostFirmwareConnection connection,
-        uint initialSequence,
-        TimeSpan timeout
-    )
-    {
-        List<SensorSweepPoint> points = new();
 
-        uint sequence = initialSequence;
+    /*
+     * =========================================
+     * MAP SWEEP
+     * =========================================
+     */
+
+    public static async Task<SensorSweepReport>
+        RunMapAsync(
+            ITestBenchSession connection,
+            uint initialSequence,
+            TimeSpan timeout
+        )
+    {
+        List<SensorSweepPoint>
+            points =
+                new();
+
+
+        uint sequence =
+            initialSequence;
+
 
 
         /*
@@ -159,52 +214,70 @@ public static class SensorSweep
         )
         {
             double normalized =
-                (voltage - 0.50) /
-                (4.50 - 0.50);
+                (
+                    voltage -
+                    0.50
+                ) /
+                (
+                    4.50 -
+                    0.50
+                );
+
 
 
             double expected =
                 20.0 +
                 normalized *
-                (250.0 - 20.0);
-
-
-            InputPacket input = new(
-                SequenceId:
-                    sequence++,
-
-                TpsVoltage:
-                    2.50,
-
-                MapVoltage:
-                    voltage,
-
-                CoolantResistance:
-                    1200,
-
-                IntakeResistance:
-                    2500,
-
-                BatteryVoltage:
-                    13.80,
-
-                Rpm:
-                    3000,
-
-                SpeedKmh:
-                    0.0
-            );
-
-
-            var response =
-                await connection.SendInputAsync(
-                    input,
-                    timeout
+                (
+                    250.0 -
+                    20.0
                 );
 
 
+
+            InputPacket input =
+                new(
+                    SequenceId:
+                        sequence++,
+
+                    TpsVoltage:
+                        2.50,
+
+                    MapVoltage:
+                        voltage,
+
+                    CoolantResistance:
+                        1200,
+
+                    IntakeResistance:
+                        2500,
+
+                    BatteryVoltage:
+                        13.80,
+
+                    Rpm:
+                        3000,
+
+                    SpeedKmh:
+                        0.0
+                );
+
+
+
+            var response =
+                await connection
+                    .SendInputAsync(
+                        input,
+                        timeout
+                    );
+
+
+
             double received =
-                response.Packet.MapKpa;
+                response
+                    .Packet
+                    .MapKpa;
+
 
 
             double error =
@@ -214,7 +287,10 @@ public static class SensorSweep
                 );
 
 
-            const double tolerance = 0.05;
+
+            const double tolerance =
+                0.05;
+
 
 
             points.Add(
@@ -232,10 +308,12 @@ public static class SensorSweep
                         error,
 
                     Passed:
-                        error <= tolerance
+                        error <=
+                        tolerance
                 )
             );
         }
+
 
 
         return BuildReport(
@@ -247,18 +325,27 @@ public static class SensorSweep
     }
 
 
-    private static SensorSweepReport BuildReport(
-        string sensorName,
-        string inputUnit,
-        string outputUnit,
-        List<SensorSweepPoint> points
-    )
+
+    /*
+     * =========================================
+     * REPORT
+     * =========================================
+     */
+
+    private static SensorSweepReport
+        BuildReport(
+            string sensorName,
+            string inputUnit,
+            string outputUnit,
+            List<SensorSweepPoint> points
+        )
     {
         double maximumError =
             points.Max(
                 point =>
                     point.AbsoluteError
             );
+
 
 
         double averageError =
@@ -268,11 +355,13 @@ public static class SensorSweep
             );
 
 
+
         bool passed =
             points.All(
                 point =>
                     point.Passed
             );
+
 
 
         return new SensorSweepReport(

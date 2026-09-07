@@ -1,3 +1,0 @@
-C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\releases\UTFuel-TestBench-v0.1.0\libHarfBuzzSharp.pdb
-C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\releases\UTFuel-TestBench-v0.1.0\libSkiaSharp.pdb
-C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\releases\UTFuel-TestBench-v0.1.0\UTFuel.TestBench.Gui.exe

@@ -47,10 +47,10 @@
                         Spacing="8">
 
                         <Border
-                            Width="8"
-                            Height="8"
-                            CornerRadius="4"
-                            Background="{DynamicResource UtfuelAccentBrush}" />
+    Classes="status-dot"
+
+    Background="{Binding ConnectionStatus,
+        Converter={StaticResource StatusBrushConverter}}" />
 
                         <TextBlock
                             VerticalAlignment="Center"

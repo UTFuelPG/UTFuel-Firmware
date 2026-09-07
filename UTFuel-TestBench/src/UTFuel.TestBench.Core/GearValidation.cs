@@ -1,5 +1,6 @@
 namespace UTFuel.TestBench.Core;
 
+
 public sealed record GearTestPoint(
     int ExpectedGear,
     int ReceivedGear,
@@ -8,45 +9,80 @@ public sealed record GearTestPoint(
     bool Passed
 );
 
+
 public sealed record GearValidationReport(
     IReadOnlyList<GearTestPoint> Points,
     bool Passed
 );
 
+
 public static class GearValidation
 {
     /*
-     * IMPORTANTE:
-     * Estes valores precisam ser iguais aos valores
-     * temporários atualmente configurados no firmware.
+     * =========================================
+     * TEMPORARY VEHICLE CONFIGURATION
+     * =========================================
+     *
+     * IMPORTANT:
+     *
+     * These values must remain identical to
+     * the temporary vehicle configuration
+     * currently used by the firmware.
      */
-    private const double TireCircumferenceM = 1.60;
-    private const double FinalDriveRatio = 4.0;
 
-    private static readonly double[] GearRatios =
-    {
-        3.00,
-        2.10,
-        1.60,
-        1.30,
-        1.05,
-        0.85
-    };
+    private const double
+        TireCircumferenceM =
+            1.60;
 
+
+    private const double
+        FinalDriveRatio =
+            4.0;
+
+
+    private static readonly double[]
+        GearRatios =
+        {
+            3.00,
+            2.10,
+            1.60,
+            1.30,
+            1.05,
+            0.85
+        };
+
+
+
+    /*
+     * =========================================
+     * RUN VALIDATION
+     * =========================================
+     */
 
     public static async Task<GearValidationReport>
         RunAsync(
-            HostFirmwareConnection connection,
+            ITestBenchSession connection,
             uint initialSequence,
             TimeSpan timeout
         )
     {
-        List<GearTestPoint> results = new();
+        List<GearTestPoint>
+            results =
+                new();
 
-        uint sequence = initialSequence;
 
-        const uint testRpm = 6000;
+        uint sequence =
+            initialSequence;
 
+
+        const uint testRpm =
+            6000;
+
+
+
+        /*
+         * Test every configured gear.
+         */
 
         for (
             int gearIndex = 0;
@@ -55,17 +91,25 @@ public static class GearValidation
         )
         {
             int expectedGear =
-                gearIndex + 1;
+                gearIndex +
+                1;
+
 
 
             double gearRatio =
-                GearRatios[gearIndex];
+                GearRatios[
+                    gearIndex
+                ];
+
 
 
             /*
              * wheelRPM =
-             * engineRPM / (gearRatio * finalDrive)
+             *
+             * engineRPM /
+             * (gearRatio * finalDrive)
              */
+
             double wheelRpm =
                 testRpm /
                 (
@@ -74,66 +118,86 @@ public static class GearValidation
                 );
 
 
+
             /*
-             * wheelRPM -> wheel rotations per second
+             * wheel RPM
+             *     ↓
+             * rotations per second
              */
+
             double wheelRps =
-                wheelRpm / 60.0;
+                wheelRpm /
+                60.0;
+
 
 
             /*
-             * wheel rotations -> vehicle speed
+             * wheel rotations
+             *     ↓
+             * vehicle linear speed
              */
+
             double speedMs =
                 wheelRps *
                 TireCircumferenceM;
 
 
+
             double speedKmh =
-                speedMs * 3.6;
+                speedMs *
+                3.6;
 
 
-            InputPacket input = new(
-                SequenceId:
-                    sequence++,
 
-                TpsVoltage:
-                    2.50,
+            InputPacket input =
+                new(
+                    SequenceId:
+                        sequence++,
 
-                MapVoltage:
-                    2.50,
+                    TpsVoltage:
+                        2.50,
 
-                CoolantResistance:
-                    1200,
+                    MapVoltage:
+                        2.50,
 
-                IntakeResistance:
-                    2500,
+                    CoolantResistance:
+                        1200,
 
-                BatteryVoltage:
-                    13.80,
+                    IntakeResistance:
+                        2500,
 
-                Rpm:
-                    testRpm,
+                    BatteryVoltage:
+                        13.80,
 
-                SpeedKmh:
-                    speedKmh
-            );
+                    Rpm:
+                        testRpm,
 
-
-            var response =
-                await connection.SendInputAsync(
-                    input,
-                    timeout
+                    SpeedKmh:
+                        speedKmh
                 );
 
 
+
+            var response =
+                await connection
+                    .SendInputAsync(
+                        input,
+                        timeout
+                    );
+
+
+
             int received =
-                response.Packet.Gear;
+                response
+                    .Packet
+                    .Gear;
+
 
 
             bool passed =
                 received ==
                 expectedGear;
+
 
 
             results.Add(
@@ -156,6 +220,13 @@ public static class GearValidation
             );
         }
 
+
+
+        /*
+         * =========================================
+         * REPORT
+         * =========================================
+         */
 
         return new GearValidationReport(
             Points:

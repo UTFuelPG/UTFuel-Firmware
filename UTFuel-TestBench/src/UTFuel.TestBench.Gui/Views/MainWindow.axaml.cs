@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
@@ -16,20 +18,12 @@ public partial class MainWindow :
 {
     /*
      * =========================================
-     * PAGE STORAGE
+     * PAGES
      * =========================================
-     *
-     * Pages are created only once and reused.
-     *
-     * This preserves internal state between
-     * navigation changes.
      */
 
-    private readonly Dictionary<
-        string,
-        Control
-    > _pages;
-
+    private readonly Dictionary<string, Control>
+        _pages;
 
 
     /*
@@ -40,6 +34,26 @@ public partial class MainWindow :
 
     private readonly List<Button>
         _navigationButtons;
+
+
+    /*
+     * =========================================
+     * SIDEBAR STATE
+     * =========================================
+     */
+
+    private bool
+        _isSidebarCollapsed;
+
+
+    private const double
+        ExpandedSidebarWidth =
+            240;
+
+
+    private const double
+        CollapsedSidebarWidth =
+            64;
 
 
 
@@ -54,9 +68,10 @@ public partial class MainWindow :
         InitializeComponent();
 
 
-
         /*
-         * Create every page only once.
+         * -------------------------------------
+         * Create pages once.
+         * -------------------------------------
          */
 
         _pages =
@@ -88,15 +103,21 @@ public partial class MainWindow :
                 },
 
                 {
+    "Diagnostics",
+    new DiagnosticsView()
+},
+
+                {
                     "Showcase",
                     new ShowcaseControlView()
                 }
             };
 
 
-
         /*
-         * Store navigation buttons.
+         * -------------------------------------
+         * Normal + compact navigation buttons.
+         * -------------------------------------
          */
 
         _navigationButtons =
@@ -107,51 +128,64 @@ public partial class MainWindow :
                 BenchmarkNavButton,
                 TelemetryNavButton,
                 ValidationNavButton,
-                ShowcaseNavButton
+                DiagnosticsNavButton,
+                ShowcaseNavButton,
+
+                CompactOverviewNavButton,
+                CompactManualNavButton,
+                CompactBenchmarkNavButton,
+                CompactTelemetryNavButton,
+                CompactValidationNavButton,
+                CompactDiagnosticsNavButton,
+                CompactShowcaseNavButton
             };
 
 
-
         /*
-         * When MainWindow receives or changes
-         * its ViewModel, propagate it to every
-         * stored page.
+         * -------------------------------------
+         * DataContext synchronization.
+         *
+         * Keep this logic.
+         * It prevents cached pages from losing
+         * the MainWindow ViewModel.
+         * -------------------------------------
          */
 
         DataContextChanged +=
             OnMainDataContextChanged;
 
 
-
-        /*
-         * Opened happens after the MainWindow
-         * has completed initialization.
-         *
-         * Synchronize again here to guarantee
-         * that the first page also receives
-         * the final MainWindowViewModel.
-         */
-
         Opened +=
             OnWindowOpened;
 
 
-
         /*
-         * Initial page.
-         *
-         * It may be created before the final
-         * DataContext is assigned, but the
-         * Opened/DataContext handlers above
-         * will synchronize it afterwards.
+         * -------------------------------------
+         * Initial sidebar state.
+         * -------------------------------------
          */
 
-        NavigateTo(
-            "Overview",
-            OverviewNavButton
+        SetSidebarCollapsed(
+            false
         );
 
 
+        /*
+         * -------------------------------------
+         * Initial page.
+         * -------------------------------------
+         */
+
+        NavigateTo(
+            "Overview"
+        );
+
+
+        /*
+         * -------------------------------------
+         * Shutdown.
+         * -------------------------------------
+         */
 
         Closed +=
             OnWindowClosed;
@@ -193,30 +227,20 @@ public partial class MainWindow :
 
     /*
      * =========================================
-     * SYNCHRONIZE PAGE DATACONTEXTS
+     * SYNCHRONIZE PAGE DATACONTEXT
      * =========================================
      */
 
     private void SynchronizePageDataContexts()
     {
-        /*
-         * Only propagate a valid
-         * MainWindowViewModel.
-         *
-         * This prevents pages from receiving
-         * an accidental temporary null
-         * DataContext during initialization.
-         */
-
         if (
-            DataContext
-            is not MainWindowViewModel
-                mainViewModel
+            DataContext is not
+                MainWindowViewModel
+                    mainViewModel
         )
         {
             return;
         }
-
 
 
         foreach (
@@ -240,12 +264,6 @@ public partial class MainWindow :
         }
 
 
-
-        /*
-         * Keep ContentControl itself synchronized
-         * as an additional safeguard.
-         */
-
         PageHost.DataContext =
             mainViewModel;
     }
@@ -254,7 +272,7 @@ public partial class MainWindow :
 
     /*
      * =========================================
-     * NAVIGATION CLICK
+     * NAVIGATION BUTTON
      * =========================================
      */
 
@@ -264,17 +282,8 @@ public partial class MainWindow :
     )
     {
         if (
-            sender
-            is not Button button
-        )
-        {
-            return;
-        }
-
-
-        if (
-            button.Tag
-            is not string pageKey
+            sender is not Button button ||
+            button.Tag is not string pageKey
         )
         {
             return;
@@ -282,8 +291,7 @@ public partial class MainWindow :
 
 
         NavigateTo(
-            pageKey,
-            button
+            pageKey
         );
     }
 
@@ -296,8 +304,7 @@ public partial class MainWindow :
      */
 
     private void NavigateTo(
-        string pageKey,
-        Button selectedButton
+        string pageKey
     )
     {
         if (
@@ -311,19 +318,16 @@ public partial class MainWindow :
         }
 
 
-
         /*
-         * Explicitly synchronize the selected
-         * page every time it is displayed.
-         *
-         * This makes navigation independent
-         * from Avalonia DataContext inheritance.
+         * -------------------------------------
+         * Explicitly propagate ViewModel.
+         * -------------------------------------
          */
 
         if (
-            DataContext
-            is MainWindowViewModel
-                mainViewModel
+            DataContext is
+                MainWindowViewModel
+                    mainViewModel
         )
         {
             page.DataContext =
@@ -331,52 +335,64 @@ public partial class MainWindow :
         }
 
 
-
         /*
-         * Change displayed page.
+         * -------------------------------------
+         * Show page.
+         * -------------------------------------
          */
 
         PageHost.Content =
             page;
 
 
-
         /*
-         * Remove selected state from all
-         * navigation buttons.
+         * -------------------------------------
+         * Remove selected state everywhere.
+         * -------------------------------------
          */
 
         foreach (
-            Button navigationButton
+            Button button
             in _navigationButtons
         )
         {
-            navigationButton
-                .Classes
-                .Remove(
-                    "selected"
-                );
+            button.Classes.Remove(
+                "selected"
+            );
         }
 
 
-
         /*
-         * Apply selected state.
+         * -------------------------------------
+         * Select both versions:
+         *
+         * expanded button
+         * compact button
+         * -------------------------------------
          */
 
-        if (
-            !selectedButton
-                .Classes
-                .Contains(
-                    "selected"
-                )
+        foreach (
+            Button button
+            in _navigationButtons.Where(
+                button =>
+                    string.Equals(
+                        button.Tag as string,
+                        pageKey,
+                        StringComparison.Ordinal
+                    )
+            )
         )
         {
-            selectedButton
-                .Classes
-                .Add(
+            if (
+                !button.Classes.Contains(
+                    "selected"
+                )
+            )
+            {
+                button.Classes.Add(
                     "selected"
                 );
+            }
         }
     }
 
@@ -384,7 +400,78 @@ public partial class MainWindow :
 
     /*
      * =========================================
-     * SHUTDOWN
+     * SIDEBAR TOGGLE
+     * =========================================
+     */
+
+    private void ToggleSidebar_Click(
+        object? sender,
+        RoutedEventArgs e
+    )
+    {
+        SetSidebarCollapsed(
+            !_isSidebarCollapsed
+        );
+    }
+
+
+
+    /*
+     * =========================================
+     * SIDEBAR STATE
+     * =========================================
+     */
+
+    private void SetSidebarCollapsed(
+        bool collapsed
+    )
+    {
+        _isSidebarCollapsed =
+            collapsed;
+
+
+        /*
+         * -------------------------------------
+         * IMPORTANT:
+         *
+         * Do NOT use:
+         *
+         * SidebarColumn.Width
+         *
+         * The first BodyGrid column is the
+         * sidebar column.
+         * -------------------------------------
+         */
+
+        BodyGrid
+            .ColumnDefinitions[0]
+            .Width =
+                new GridLength(
+                    collapsed
+                        ? CollapsedSidebarWidth
+                        : ExpandedSidebarWidth
+                );
+
+
+        /*
+         * -------------------------------------
+         * Switch sidebar visual state.
+         * -------------------------------------
+         */
+
+        ExpandedSidebarContent.IsVisible =
+            !collapsed;
+
+
+        CollapsedSidebarContent.IsVisible =
+            collapsed;
+    }
+
+
+
+    /*
+     * =========================================
+     * WINDOW CLOSED
      * =========================================
      */
 
@@ -394,11 +481,11 @@ public partial class MainWindow :
     )
     {
         if (
-            DataContext
-            is MainWindowViewModel viewModel
+            DataContext is
+                MainWindowViewModel vm
         )
         {
-            await viewModel
+            await vm
                 .ShutdownAsync();
         }
     }

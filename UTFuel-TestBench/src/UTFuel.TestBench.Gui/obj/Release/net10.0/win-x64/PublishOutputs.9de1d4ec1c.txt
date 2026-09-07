@@ -1,0 +1,8 @@
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\UTFuel.TestBench.Gui.pdb
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\av_libglesv2.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\libHarfBuzzSharp.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\libHarfBuzzSharp.pdb
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\libSkiaSharp.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\libSkiaSharp.pdb
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\UTFuel.TestBench.Core.pdb
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\publish\UTFuel.TestBench.Gui.exe

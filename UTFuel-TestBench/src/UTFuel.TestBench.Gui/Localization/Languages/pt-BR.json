@@ -238,5 +238,19 @@
 "ShowcaseShiftAlertDescription": "Um alerta SHIFT em tela cheia é acionado somente na borda de subida do sinal de troca da ECU. O sistema é rearmado automaticamente depois que a ECU retorna o alerta para falso.",
 "ShowcaseEcuShift": "SHIFT DA ECU",
 
-"ShowcaseLastEvent": "ÚLTIMO EVENTO"
+"ShowcaseLastEvent": "ÚLTIMO EVENTO",
+
+"ConnectionModeTitle": "MODO DE CONEXÃO",
+"ConnectionModeLocal": "Simulação Local",
+"ConnectionModeHardware": "Bancada Física",
+"ConnectionModeLocalDescription": "Executa a ECU localmente no computador através do utfuel_host.exe.",
+"ConnectionModeHardwareDescription": "Utiliza o ESP32-S3 como simulador físico e uma ECU conectada ao computador.",
+
+"HardwareSimulator": "SIMULADOR",
+"HardwareEcu": "ECU UTFUEL",
+"HardwarePort": "Porta",
+"HardwareBaudRate": "Baud Rate",
+"HardwareStatus": "Status:",
+"HardwareRefreshPorts": "ATUALIZAR PORTAS"
+
 }

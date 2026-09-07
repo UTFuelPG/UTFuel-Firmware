@@ -11,7 +11,7 @@ Each message is ASCII encoded and terminated by a newline (`\n`).
 
 ---
 
-## Input packet
+## Input packeteu col
 
 Format:
 

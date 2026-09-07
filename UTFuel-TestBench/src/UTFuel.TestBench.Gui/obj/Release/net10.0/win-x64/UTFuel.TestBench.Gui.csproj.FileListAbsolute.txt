@@ -2,6 +2,7 @@ C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.Test
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\UTFuel.TestBench.Gui.deps.json
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\UTFuel.TestBench.Gui.runtimeconfig.json
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\UTFuel.TestBench.Gui.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\UTFuel.TestBench.Gui.pdb
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\Avalonia.Base.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\Avalonia.Controls.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\Avalonia.DesignerSupport.dll
@@ -32,6 +33,7 @@ C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.Test
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\ScottPlot.Avalonia.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\SkiaSharp.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\SkiaSharp.HarfBuzz.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\System.IO.Ports.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\Tmds.DBus.Protocol.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\av_libglesv2.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\libHarfBuzzSharp.dll
@@ -226,6 +228,7 @@ C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.Test
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\mscorrc.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\msquic.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\UTFuel.TestBench.Core.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\bin\Release\net10.0\win-x64\UTFuel.TestBench.Core.pdb
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.csproj.AssemblyReference.cache
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\Avalonia\Resources.Inputs.cache
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\Avalonia\resources
@@ -233,8 +236,10 @@ C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.Test
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.AssemblyInfoInputs.cache
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.AssemblyInfo.cs
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.csproj.CoreCompileInputs.cache
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.sourcelink.json
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.T.C01B25E6.Up2Date
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.dll
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\refint\UTFuel.TestBench.Gui.dll
+C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.pdb
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\UTFuel.TestBench.Gui.genruntimeconfig.cache
 C:\Users\lugaw\Documents\GitHub\UTFuel-Firmware\UTFuel-TestBench\src\UTFuel.TestBench.Gui\obj\Release\net10.0\win-x64\ref\UTFuel.TestBench.Gui.dll

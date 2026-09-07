@@ -4,95 +4,158 @@
 
     <Styles.Resources>
 
+        <!-- ===================================================== -->
+        <!-- UTFUEL DESIGN SYSTEM v0.2 -->
+        <!-- Industrial / laboratory dark interface -->
+        <!-- ===================================================== -->
+
+
+        <!-- ===================================================== -->
         <!-- BASE -->
+        <!-- ===================================================== -->
 
         <SolidColorBrush
             x:Key="UtfuelBackgroundBrush"
-            Color="#090C11" />
+            Color="#000000" />
+
+        <SolidColorBrush
+            x:Key="UtfuelBackgroundDeepBrush"
+            Color="#000000" />
 
         <SolidColorBrush
             x:Key="UtfuelSurfaceBrush"
-            Color="#10151D" />
+            Color="#1c1c1c" />
 
         <SolidColorBrush
             x:Key="UtfuelSurfaceRaisedBrush"
-            Color="#151B24" />
+            Color="#242424" />
 
         <SolidColorBrush
             x:Key="UtfuelSurfaceHoverBrush"
-            Color="#1B222D" />
+            Color="#262627" />
+
+        <SolidColorBrush
+            x:Key="UtfuelSurfacePressedBrush"
+            Color="#1f2020" />
+
+        <SolidColorBrush
+            x:Key="UtfuelSurfaceSelectedBrush"
+            Color="#231414" />
 
 
-        <!-- BORDERS -->
+        <!-- ===================================================== -->
+        <!-- BORDERS / DIVIDERS -->
+        <!-- ===================================================== -->
 
         <SolidColorBrush
             x:Key="UtfuelBorderBrush"
-            Color="#252D39" />
+            Color="#424344" />
 
         <SolidColorBrush
             x:Key="UtfuelBorderStrongBrush"
-            Color="#343E4D" />
+            Color="#464748" />
+
+        <SolidColorBrush
+            x:Key="UtfuelDividerBrush"
+            Color="#202934" />
 
 
+        <!-- ===================================================== -->
         <!-- TEXT -->
+        <!-- ===================================================== -->
 
         <SolidColorBrush
             x:Key="UtfuelTextPrimaryBrush"
-            Color="#F4F6F8" />
+            Color="#F1F4F7" />
 
         <SolidColorBrush
             x:Key="UtfuelTextSecondaryBrush"
-            Color="#98A2B3" />
+            Color="#A1ACBA" />
 
         <SolidColorBrush
             x:Key="UtfuelTextMutedBrush"
-            Color="#667085" />
+            Color="#947474" />
+
+        <SolidColorBrush
+            x:Key="UtfuelTextDisabledBrush"
+            Color="#684e4e" />
 
 
+        <!-- ===================================================== -->
         <!-- BRAND -->
+        <!-- ===================================================== -->
 
         <SolidColorBrush
             x:Key="UtfuelAccentBrush"
-            Color="#E63B3B" />
+            Color="#ff0000" />
 
         <SolidColorBrush
             x:Key="UtfuelAccentHoverBrush"
-            Color="#F05252" />
+            Color="#ff0000" />
 
         <SolidColorBrush
             x:Key="UtfuelAccentPressedBrush"
-            Color="#C72F2F" />
+            Color="#C92F34" />
 
         <SolidColorBrush
             x:Key="UtfuelAccentSoftBrush"
-            Color="#2A1619" />
+            Color="#211619" />
+
+        <SolidColorBrush
+            x:Key="UtfuelAccentBorderBrush"
+            Color="#733036" />
 
 
+        <!-- ===================================================== -->
         <!-- STATUS -->
+        <!-- ===================================================== -->
 
         <SolidColorBrush
             x:Key="UtfuelSuccessBrush"
-            Color="#3CCB7F" />
+            Color="#46C982" />
 
         <SolidColorBrush
             x:Key="UtfuelSuccessSoftBrush"
-            Color="#10271D" />
+            Color="#11241C" />
 
         <SolidColorBrush
             x:Key="UtfuelWarningBrush"
-            Color="#F4B740" />
+            Color="#DFAE4A" />
 
         <SolidColorBrush
             x:Key="UtfuelWarningSoftBrush"
-            Color="#2C2412" />
+            Color="#292214" />
 
         <SolidColorBrush
             x:Key="UtfuelDangerBrush"
-            Color="#EF4444" />
+            Color="#E54B4B" />
 
         <SolidColorBrush
             x:Key="UtfuelDangerSoftBrush"
-            Color="#2A1517" />
+            Color="#281619" />
+
+
+        <!-- ===================================================== -->
+        <!-- GRAPH / DATA -->
+        <!-- Reserved for telemetry visual consistency -->
+        <!-- ===================================================== -->
+
+        <SolidColorBrush
+            x:Key="UtfuelGraphGridBrush"
+            Color="#27313D" />
+
+        <SolidColorBrush
+            x:Key="UtfuelGraphAxisBrush"
+            Color="#667386" />
+
+        <SolidColorBrush
+            x:Key="UtfuelGraphPrimaryBrush"
+            Color="#E7EBEF" />
+
+        <SolidColorBrush
+            x:Key="UtfuelGraphAccentBrush"
+            Color="#E63B3B" />
+
 
     </Styles.Resources>
 

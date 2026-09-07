@@ -8,9 +8,6 @@ using Avalonia.Markup.Xaml;
 using UTFuel.TestBench.Gui.ViewModels;
 using UTFuel.TestBench.Gui.Views;
 
-using UTFuel.TestBench.Gui.Localization;
-
-
 namespace UTFuel.TestBench.Gui;
 
 

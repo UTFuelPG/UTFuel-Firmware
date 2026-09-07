@@ -1,36 +1,102 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
+
 namespace UTFuel.TestBench.Core;
 
-public sealed class HostFirmwareConnection : IAsyncDisposable
+
+public sealed class HostFirmwareConnection :
+    ITestBenchSession
 {
+    /*
+     * =========================================
+     * PENDING REQUEST
+     * =========================================
+     */
+
     private sealed record PendingRequest(
         long SentTimestamp,
-        TaskCompletionSource<FirmwareResponse> Completion
+        TaskCompletionSource<FirmwareResponse>
+            Completion
     );
 
-    private readonly string _firmwarePath;
-
-    private readonly ConcurrentDictionary<uint, PendingRequest>
-        _pendingRequests = new();
-
-    private Process? _process;
-    private StreamWriter? _stdin;
-
-    private Task? _stdoutReaderTask;
-    private Task? _stderrReaderTask;
 
 
-    public HostFirmwareConnection(string firmwarePath)
+    /*
+     * =========================================
+     * MODE
+     * =========================================
+     */
+
+    public ConnectionMode Mode =>
+        ConnectionMode.LocalSimulation;
+
+
+
+    /*
+     * =========================================
+     * FIELDS
+     * =========================================
+     */
+
+    private readonly string
+        _firmwarePath;
+
+
+    private readonly ConcurrentDictionary<
+        uint,
+        PendingRequest
+    >
+        _pendingRequests =
+            new();
+
+
+    private Process?
+        _process;
+
+
+    private StreamWriter?
+        _stdin;
+
+
+    private Task?
+        _stdoutReaderTask;
+
+
+    private Task?
+        _stderrReaderTask;
+
+
+
+    /*
+     * =========================================
+     * CONSTRUCTOR
+     * =========================================
+     */
+
+    public HostFirmwareConnection(
+        string firmwarePath
+    )
     {
-        _firmwarePath = firmwarePath;
+        _firmwarePath =
+            firmwarePath;
     }
 
 
+
+    /*
+     * =========================================
+     * START
+     * =========================================
+     */
+
     public Task StartAsync()
     {
-        if (!File.Exists(_firmwarePath))
+        if (
+            !File.Exists(
+                _firmwarePath
+            )
+        )
         {
             throw new FileNotFoundException(
                 "UTFuel firmware executable not found.",
@@ -38,47 +104,92 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
             );
         }
 
-        ProcessStartInfo startInfo = new()
-        {
-            FileName = _firmwarePath,
 
-            WorkingDirectory =
-                Path.GetDirectoryName(_firmwarePath)!,
 
-            UseShellExecute = false,
+        ProcessStartInfo startInfo =
+            new()
+            {
+                FileName =
+                    _firmwarePath,
 
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
+                WorkingDirectory =
+                    Path.GetDirectoryName(
+                        _firmwarePath
+                    )!,
 
-            CreateNoWindow = true
-        };
+                UseShellExecute =
+                    false,
 
-        _process = new Process
-        {
-            StartInfo = startInfo,
-            EnableRaisingEvents = true
-        };
+                RedirectStandardInput =
+                    true,
 
-        if (!_process.Start())
+                RedirectStandardOutput =
+                    true,
+
+                RedirectStandardError =
+                    true,
+
+                CreateNoWindow =
+                    true
+            };
+
+
+
+        _process =
+            new Process
+            {
+                StartInfo =
+                    startInfo,
+
+                EnableRaisingEvents =
+                    true
+            };
+
+
+
+        if (
+            !_process.Start()
+        )
         {
             throw new InvalidOperationException(
                 "Could not start UTFuel firmware."
             );
         }
 
-        _stdin = _process.StandardInput;
-        _stdin.AutoFlush = true;
+
+
+        _stdin =
+            _process.StandardInput;
+
+
+        _stdin.AutoFlush =
+            true;
+
+
 
         _stdoutReaderTask =
-            Task.Run(ReadStdoutLoopAsync);
+            Task.Run(
+                ReadStdoutLoopAsync
+            );
+
 
         _stderrReaderTask =
-            Task.Run(ReadStderrLoopAsync);
+            Task.Run(
+                ReadStderrLoopAsync
+            );
+
+
 
         return Task.CompletedTask;
     }
 
+
+
+    /*
+     * =========================================
+     * PING
+     * =========================================
+     */
 
     public async Task<double> PingAsync(
         uint sequence,
@@ -92,21 +203,39 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
                 timeout
             );
 
+
         string expected =
             $"PONG,{sequence}";
 
-        if (response.Line != expected)
+
+        if (
+            response.Line !=
+            expected
+        )
         {
             throw new InvalidDataException(
                 $"Unexpected response: {response.Line}"
             );
         }
 
-        return response.RttMilliseconds;
+
+
+        return response
+            .RttMilliseconds;
     }
 
 
-    public async Task<(OutputPacket Packet, double RttMs)>
+
+    /*
+     * =========================================
+     * SEND INPUT
+     * =========================================
+     */
+
+    public async Task<(
+        OutputPacket Packet,
+        double RttMs
+    )>
         SendInputAsync(
             InputPacket input,
             TimeSpan timeout
@@ -119,14 +248,21 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
                 timeout
             );
 
-        if (!OutputPacket.TryParse(
+
+
+        if (
+            !OutputPacket.TryParse(
                 response.Line,
-                out OutputPacket? packet))
+                out OutputPacket? packet
+            )
+        )
         {
             throw new InvalidDataException(
                 $"Invalid OUT packet: {response.Line}"
             );
         }
+
+
 
         return (
             packet!,
@@ -135,26 +271,45 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
     }
 
 
-    private async Task<FirmwareResponse> SendCommandAsync(
-        string command,
-        uint sequence,
-        TimeSpan timeout
-    )
+
+    /*
+     * =========================================
+     * SEND COMMAND
+     * =========================================
+     */
+
+    private async Task<FirmwareResponse>
+        SendCommandAsync(
+            string command,
+            uint sequence,
+            TimeSpan timeout
+        )
     {
-        if (_stdin == null)
+        if (
+            _stdin ==
+            null
+        )
         {
             throw new InvalidOperationException(
                 "Firmware connection is not started."
             );
         }
 
-        TaskCompletionSource<FirmwareResponse> completion =
-            new(
-                TaskCreationOptions.RunContinuationsAsynchronously
-            );
+
+
+        TaskCompletionSource<FirmwareResponse>
+            completion =
+                new(
+                    TaskCreationOptions
+                        .RunContinuationsAsynchronously
+                );
+
+
 
         long timestamp =
             Stopwatch.GetTimestamp();
+
+
 
         PendingRequest request =
             new(
@@ -162,108 +317,197 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
                 completion
             );
 
-        if (!_pendingRequests.TryAdd(
+
+
+        if (
+            !_pendingRequests.TryAdd(
                 sequence,
-                request))
+                request
+            )
+        )
         {
             throw new InvalidOperationException(
                 $"Sequence {sequence} is already pending."
             );
         }
 
-        await _stdin.WriteLineAsync(command);
+
+
+        await _stdin
+            .WriteLineAsync(
+                command
+            );
+
+
 
         try
         {
             return await completion
                 .Task
-                .WaitAsync(timeout);
+                .WaitAsync(
+                    timeout
+                );
         }
-        catch (TimeoutException)
+        catch (
+            TimeoutException
+        )
         {
-            _pendingRequests.TryRemove(
-                sequence,
-                out _
-            );
+            _pendingRequests
+                .TryRemove(
+                    sequence,
+                    out _
+                );
+
 
             throw;
         }
     }
 
 
-    private async Task ReadStdoutLoopAsync()
-    {
-        if (_process == null)
-            return;
 
-        while (true)
+    /*
+     * =========================================
+     * STDOUT READER
+     * =========================================
+     */
+
+    private async Task
+        ReadStdoutLoopAsync()
+    {
+        if (
+            _process ==
+            null
+        )
+        {
+            return;
+        }
+
+
+
+        while (
+            true
+        )
         {
             string? line =
                 await _process
                     .StandardOutput
                     .ReadLineAsync();
 
-            if (line == null)
-                break;
 
-            if (!TryGetSequence(
+
+            if (
+                line ==
+                null
+            )
+            {
+                break;
+            }
+
+
+
+            if (
+                !TryGetSequence(
                     line,
-                    out uint sequence))
+                    out uint sequence
+                )
+            )
             {
                 Console.WriteLine(
                     $"[FIRMWARE STDOUT] {line}"
                 );
 
+
                 continue;
             }
 
-            if (!_pendingRequests.TryRemove(
+
+
+            if (
+                !_pendingRequests.TryRemove(
                     sequence,
-                    out PendingRequest? request))
+                    out PendingRequest? request
+                )
+            )
             {
                 Console.WriteLine(
                     $"[ORPHAN RESPONSE] {line}"
                 );
 
+
                 continue;
             }
+
+
 
             long receivedTimestamp =
                 Stopwatch.GetTimestamp();
 
+
+
             long elapsedTicks =
                 receivedTimestamp -
                 request.SentTimestamp;
+
+
 
             double elapsedMs =
                 elapsedTicks *
                 1000.0 /
                 Stopwatch.Frequency;
 
-            request.Completion.TrySetResult(
-                new FirmwareResponse(
-                    line,
-                    elapsedMs
-                )
-            );
+
+
+            request.Completion
+                .TrySetResult(
+                    new FirmwareResponse(
+                        line,
+                        elapsedMs
+                    )
+                );
         }
     }
 
 
-    private async Task ReadStderrLoopAsync()
-    {
-        if (_process == null)
-            return;
 
-        while (true)
+    /*
+     * =========================================
+     * STDERR READER
+     * =========================================
+     */
+
+    private async Task
+        ReadStderrLoopAsync()
+    {
+        if (
+            _process ==
+            null
+        )
+        {
+            return;
+        }
+
+
+
+        while (
+            true
+        )
         {
             string? line =
                 await _process
                     .StandardError
                     .ReadLineAsync();
 
-            if (line == null)
+
+
+            if (
+                line ==
+                null
+            )
+            {
                 break;
+            }
+
+
 
             Console.Error.WriteLine(
                 $"[FIRMWARE] {line}"
@@ -272,18 +516,39 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
     }
 
 
+
+    /*
+     * =========================================
+     * SEQUENCE PARSER
+     * =========================================
+     */
+
     private static bool TryGetSequence(
         string line,
         out uint sequence
     )
     {
-        sequence = 0;
+        sequence =
+            0;
+
+
 
         string[] parts =
-            line.Split(',');
+            line.Split(
+                ','
+            );
 
-        if (parts.Length < 2)
+
+
+        if (
+            parts.Length <
+            2
+        )
+        {
             return false;
+        }
+
+
 
         if (
             parts[0] != "PONG" &&
@@ -294,6 +559,8 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
             return false;
         }
 
+
+
         return uint.TryParse(
             parts[1],
             out sequence
@@ -301,37 +568,125 @@ public sealed class HostFirmwareConnection : IAsyncDisposable
     }
 
 
-    public async ValueTask DisposeAsync()
+
+    /*
+     * =========================================
+     * DISPOSE
+     * =========================================
+     */
+
+    public async ValueTask
+        DisposeAsync()
     {
-        if (_process != null)
+        /*
+         * Cancel any pending requests first.
+         */
+
+        foreach (
+            KeyValuePair<
+                uint,
+                PendingRequest
+            >
+                pending
+            in _pendingRequests
+        )
+        {
+            pending
+                .Value
+                .Completion
+                .TrySetCanceled();
+        }
+
+
+        _pendingRequests
+            .Clear();
+
+
+
+        /*
+         * Stop firmware process.
+         */
+
+        if (
+            _process !=
+            null
+        )
         {
             try
             {
-                if (!_process.HasExited)
+                if (
+                    !_process.HasExited
+                )
                 {
                     _process.Kill(
-                        entireProcessTree: true
+                        entireProcessTree:
+                            true
                     );
                 }
             }
             catch
             {
-                // Ignore shutdown errors.
+                /*
+                 * Shutdown errors are ignored.
+                 */
             }
 
-            if (_stdoutReaderTask != null)
+
+
+            if (
+                _stdoutReaderTask !=
+                null
+            )
             {
-                await _stdoutReaderTask;
+                try
+                {
+                    await _stdoutReaderTask;
+                }
+                catch
+                {
+                    /*
+                     * Reader shutdown errors
+                     * are ignored.
+                     */
+                }
             }
 
-            if (_stderrReaderTask != null)
+
+
+            if (
+                _stderrReaderTask !=
+                null
+            )
             {
-                await _stderrReaderTask;
+                try
+                {
+                    await _stderrReaderTask;
+                }
+                catch
+                {
+                    /*
+                     * Reader shutdown errors
+                     * are ignored.
+                     */
+                }
             }
+
+
 
             _process.Dispose();
+
+
+            _process =
+                null;
         }
 
-        _stdin?.Dispose();
+
+
+        _stdin?
+            .Dispose();
+
+
+        _stdin =
+            null;
     }
 }

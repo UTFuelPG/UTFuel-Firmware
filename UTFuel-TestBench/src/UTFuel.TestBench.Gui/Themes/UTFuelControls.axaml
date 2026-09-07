@@ -4,6 +4,12 @@
 
 
     <!-- ===================================================== -->
+    <!-- UTFUEL DESIGN SYSTEM v0.2 -->
+    <!-- Industrial / laboratory UI -->
+    <!-- ===================================================== -->
+
+
+    <!-- ===================================================== -->
     <!-- WINDOW -->
     <!-- ===================================================== -->
 
@@ -85,7 +91,7 @@
 
         <Setter
             Property="FontSize"
-            Value="11" />
+            Value="10" />
 
         <Setter
             Property="FontWeight"
@@ -119,7 +125,7 @@
 
         <Setter
             Property="CornerRadius"
-            Value="10" />
+            Value="3" />
 
         <Setter
             Property="Padding"
@@ -144,7 +150,7 @@
 
         <Setter
             Property="CornerRadius"
-            Value="10" />
+            Value="3" />
 
         <Setter
             Property="Padding"
@@ -152,6 +158,9 @@
 
     </Style>
 
+
+    <!-- Technical status indicator.
+         Intentionally rectangular instead of pill-shaped. -->
 
     <Style Selector="Border.status">
 
@@ -169,11 +178,11 @@
 
         <Setter
             Property="CornerRadius"
-            Value="20" />
+            Value="3" />
 
         <Setter
             Property="Padding"
-            Value="12,7" />
+            Value="11,6" />
 
     </Style>
 
@@ -203,7 +212,7 @@
 
         <Setter
             Property="CornerRadius"
-            Value="7" />
+            Value="3" />
 
         <Setter
             Property="Cursor"
@@ -216,6 +225,15 @@
         <Setter
             Property="VerticalContentAlignment"
             Value="Center" />
+
+    </Style>
+
+
+    <Style Selector="Button:disabled">
+
+        <Setter
+            Property="Opacity"
+            Value="0.42" />
 
     </Style>
 
@@ -236,8 +254,12 @@
             Value="White" />
 
         <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelAccentBrush}" />
+
+        <Setter
             Property="BorderThickness"
-            Value="0" />
+            Value="1" />
 
     </Style>
 
@@ -248,6 +270,10 @@
             Property="Background"
             Value="{DynamicResource UtfuelAccentHoverBrush}" />
 
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelAccentHoverBrush}" />
+
     </Style>
 
 
@@ -255,6 +281,10 @@
 
         <Setter
             Property="Background"
+            Value="{DynamicResource UtfuelAccentPressedBrush}" />
+
+        <Setter
+            Property="BorderBrush"
             Value="{DynamicResource UtfuelAccentPressedBrush}" />
 
     </Style>
@@ -299,6 +329,15 @@
     </Style>
 
 
+    <Style Selector="Button.secondary:pressed">
+
+        <Setter
+            Property="Background"
+            Value="{DynamicResource UtfuelSurfacePressedBrush}" />
+
+    </Style>
+
+
 
     <!-- ===================================================== -->
     <!-- GHOST BUTTON -->
@@ -315,8 +354,12 @@
             Value="{DynamicResource UtfuelTextSecondaryBrush}" />
 
         <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+
+        <Setter
             Property="BorderThickness"
-            Value="0" />
+            Value="1" />
 
     </Style>
 
@@ -330,6 +373,10 @@
         <Setter
             Property="Foreground"
             Value="{DynamicResource UtfuelTextPrimaryBrush}" />
+
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelBorderBrush}" />
 
     </Style>
 
@@ -390,7 +437,7 @@
 
         <Setter
             Property="CornerRadius"
-            Value="7" />
+            Value="3" />
 
         <Setter
             Property="Background"
@@ -429,6 +476,84 @@
     </Style>
 
 
+    <Style Selector="TextBox:disabled">
+
+        <Setter
+            Property="Opacity"
+            Value="0.5" />
+
+    </Style>
+
+
+
+    <!-- ===================================================== -->
+    <!-- COMBO BOX -->
+    <!-- ===================================================== -->
+
+    <Style Selector="ComboBox">
+
+        <Setter
+            Property="MinHeight"
+            Value="40" />
+
+        <Setter
+            Property="Padding"
+            Value="11,6" />
+
+        <Setter
+            Property="CornerRadius"
+            Value="3" />
+
+        <Setter
+            Property="Background"
+            Value="{DynamicResource UtfuelSurfaceRaisedBrush}" />
+
+        <Setter
+            Property="Foreground"
+            Value="{DynamicResource UtfuelTextPrimaryBrush}" />
+
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelBorderBrush}" />
+
+        <Setter
+            Property="BorderThickness"
+            Value="1" />
+
+    </Style>
+
+
+    <Style Selector="ComboBox:pointerover">
+
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelBorderStrongBrush}" />
+
+        <Setter
+            Property="Background"
+            Value="{DynamicResource UtfuelSurfaceHoverBrush}" />
+
+    </Style>
+
+
+    <Style Selector="ComboBox:focus">
+
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelAccentBrush}" />
+
+    </Style>
+
+
+    <Style Selector="ComboBox:disabled">
+
+        <Setter
+            Property="Opacity"
+            Value="0.5" />
+
+    </Style>
+
+
 
     <!-- ===================================================== -->
     <!-- NUMERIC -->
@@ -442,7 +567,7 @@
 
         <Setter
             Property="CornerRadius"
-            Value="7" />
+            Value="3" />
 
         <Setter
             Property="Background"
@@ -455,6 +580,28 @@
         <Setter
             Property="BorderBrush"
             Value="{DynamicResource UtfuelBorderBrush}" />
+
+        <Setter
+            Property="BorderThickness"
+            Value="1" />
+
+    </Style>
+
+
+    <Style Selector="NumericUpDown:pointerover">
+
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelBorderStrongBrush}" />
+
+    </Style>
+
+
+    <Style Selector="NumericUpDown:focus">
+
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource UtfuelAccentBrush}" />
 
     </Style>
 
@@ -507,14 +654,18 @@
 
     </Style>
 
+
+
     <!-- ===================================================== -->
     <!-- PROFESSIONAL LEFT NAVIGATION -->
     <!-- ===================================================== -->
 
     <Style Selector="TabControl.main-navigation">
+
         <Setter
             Property="Background"
             Value="{DynamicResource UtfuelBackgroundBrush}" />
+
     </Style>
 
 
@@ -562,7 +713,7 @@
 
         <Setter
             Property="CornerRadius"
-            Value="7" />
+            Value="3" />
 
     </Style>
 
@@ -584,7 +735,7 @@
 
         <Setter
             Property="Background"
-            Value="{DynamicResource UtfuelAccentSoftBrush}" />
+            Value="{DynamicResource UtfuelSurfaceSelectedBrush}" />
 
         <Setter
             Property="Foreground"
@@ -592,10 +743,11 @@
 
     </Style>
 
+
+
     <!-- ===================================================== -->
     <!-- SIDEBAR NAVIGATION -->
     <!-- ===================================================== -->
-
 
     <Style Selector="Button.nav-item">
 
@@ -639,16 +791,17 @@
             Property="BorderBrush"
             Value="Transparent" />
 
+        <!-- Left status/selection rail -->
+
         <Setter
             Property="BorderThickness"
             Value="3,0,0,0" />
 
         <Setter
             Property="CornerRadius"
-            Value="6" />
+            Value="2" />
 
     </Style>
-
 
 
     <Style Selector="Button.nav-item:pointerover">
@@ -664,21 +817,157 @@
     </Style>
 
 
-
-    <Style Selector="Button.nav-item.selected">
+    <Style Selector="Button.nav-item:pressed">
 
         <Setter
             Property="Background"
-            Value="{DynamicResource UtfuelAccentSoftBrush}" />
-
-        <Setter
-            Property="Foreground"
-            Value="{DynamicResource UtfuelTextPrimaryBrush}" />
-
-        <Setter
-            Property="BorderBrush"
-            Value="{DynamicResource UtfuelAccentBrush}" />
+            Value="{DynamicResource UtfuelSurfacePressedBrush}" />
 
     </Style>
+
+
+<Style Selector="Button.nav-item.selected">
+
+    <Setter
+        Property="Background"
+        Value="Transparent" />
+
+    <Setter
+        Property="Foreground"
+        Value="{DynamicResource UtfuelTextPrimaryBrush}" />
+
+    <Setter
+        Property="BorderBrush"
+        Value="{DynamicResource UtfuelAccentBrush}" />
+
+</Style>
+
+<Style Selector="Button.nav-item.selected:pointerover">
+
+    <Setter
+        Property="Background"
+        Value="{DynamicResource UtfuelSurfaceHoverBrush}" />
+
+    <Setter
+        Property="BorderBrush"
+        Value="{DynamicResource UtfuelAccentBrush}" />
+
+</Style>
+
+<!-- ===================================================== -->
+<!-- PRIMARY METRIC CARD -->
+<!-- ===================================================== -->
+
+<Style Selector="Border.metric-card">
+
+    <Setter
+        Property="MinHeight"
+        Value="128" />
+
+    <Setter
+        Property="Padding"
+        Value="18,16" />
+
+</Style>
+
+
+<Style Selector="TextBlock.metric-value">
+
+    <Setter
+        Property="FontSize"
+        Value="28" />
+
+    <Setter
+        Property="FontWeight"
+        Value="SemiBold" />
+
+    <Setter
+        Property="Foreground"
+        Value="{DynamicResource UtfuelTextPrimaryBrush}" />
+
+</Style>
+
+
+<Style Selector="TextBlock.metric-unit">
+
+    <Setter
+        Property="FontSize"
+        Value="12" />
+
+    <Setter
+        Property="Foreground"
+        Value="{DynamicResource UtfuelTextSecondaryBrush}" />
+
+    <Setter
+        Property="VerticalAlignment"
+        Value="Bottom" />
+
+    <Setter
+        Property="Margin"
+        Value="2,0,0,4" />
+
+</Style>
+
+<!-- ===================================================== -->
+<!-- SYSTEM STATUS -->
+<!-- ===================================================== -->
+
+<Style Selector="Border.status-dot">
+
+    <Setter
+        Property="Width"
+        Value="7" />
+
+    <Setter
+        Property="Height"
+        Value="7" />
+
+    <Setter
+        Property="CornerRadius"
+        Value="4" />
+
+    <Setter
+        Property="VerticalAlignment"
+        Value="Center" />
+
+</Style>
+
+
+<Style Selector="Border.status-dot-small">
+
+    <Setter
+        Property="Width"
+        Value="6" />
+
+    <Setter
+        Property="Height"
+        Value="6" />
+
+    <Setter
+        Property="CornerRadius"
+        Value="3" />
+
+    <Setter
+        Property="VerticalAlignment"
+        Value="Center" />
+
+</Style>
+
+
+<Style Selector="TextBlock.status-label">
+
+    <Setter
+        Property="FontSize"
+        Value="11" />
+
+    <Setter
+        Property="FontWeight"
+        Value="SemiBold" />
+
+    <Setter
+        Property="VerticalAlignment"
+        Value="Center" />
+
+</Style>
 
 </Styles>

@@ -1050,6 +1050,14 @@
           }
         }
       },
+      "System.IO.Ports/10.0.11": {
+        "runtime": {
+          "runtimes/win/lib/net10.0/System.IO.Ports.dll": {
+            "assemblyVersion": "10.0.0.11",
+            "fileVersion": "10.0.1126.37416"
+          }
+        }
+      },
       "Tmds.DBus.Protocol/0.94.1": {
         "runtime": {
           "lib/net9.0/Tmds.DBus.Protocol.dll": {
@@ -1059,6 +1067,9 @@
         }
       },
       "UTFuel.TestBench.Core/1.0.0": {
+        "dependencies": {
+          "System.IO.Ports": "10.0.11"
+        },
         "runtime": {
           "UTFuel.TestBench.Core.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -1232,6 +1243,13 @@
       "sha512": "sha512-XOpbx/4CReO2wYsq2s6rbvdauc6dntG4Zv499sHGTJ87bwZaFXszFkwql3+FIZMc8kUPeaj3Mx2ezIJmo8a1Kg==",
       "path": "skiasharp.nativeassets.win32/3.119.4",
       "hashPath": "skiasharp.nativeassets.win32.3.119.4.nupkg.sha512"
+    },
+    "System.IO.Ports/10.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-92gu68qcsZXcHhSyGxNdoVoDKxn9nV240k3jdq5b/vAzTt0QsFFE+bCmLKQ5p1XhAgelE5v+VaQEaAFH/JvZSA==",
+      "path": "system.io.ports/10.0.11",
+      "hashPath": "system.io.ports.10.0.11.nupkg.sha512"
     },
     "Tmds.DBus.Protocol/0.94.1": {
       "type": "package",

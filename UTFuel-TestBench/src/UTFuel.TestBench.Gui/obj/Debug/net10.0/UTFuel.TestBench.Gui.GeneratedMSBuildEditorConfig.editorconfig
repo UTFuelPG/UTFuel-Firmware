@@ -63,6 +63,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/lugaw/Documents/GitHub/UTFuel-Firmware/UTFuel-TestBench/src/UTFuel.TestBench.Gui/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/lugaw/Documents/GitHub/UTFuel-Firmware/UTFuel-TestBench/src/UTFuel.TestBench.Gui/Views/Pages/DiagnosticsView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/lugaw/Documents/GitHub/UTFuel-Firmware/UTFuel-TestBench/src/UTFuel.TestBench.Gui/Views/Pages/DynamicBenchmarkView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

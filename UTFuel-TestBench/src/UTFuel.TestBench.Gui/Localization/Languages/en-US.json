@@ -238,6 +238,19 @@
 "ShowcaseShiftAlertDescription": "A fullscreen SHIFT warning is triggered only on the rising edge of the ECU shift signal. It automatically rearms after the ECU returns the warning to false.",
 "ShowcaseEcuShift": "ECU SHIFT",
 
-"ShowcaseLastEvent": "LAST EVENT"
+"ShowcaseLastEvent": "LAST EVENT",
+
+"ConnectionModeTitle": "CONNECTION MODE",
+"ConnectionModeLocal": "Local Simulation",
+"ConnectionModeHardware": "Hardware Bench",
+"ConnectionModeLocalDescription": "Runs the ECU locally on the computer through utfuel_host.exe.",
+"ConnectionModeHardwareDescription": "Uses the ESP32-S3 as a physical simulator and an ECU connected to the computer.",
+
+"HardwareSimulator": "SIMULATOR",
+"HardwareEcu": "UTFUEL ECU",
+"HardwarePort": "Port",
+"HardwareBaudRate": "Baud Rate",
+"HardwareStatus": "Status:",
+"HardwareRefreshPorts": "REFRESH PORTS"
 
 }
